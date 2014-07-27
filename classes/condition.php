@@ -92,6 +92,9 @@ class condition extends \core_availability\condition {
     }
 
     public function get_description($full, $not, \core_availability\info $info) {
+        if ($this->languageid == '') {
+            return '';
+        }
         $installedlangs = get_string_manager()->get_list_of_translations(false);
         $allow = '';
         if ($not) {
