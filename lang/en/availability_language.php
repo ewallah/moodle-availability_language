@@ -23,7 +23,6 @@
  */
 
 $string['anylanguage'] = 'any Language';
-$string['description'] = 'Language is';
 $string['error_selectlanguage'] = 'You must select a language.';
 $string['getdescription'] = 'Language is {$a}';
 $string['getdescriptionnot'] = 'Language is not {$a}';
