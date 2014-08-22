@@ -22,9 +22,11 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['description'] = 'Language is ';
+$string['anylanguage'] = 'any Language';
+$string['description'] = 'Language is';
+$string['error_selectlanguage'] = 'You must select a language.';
+$string['getdescription'] = 'Language is {$a}';
+$string['getdescriptionnot'] = 'Language is not {$a}';
 $string['missing'] = '(Missing language)';
 $string['pluginname'] = 'Restriction by language';
-$string['error_selectlanguage'] = 'You must select a language.';
 $string['title'] = 'Language';
-$string['anylanguage'] = 'any Language';

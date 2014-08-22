@@ -96,11 +96,10 @@ class condition extends \core_availability\condition {
             return '';
         }
         $installedlangs = get_string_manager()->get_list_of_translations(false);
-        $allow = '';
         if ($not) {
-            $allow = ' not ';
+            return get_string('getdescriptionnot', 'availability_language', $installedlangs[$this->languageid]);
         }
-        return get_string('description', 'availability_language') . $allow . $installedlangs[$this->languageid];
+        return get_string('getdescription', 'availability_language', $installedlangs[$this->languageid]);
     }
 
     protected function get_debug_string() {
