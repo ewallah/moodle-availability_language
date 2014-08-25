@@ -34,8 +34,7 @@ M.availability_language.form.getNode = function(json) {
     var strings = M.str.availability_language;
     var html = '<label>' + strings.title + ' <span class="availability-language">' +
             '<select name="id">' +
-            '<option value="choose">' + M.str.moodle.choosedots +
-            '<option value="any">' + strings.anylanguage + '</option>';
+            '<option value="choose">' + M.str.moodle.choosedots + '</option>';
     for (var i = 0; i < this.languages.length; i++) {
         var language = this.languages[i];
         // String has already been escaped using format_string.

@@ -22,7 +22,6 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['anylanguage'] = 'any Language';
 $string['error_selectlanguage'] = 'You must select a language.';
 $string['description'] = 'Language is';
 $string['getdescription'] = 'Language is {$a}';
