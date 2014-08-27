@@ -23,7 +23,7 @@
  */
 
 $string['error_selectlanguage'] = 'You must select a language.';
-$string['description'] = 'Language is';
+$string['description'] = 'Control access based on language.';
 $string['getdescription'] = 'Language is {$a}';
 $string['getdescriptionnot'] = 'Language is not {$a}';
 $string['missing'] = '(Missing language)';
