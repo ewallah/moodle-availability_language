@@ -24,8 +24,8 @@
 
 $string['error_selectlanguage'] = 'You must select a language.';
 $string['description'] = 'Control access based on language.';
-$string['getdescription'] = 'Language is {$a}';
-$string['getdescriptionnot'] = 'Language is not {$a}';
+$string['getdescription'] = 'The student\'s language is {$a}';
+$string['getdescriptionnot'] = 'The student\'s language is not {$a}';
 $string['missing'] = '(Missing language)';
 $string['pluginname'] = 'Restriction by language';
 $string['title'] = 'Language';
