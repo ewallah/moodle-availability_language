@@ -22,10 +22,9 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['error_selectlanguage'] = 'You must select a language.';
-$string['description'] = 'Control access based on language.';
+$string['description'] = 'Require students to use a certain language.';
 $string['getdescription'] = 'The student\'s language is {$a}';
 $string['getdescriptionnot'] = 'The student\'s language is not {$a}';
-$string['missing'] = '(Missing language)';
+$string['missing'] = 'You must select a language.';
 $string['pluginname'] = 'Restriction by language';
 $string['title'] = 'Language';
