@@ -79,7 +79,8 @@ class condition extends \core_availability\condition {
         // If course has forced language.
         $course = $info->get_course();
         $allow = false;
-        if ($course->lang == $this->languageid) {
+        
+        if (isset($course->lang) && $course->lang == $this->languageid) {
             $allow = true;
         }
         if (current_language() == $this->languageid) {
