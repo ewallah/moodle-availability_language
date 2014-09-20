@@ -64,8 +64,8 @@ class condition extends \core_availability\condition {
     }
 
     /**
-     *
-     *
+     * Determines whether a particular item is currently available
+     * according to this availability condition.
      *
      * @param bool $not Set true if we are inverting the condition
      * @param info $info Item we're checking
@@ -79,7 +79,7 @@ class condition extends \core_availability\condition {
         // If course has forced language.
         $course = $info->get_course();
         $allow = false;
-        
+
         if (isset($course->lang) && $course->lang == $this->languageid) {
             $allow = true;
         }
@@ -92,6 +92,18 @@ class condition extends \core_availability\condition {
         return $allow;
     }
 
+    /**
+     * Obtains a string describing this restriction (whether or not
+     * it actually applies). Used to obtain information that is displayed to
+     * students if the activity is not available to them, and for staff to see
+     * what conditions are.
+     *
+     * @param bool $full Set true if this is the 'full information' view
+     * @param bool $not Set true if we are inverting the condition
+     * @param info $info Item we're checking
+     * @return string Information string (for admin) about all restrictions on
+     *   this item
+     */
     public function get_description($full, $not, \core_availability\info $info) {
         if ($this->languageid == '') {
             return '';
@@ -103,6 +115,12 @@ class condition extends \core_availability\condition {
         return get_string('getdescription', 'availability_language', $installedlangs[$this->languageid]);
     }
 
+    /**
+     * Obtains a representation of the options of this condition as a string,
+     * for debugging.
+     *
+     * @return string Text representation of parameters
+     */
     protected function get_debug_string() {
         return $this->languageid ? '' . $this->languageid : 'any';
     }
