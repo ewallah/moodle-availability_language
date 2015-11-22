@@ -9,7 +9,7 @@ activity in French only to French speaking students.
 
 WARNING: The Moodle Mobile app relies on the user profile language and/or course language to show or hide a resource: the language selected in the app does NOT prevail.
 
-Check the global documentation about availibility conditions : https://docs.moodle.org/en/Conditional_activities_settings
+Check the global documentation about conditional availability conditions : https://docs.moodle.org/en/Conditional_activities_settings
 
 Installation:
 
