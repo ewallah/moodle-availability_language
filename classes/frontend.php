@@ -49,9 +49,9 @@ class frontend extends \core_availability\frontend {
      *
      * Returns an array of array of id, name
      *
-     * @param \stdClass $course Course object
-     * @param \cm_info $cm Course-module currently being edited (null if none)
-     * @param \section_info $section Section currently being edited (null if none)
+     * @param stdClass $course Course object
+     * @param cm_info $cm Course-module currently being edited (null if none)
+     * @param section_info $section Section currently being edited (null if none)
      * @return array Array of parameters for the JavaScript function
      */
     protected function get_javascript_init_params($course, \cm_info $cm = null,
@@ -79,9 +79,10 @@ class frontend extends \core_availability\frontend {
      *     the course language is not forced, or
      *     more than language is installed.
      *
-     * @param \stdClass $course Course object
-     * @param \cm_info $cm Course-module currently being edited (null if none)
-     * @param \section_info $section Section currently being edited (null if none)
+     * @param stdClass $course Course object
+     * @param cm_info $cm Course-module currently being edited (null if none)
+     * @param section_info $section Section currently being edited (null if none)
+     * @return bool True if available
      */
     protected function allow_add($course, \cm_info $cm = null,
             \section_info $section = null) {

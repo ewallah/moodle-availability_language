@@ -55,6 +55,11 @@ class condition extends \core_availability\condition {
         }
     }
 
+    /**
+     * Saves data back to a structure object.
+     *
+     * @return \stdClass Structure object
+     */
     public function save() {
         $result = (object)array('type' => 'language');
         if ($this->languageid) {
