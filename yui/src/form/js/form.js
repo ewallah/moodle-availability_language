@@ -5,18 +5,10 @@
  */
 M.availability_language = M.availability_language || {};
 
-/**
- * @class M.availability_language.form
- * @extends M.core_availability.plugin
- */
+// Class M.availability_language.form @extends M.core_availability.plugin.
 M.availability_language.form = Y.Object(M.core_availability.plugin);
 
-/**
- * Languages available for selection.
- *
- * @property languages
- * @type Array
- */
+// Languages available for selection.
 M.availability_language.form.languages = null;
 
 /**
@@ -32,9 +24,8 @@ M.availability_language.form.initInner = function(languages) {
 M.availability_language.form.getNode = function(json) {
     // Create HTML structure.
     var strings = M.str.availability_language;
-    var html = '<label>' + strings.title + ' <span class="availability-language">' +
-            '<select name="id">' +
-            '<option value="choose">' + M.str.moodle.choosedots + '</option>';
+    var html = '<label>' + strings.title + ' <span class="availability-language">';
+    html += '<select name="id">' + '<option value="choose">' + M.str.moodle.choosedots + '</option>';
     for (var i = 0; i < this.languages.length; i++) {
         var language = this.languages[i];
         // String has already been escaped using format_string.
