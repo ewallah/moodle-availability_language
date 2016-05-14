@@ -73,5 +73,15 @@ M.availability_language.form.fillErrors = function(errors, node) {
     if (value.id === '') {
         errors.push('availability_language:missing');
     }
+};
 
+M.availability_language.form.focusAfterAdd = function(node) {
+    var selected = node.one('select[name=id]').get('value');
+    if (selected === 'choose') {
+        // Make default hidden if no value chosen.
+        var eyenode = node.ancestor().one('.availability-eye');
+        eyenode.simulate('click');
+    }
+    var target = node.one('input:not([disabled]),select:not([disabled])');
+    target.focus();
 };
