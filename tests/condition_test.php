@@ -49,15 +49,14 @@ class availability_language_condition_testcase extends advanced_testcase {
         $CFG->enableavailability = true;
         $generator = $this->getDataGenerator();
         $course = $generator->create_course(array());
-        $page1 = $generator->get_plugin_generator('mod_page')->create_instance(array('course' => $course->id));
-        $page2 = $generator->get_plugin_generator('mod_page')->create_instance(array('course' => $course->id));
+        $info = new \core_availability\mock_info($course, $USER->id);
+
         $arr1 = array('type' => 'language', 'id' => 'en');
         $arr2 = array('type' => 'language', 'id' => 'fr');
         $structure1 = (object)array('op' => '|', 'show' => true, 'c' => array((object)$arr1));
         $structure2 = (object)array('op' => '|', 'show' => true, 'c' => array((object)$arr2));
         $tree1 = new \core_availability\tree($structure1);
         $tree2 = new \core_availability\tree($structure2);
-        $info = new \core_availability\mock_info($course, $USER->id);
 
         // Initial check.
         $result1 = $tree1->check_available(false, $info, true, $USER->id);
