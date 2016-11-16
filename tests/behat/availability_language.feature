@@ -66,7 +66,7 @@ Feature: availability_language
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
     Then "Language" "button" should exist in the "Add restriction..." "dialogue"
-    Given I click on "Language" "button"
+    Given I click on "Language" "button" in the "Add restriction..." "dialogue"
     And I set the field "Language" to "en"
     And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save and return to course" "button"
@@ -113,12 +113,11 @@ Feature: availability_language
     And I log in as "student1"
     And I am on site homepage
     And I follow "Course 1"
-
     Then I should see "P1" in the "region-main" "region"
-    And I should see "P2" in the "region-main" "region"
+    And I should not see "P2" in the "region-main" "region"
     And I should see "P3" in the "region-main" "region"
-    And I should not see "P4" in the "region-main" "region"
-    #And I should see "Not available unless: The student's language is English (pirate) (en_ar)" in the ".availabilityinfo" "css_element"
+    And I should see "P4" in the "region-main" "region"
+    And I should see "Not available unless: The student's language is English - Pirate ‎(en_ar)" in the ".availabilityinfo" "css_element"
 
     When I follow "Preferences" in the user menu
     And I follow "Preferred language"
@@ -129,8 +128,8 @@ Feature: availability_language
     When I log in as "student1"
     And I am on site homepage
     And I follow "Course 1"
-
-    Then I should see "P1" in the "region-main" "region"
+    Then I should not see "P1" in the "region-main" "region"
     And I should see "P2" in the "region-main" "region"
-    And I should not see "P3" in the "region-main" "region"
+    And I should see "P3" in the "region-main" "region"
     And I should see "P4" in the "region-main" "region"
+    And I should see "Not available unless: The student's language is English ‎(en)‎" in the ".availabilityinfo" "css_element"

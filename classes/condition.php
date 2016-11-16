@@ -69,6 +69,19 @@ class condition extends \core_availability\condition {
     }
 
     /**
+     * Returns a JSON object which corresponds to a condition of this type.
+     *
+     * Intended for unit testing, as normally the JSON values are constructed
+     * by JavaScript code.
+     *
+     * @param int $groupid Required group id (0 = any group)
+     * @return stdClass Object representing condition
+     */
+    public static function get_json($languageid = '') {
+        return (object)array('type' => 'language', 'id' => $languageid);
+    }
+
+    /**
      * Determines whether a particular item is currently available
      * according to this availability condition.
      *
