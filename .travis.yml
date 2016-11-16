@@ -13,7 +13,7 @@ php:
  - 7.0
 
 matrix:
- fast_finish: false
+ fast_finish: true
  exclude:
     # MySQL - we do not use the database to store data
     - env: DB=mysqli   PHPUNIT=true    INSTALL=false   CITEST=false
@@ -23,7 +23,7 @@ matrix:
 
 env:
  global:
-  - MOODLE_BRANCH=master
+  - MOODLE_BRANCH=MOODLE_31_STABLE
  matrix:
   - DB=mysqli
 
