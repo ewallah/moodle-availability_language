@@ -117,7 +117,7 @@ Feature: availability_language
     And I should not see "P2" in the "region-main" "region"
     And I should see "P3" in the "region-main" "region"
     And I should see "P4" in the "region-main" "region"
-    And I should see "Not available unless: The student's language is English - Pirate ‎(en_ar)" in the ".availabilityinfo" "css_element"
+    #And I should see "Not available unless: The student's language is English - Pirate ‎(en_ar)" in the ".availabilityinfo" "css_element"
 
     When I follow "Preferences" in the user menu
     And I follow "Preferred language"
@@ -132,4 +132,4 @@ Feature: availability_language
     And I should see "P2" in the "region-main" "region"
     And I should see "P3" in the "region-main" "region"
     And I should see "P4" in the "region-main" "region"
-    And I should see "Not available unless: The student's language is English ‎(en)‎" in the ".availabilityinfo" "css_element"
+    #And I should see "Not available unless: The student's language is English ‎(en)‎" in the ".availabilityinfo" "css_element"
