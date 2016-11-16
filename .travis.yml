@@ -14,18 +14,13 @@ php:
 
 matrix:
  fast_finish: true
- exclude:
-    # MySQL - we do not use the database to store data
-    - env: DB=mysqli   PHPUNIT=true    INSTALL=false   CITEST=false
-      php: 5.6
-    - env: DB=mysqli   PHPUNIT=true    INSTALL=false   CITEST=false
-      php: 7.0
-
+ 
 env:
  global:
   - MOODLE_BRANCH=MOODLE_31_STABLE
  matrix:
   - DB=mysqli
+  - DB=pgsql
 
 before_install:
   - cd ../..
@@ -45,3 +40,4 @@ script:
   - moodle-plugin-ci codechecker
   - moodle-plugin-ci jshint
   - moodle-plugin-ci behat
+  - moodle-plugin-ci phpunit
