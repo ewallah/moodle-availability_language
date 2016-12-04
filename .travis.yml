@@ -1,6 +1,6 @@
 language: php
 
-sudo: true
+sudo: false
 
 cache:
   directories:
@@ -17,7 +17,7 @@ env:
  global:
   #- MOODLE_BRANCH=MOODLE_30_STABLE
   #- MOODLE_BRANCH=MOODLE_31_STABLE
-  - MOODLE_BRANCH=master
+  - MOODLE_BRANCH=MOODLE_32_STABLE
  matrix:
   #- DB=pgsql
   - DB=mysqli
@@ -26,7 +26,7 @@ before_install:
   - phpenv config-rm xdebug.ini
   - cd ../..
   - composer selfupdate
-  - composer create-project -n --no-dev moodlerooms/moodle-plugin-ci ci ^1
+  - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^1
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:
