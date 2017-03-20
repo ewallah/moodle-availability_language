@@ -74,7 +74,7 @@ class condition extends \core_availability\condition {
      * Intended for unit testing, as normally the JSON values are constructed
      * by JavaScript code.
      *
-     * @param string $languageid Not required language 
+     * @param string $languageid Not required language
      * @return stdClass Object representing condition
      */
     public static function get_json($languageid = '') {

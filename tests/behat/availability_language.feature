@@ -22,7 +22,7 @@ Feature: availability_language
       
   @javascript
   Scenario: Only one language pack installed
-    Given I log in as "teacher1"
+    When I log in as "teacher1"
     And I am on site homepage
     And I follow "Course 1"
     And I turn editing mode on
@@ -44,15 +44,15 @@ Feature: availability_language
   Scenario: Two language packs installed
     
     # Basic setup.
-    Given I log in as "admin"
+    When I log in as "admin"
     And I navigate to "Language packs" node in "Site administration > Language"
-    When I set the field "Available language packs" to "en_ar"
+    And I set the field "Available language packs" to "en_ar"
     And I press "Install selected language pack(s)"
     Then I should see "Language pack 'en_ar' was successfully installed"
     And the "Installed language packs" select box should contain "en_ar"
     And I log out
     
-    Given I log in as "teacher1"
+    And I log in as "teacher1"
     And I am on site homepage
     And I follow "Course 1"
     And I turn editing mode on
