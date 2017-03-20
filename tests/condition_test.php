@@ -18,8 +18,7 @@
  * Unit tests for the language condition.
  *
  * @package availability_language
- * @category   phpunit
- * @copyright 2016 eWallah.net (info@eWallah.net)
+ * @copyright 2017 eWallah.net (info@eWallah.net)
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -27,6 +26,13 @@ defined('MOODLE_INTERNAL') || die();
 
 use availability_language\condition;
 
+/**
+ * Unit tests for the language condition.
+ *
+ * @package availability_language
+ * @copyright 2017 eWallah.net (info@eWallah.net)
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class availability_language_condition_testcase extends advanced_testcase {
     /**
      * Load required classes.
@@ -38,7 +44,7 @@ class availability_language_condition_testcase extends advanced_testcase {
     }
 
     /**
-     * Tests constructing and using date condition as part of tree.
+     * Tests constructing and using language condition as part of tree.
      */
     public function test_in_tree() {
         global $CFG, $SESSION, $USER;
@@ -48,13 +54,13 @@ class availability_language_condition_testcase extends advanced_testcase {
         // Create course with language turned on and a Page.
         $CFG->enableavailability = true;
         $generator = $this->getDataGenerator();
-        $course = $generator->create_course(array());
+        $course = $generator->create_course([]);
         $info = new \core_availability\mock_info($course, $USER->id);
 
-        $arr1 = array('type' => 'language', 'id' => 'en');
-        $arr2 = array('type' => 'language', 'id' => 'fr');
-        $structure1 = (object)array('op' => '|', 'show' => true, 'c' => array((object)$arr1));
-        $structure2 = (object)array('op' => '|', 'show' => true, 'c' => array((object)$arr2));
+        $arr1 = ['type' => 'language', 'id' => 'en'];
+        $arr2 = ['type' => 'language', 'id' => 'fr'];
+        $structure1 = (object)['op' => '|', 'show' => true, 'c' => [(object)$arr1]];
+        $structure2 = (object)['op' => '|', 'show' => true, 'c' => [(object)$arr2]];
         $tree1 = new \core_availability\tree($structure1);
         $tree2 = new \core_availability\tree($structure2);
 
@@ -77,7 +83,7 @@ class availability_language_condition_testcase extends advanced_testcase {
      */
     public function test_constructor() {
         // This works with no parameters.
-        $structure = (object)array();
+        $structure = (object)[];
         $language = new condition($structure);
 
         // This works with custom made languages.
@@ -105,7 +111,7 @@ class availability_language_condition_testcase extends advanced_testcase {
      * Tests the save() function.
      */
     public function test_save() {
-        $structure = (object)array('id' => 'fr');
+        $structure = (object)['id' => 'fr'];
         $cond = new condition($structure);
         $structure->type = 'language';
         $this->assertEquals($structure, $cond->save());
@@ -116,7 +122,7 @@ class availability_language_condition_testcase extends advanced_testcase {
      */
     public function test_get_description() {
         $info = new \core_availability\mock_info();
-        $language = new condition((object)array('type' => 'language', 'id' => 'en'));
+        $language = new condition((object)['type' => 'language', 'id' => 'en']);
         $information = $language->get_description(true, false, $info);
         $information = $language->get_description(true, true, $info);
         $information = $language->get_standalone_description(true, false, $info);

@@ -61,7 +61,7 @@ class condition extends \core_availability\condition {
      * @return \stdClass Structure object
      */
     public function save() {
-        $result = (object)array('type' => 'language');
+        $result = (object)['type' => 'language'];
         if ($this->languageid) {
             $result->id = $this->languageid;
         }
@@ -74,11 +74,11 @@ class condition extends \core_availability\condition {
      * Intended for unit testing, as normally the JSON values are constructed
      * by JavaScript code.
      *
-     * @param int $groupid Required group id (0 = any group)
+     * @param string $languageid Not required language 
      * @return stdClass Object representing condition
      */
     public static function get_json($languageid = '') {
-        return (object)array('type' => 'language', 'id' => $languageid);
+        return (object)['type' => 'language', 'id' => $languageid];
     }
 
     /**
