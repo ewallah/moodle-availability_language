@@ -76,6 +76,8 @@ class condition extends \core_availability\condition {
      * @return bool True if available
      */
     public function is_available($not, \core_availability\info $info, $grabthelot, $userid) {
+        global $USER, $DB, $CFG;
+
         // If course has forced language.
         $course = $info->get_course();
         $allow = false;
@@ -83,9 +85,28 @@ class condition extends \core_availability\condition {
         if (isset($course->lang) && $course->lang == $this->languageid) {
             $allow = true;
         }
-        if (current_language() == $this->languageid) {
+
+        if ($userid == $USER->id) {
+            // Checking the language of the currently logged in user, so do not
+            // default to the account language, because the session language
+            // or the language of the current course may be different.
+            $language = current_language();
+        } else {
+            // Checking access for someone else than the logged in user, so
+            // use the preferred language of that user account.
+            $language = $DB->get_field('user', 'lang', ['id' => $userid]);
+
+            if (empty($language)) {
+                // The user had no preferred language set, so fall back
+                // to site language or English.
+                $language = isset($CFG->lang) ? $CFG->lang :  'en';
+            }
+        }
+
+        if ($language == $this->languageid) {
             $allow = true;
         }
+
         if ($not) {
             $allow = !$allow;
         }
