@@ -113,10 +113,10 @@ class condition extends \core_availability\condition {
             $language = $DB->get_field('user', 'lang', ['id' => $userid]);
             if (empty($language)) {
                 // The user had no preferred language set, so fall back to site language or English.
-                $language = isset($CFG->lang) ? $CFG->lang :  'en';
+                $language = isset($CFG->lang) ? $CFG->lang : 'en';
             }
         }
-        if ($language() == $this->languageid) {
+        if ($language == $this->languageid) {
             $allow = true;
         }
         if ($not) {
@@ -137,8 +137,7 @@ class condition extends \core_availability\condition {
      * @param bool $full Set true if this is the 'full information' view
      * @param bool $not Set true if we are inverting the condition
      * @param info $info Item we're checking
-     * @return string Information string (for admin) about all restrictions on
-     *   this item
+     * @return string Information string (for admin) about all restrictions on this item
      */
     public function get_description($full, $not, \core_availability\info $info) {
         if ($this->languageid == '') {
