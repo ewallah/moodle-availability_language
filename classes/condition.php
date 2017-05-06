@@ -122,9 +122,6 @@ class condition extends \core_availability\condition {
         if ($not) {
             $allow = !$allow;
         }
-        if ($grabthelot) {
-            debugging('Not implemented yet', DEBUG_DEVELOPER);
-        }
         return $allow;
     }
 
