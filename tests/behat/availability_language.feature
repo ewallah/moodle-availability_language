@@ -23,11 +23,7 @@ Feature: availability_language
   @javascript
   Scenario: Only one language pack installed
     When I log in as "teacher1"
-    And I am on site homepage
-    And I follow "Course 1"
-    And I turn editing mode on
-
-    # Start to add a Page. 
+    And I am on "Course 1" course homepage with editing mode on
     And I add a "Page" to section "1"
     And I set the following fields to these values:
       | Name         | P1 |
@@ -53,11 +49,8 @@ Feature: availability_language
     And I log out
     
     And I log in as "teacher1"
-    And I am on site homepage
-    And I follow "Course 1"
-    And I turn editing mode on
-
-    # Add a Page P1 for English users only. 
+    And I am on "Course 1" course homepage with editing mode on
+    # Page P1 for English users only.
     And I add a "Page" to section "1"
     And I set the following fields to these values:
       | Name         | P1 |
@@ -66,7 +59,7 @@ Feature: availability_language
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
     Then "Language" "button" should exist in the "Add restriction..." "dialogue"
-    Given I click on "Language" "button" in the "Add restriction..." "dialogue"
+    And I click on "Language" "button" in the "Add restriction..." "dialogue"
     And I set the field "Language" to "en"
     And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save and return to course" "button"

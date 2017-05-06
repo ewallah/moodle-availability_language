@@ -18,6 +18,7 @@
  * Unit tests for the language condition.
  *
  * @package availability_language
+ * @category   phpunit
  * @copyright 2017 eWallah.net (info@eWallah.net)
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,6 +31,7 @@ use availability_language\condition;
  * Unit tests for the language condition.
  *
  * @package availability_language
+ * @category   phpunit
  * @copyright 2017 eWallah.net (info@eWallah.net)
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

@@ -19,7 +19,14 @@ Installation:
 2. Go to Site administration > Notifications to complete the plugin installation.
 
 TODO:
-* Standard hidden for participants : done
-* Behat testing: done
-* Unit testing
 * Mobile app.
+* grabthelot functionality
+
+DONE:
+* Standard hidden for participants
+* Behat testing
+* Unit testing
+* userid bug
+
+
+![travis](https://travis-ci.org/ewallah/moodle-availability_language.svg)
