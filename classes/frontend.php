@@ -41,7 +41,7 @@ class frontend extends \core_availability\frontend {
      * @return array Array of required string identifiers
      */
     protected function get_javascript_strings() {
-        return array();
+        return [];
     }
 
     /**
@@ -54,14 +54,13 @@ class frontend extends \core_availability\frontend {
      * @param section_info $section Section currently being edited (null if none)
      * @return array Array of parameters for the JavaScript function
      */
-    protected function get_javascript_init_params($course, \cm_info $cm = null,
-            \section_info $section = null) {
+    protected function get_javascript_init_params($course, \cm_info $cm = null, \section_info $section = null) {
         $langs = get_string_manager()->get_list_of_translations(false);
-        $jsarray = array();
+        $jsarray = [];
         foreach ($langs as $key => $value) {
-            $jsarray[] = (object)array('id' => $key, 'name' => $value);
+            $jsarray[] = (object)['id' => $key, 'name' => $value];
         }
-        return array($jsarray);
+        return [$jsarray];
     }
 
     /**
@@ -84,8 +83,7 @@ class frontend extends \core_availability\frontend {
      * @param section_info $section Section currently being edited (null if none)
      * @return bool True if available
      */
-    protected function allow_add($course, \cm_info $cm = null,
-            \section_info $section = null) {
+    protected function allow_add($course, \cm_info $cm = null, \section_info $section = null) {
         // If forced course language.
         if ($course->lang != '') {
             return false;
