@@ -33,7 +33,7 @@ Feature: availability_language
     Then "Language" "button" should not exist in the "Add restriction..." "dialogue"
     And I click on "Cancel" "button" in the "Add restriction..." "dialogue"
     And I log out
-  
+
   @javascript
   Scenario: Two language packs installed
 
