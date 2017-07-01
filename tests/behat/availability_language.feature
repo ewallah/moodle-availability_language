@@ -19,7 +19,6 @@ Feature: availability_language
       | teacher1 | C1     | editingteacher |
       | student1 | C1     | student        |
 
-      
   @javascript
   Scenario: Only one language pack installed
     When I log in as "teacher1"
@@ -34,11 +33,10 @@ Feature: availability_language
     Then "Language" "button" should not exist in the "Add restriction..." "dialogue"
     And I click on "Cancel" "button" in the "Add restriction..." "dialogue"
     And I log out
-
-    
+  
   @javascript
   Scenario: Two language packs installed
-    
+
     # Basic setup.
     When I log in as "admin"
     And I navigate to "Language packs" node in "Site administration > Language"
@@ -47,7 +45,7 @@ Feature: availability_language
     Then I should see "Language pack 'en_ar' was successfully installed"
     And the "Installed language packs" select box should contain "en_ar"
     And I log out
-    
+
     And I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
     # Page P1 for English users only.
@@ -88,7 +86,7 @@ Feature: availability_language
     And I click on "Language" "button"
     And I set the field "Language" to "en"
     And I click on "Save and return to course" "button"
-    
+
     # Page P4 for pirate English users hidden.
     And I add a "Page" to section "1"
     And I set the following fields to these values:
