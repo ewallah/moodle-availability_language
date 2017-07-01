@@ -104,8 +104,7 @@ Feature: availability_language
     # Log back in as student.
     When I log out
     And I log in as "student1"
-    And I am on site homepage
-    And I follow "Course 1"
+    And I am on "Course 1" course homepage
     Then I should see "P1" in the "region-main" "region"
     And I should not see "P2" in the "region-main" "region"
     And I should see "P3" in the "region-main" "region"
@@ -119,8 +118,7 @@ Feature: availability_language
     And I log out
 
     When I log in as "student1"
-    And I am on site homepage
-    And I follow "Course 1"
+    And I am on "Course 1" course homepage
     Then I should not see "P1" in the "region-main" "region"
     And I should see "P2" in the "region-main" "region"
     And I should see "P3" in the "region-main" "region"
