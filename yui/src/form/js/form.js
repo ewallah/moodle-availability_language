@@ -66,14 +66,8 @@ M.availability_language.form.fillValue = function(value, node) {
 };
 
 M.availability_language.form.fillErrors = function(errors, node) {
-    var value = {};
-    this.fillValue(value, node);
-
-    // Check language item id.
-    if (value.id && value.id === 'choose') {
-        errors.push('availability_language:missing');
-    }
-    if (value.id && value.id === '') {
+    var selected = node.one('select[name=id]').get('value');
+    if (selected === 'choose') {
         errors.push('availability_language:missing');
     }
 };

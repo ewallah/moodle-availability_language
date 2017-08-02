@@ -58,7 +58,9 @@ Feature: availability_language
     And I click on "Add restriction..." "button"
     Then "Language" "button" should exist in the "Add restriction..." "dialogue"
     And I click on "Language" "button" in the "Add restriction..." "dialogue"
+    Then I should see "Please set" in the "region-main" "region"
     And I set the field "Language" to "en"
+    Then I should not see "Please set" in the "region-main" "region"
     And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save and return to course" "button"
 
