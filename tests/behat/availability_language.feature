@@ -38,7 +38,10 @@ Feature: availability_language
   Scenario: Two language packs installed
 
     # Basic setup.
-    #When I log in as "admin"
+    When I log in as "teacher1"
+    And I am on "Course 1" course homepage with editing mode on
+    And I log out
+    And I log in as "admin"
     When I navigate to "Language packs" node in "Site administration > Language"
     And I set the field "Available language packs" to "en_ar"
     And I press "Install selected language pack(s)"
