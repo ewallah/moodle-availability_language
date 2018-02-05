@@ -38,8 +38,8 @@ Feature: availability_language
   Scenario: Two language packs installed
 
     # Basic setup.
-    When I log in as "admin"
-    And I navigate to "Language packs" node in "Site administration > Language"
+    #When I log in as "admin"
+    When I navigate to "Language packs" node in "Site administration > Language"
     And I set the field "Available language packs" to "en_ar"
     And I press "Install selected language pack(s)"
     Then I should see "Language pack 'en_ar' was successfully installed"
