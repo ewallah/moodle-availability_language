@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
  * Front-end class.
  *
  * @package availability_language
- * @copyright 2014 Renaat Debleu (www.eWallah.net)
+ * @copyright 2018 Renaat Debleu (www.eWallah.net)
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class frontend extends \core_availability\frontend {
@@ -61,16 +61,6 @@ class frontend extends \core_availability\frontend {
             $jsarray[] = (object)['id' => $key, 'name' => $value];
         }
         return [$jsarray];
-    }
-
-    /**
-     * Gets all languages for the given course.
-     *
-     * @param int $courseid Course id
-     * @return array Array of all the language objects
-     */
-    protected function get_all_languages($courseid) {
-        return get_string_manager()->get_list_of_translations(false);
     }
 
     /**
