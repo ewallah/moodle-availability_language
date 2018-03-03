@@ -15,17 +15,26 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Language strings.
+ * Privacy main class.
  *
  * @package availability_language
  * @copyright 2018 Renaat Debleu (www.eWallah.net)
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['description'] = 'Require students to use a certain language.';
-$string['getdescription'] = 'The student\'s language is {$a}';
-$string['getdescriptionnot'] = 'The student\'s language is not {$a}';
-$string['missing'] = 'You must select a language.';
-$string['pluginname'] = 'Restriction by language';
-$string['privacy:null_reason'] = 'The availability language does not store any data.';
-$string['title'] = 'Language';
+namespace availability_language\privacy;
+
+defined('MOODLE_INTERNAL') || die();
+
+class provider implements \core_privacy\metadata\null_provider {
+
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:null_reason';
+    }
+}
