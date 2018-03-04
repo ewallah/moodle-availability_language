@@ -123,9 +123,27 @@ class availability_language_condition_testcase extends advanced_testcase {
     public function test_get_description() {
         $info = new \core_availability\mock_info();
         $language = new condition((object)['type' => 'language', 'id' => 'en']);
-        $information = $language->get_description(true, false, $info);
-        $information = $language->get_description(true, true, $info);
-        $information = $language->get_standalone_description(true, false, $info);
-        $information = $language->get_standalone_description(true, true, $info);
+        $desc = $language->get_description(true, false, $info);
+        $this->assertEquals($desc, 'The student\'s language is English ‎(en)‎');
+        $desc = $language->get_description(true, true, $info);
+        $this->assertEquals($desc, 'The student\'s language is not English ‎(en)‎');
+        $desc = $language->get_standalone_description(true, false, $info);
+        $desc = $language->get_standalone_description(true, true, $info);
+    }
+
+    /**
+     * Tests using language condition in front end.
+     */
+    public function test_frontend() {
+        global $CFG, $PAGE;
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $CFG->enableavailability = true;
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $user = $generator->create_user();
+        $generator->enrol_user($user->id, $course->id);
+        $page = $generator->get_plugin_generator('mod_page')->create_instance(['course' => $course]);
+        $PAGE->set_url('/course/modedit.php', ['update' => $page->cmid]);
     }
 }
