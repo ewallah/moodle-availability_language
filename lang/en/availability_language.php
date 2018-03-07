@@ -27,5 +27,5 @@ $string['getdescription'] = 'The student\'s language is {$a}';
 $string['getdescriptionnot'] = 'The student\'s language is not {$a}';
 $string['missing'] = 'You must select a language.';
 $string['pluginname'] = 'Restriction by language';
-$string['privacy:null_reason'] = 'The availability language does not store any data.';
+$string['privacy:null_reason'] = 'The availability_language plugin does not store any personal data.';
 $string['title'] = 'Language';

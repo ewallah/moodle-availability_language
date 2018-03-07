@@ -135,7 +135,7 @@ class availability_language_condition_testcase extends advanced_testcase {
      * Tests using language condition in front end.
      */
     public function test_frontend() {
-        global $CFG, $PAGE;
+        global $CFG;
         $this->resetAfterTest();
         $this->setAdminUser();
         $CFG->enableavailability = true;
@@ -144,6 +144,17 @@ class availability_language_condition_testcase extends advanced_testcase {
         $user = $generator->create_user();
         $generator->enrol_user($user->id, $course->id);
         $page = $generator->get_plugin_generator('mod_page')->create_instance(['course' => $course]);
-        $PAGE->set_url('/course/modedit.php', ['update' => $page->cmid]);
+        $context = context_module::instance($page->cmid);
+        $mpage = new moodle_page();
+        $mpage->set_url('/course/modedit.php', ['update' => $page->cmid]);
+        $mpage->set_context($context);
+        $renderer = $mpage->get_renderer('core');
+        $this->setuser($user);
+        $mpage = new moodle_page();
+        $mpage->set_url('/course/index.php', ['id' => $course->id]);
+        $context = context_course::instance($course->id);
+        $mpage->set_context($context);
+        $renderer = $mpage->get_renderer('core');
+        
     }
 }
