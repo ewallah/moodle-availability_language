@@ -155,6 +155,5 @@ class availability_language_condition_testcase extends advanced_testcase {
         $context = context_course::instance($course->id);
         $mpage->set_context($context);
         $renderer = $mpage->get_renderer('core');
-        
     }
 }
