@@ -26,6 +26,13 @@ namespace availability_language\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Privacy main class.
+ *
+ * @package availability_language
+ * @copyright 2018 Renaat Debleu (www.eWallah.net)
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class provider implements \core_privacy\metadata\null_provider {
 
     /**
