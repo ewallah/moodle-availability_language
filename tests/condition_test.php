@@ -135,7 +135,7 @@ class availability_language_condition_testcase extends advanced_testcase {
      * Tests using language condition in front end.
      */
     public function test_frontend() {
-        global $CFG;
+        global $CFG, $PAGE, $SESSION;
         $this->resetAfterTest();
         $this->setAdminUser();
         $CFG->enableavailability = true;
@@ -145,15 +145,27 @@ class availability_language_condition_testcase extends advanced_testcase {
         $generator->enrol_user($user->id, $course->id);
         $page = $generator->get_plugin_generator('mod_page')->create_instance(['course' => $course]);
         $context = context_module::instance($page->cmid);
-        $mpage = new moodle_page();
-        $mpage->set_url('/course/modedit.php', ['update' => $page->cmid]);
-        $mpage->set_context($context);
-        $renderer = $mpage->get_renderer('core');
+        $PAGE->set_url('/course/modedit.php', ['update' => $page->cmid]);
         $this->setuser($user);
-        $mpage = new moodle_page();
-        $mpage->set_url('/course/index.php', ['id' => $course->id]);
-        $context = context_course::instance($course->id);
-        $mpage->set_context($context);
-        $renderer = $mpage->get_renderer('core');
+        $modinfo = get_fast_modinfo($course);
+        $cm = $modinfo->get_cm($page->cmid);
+        $info = new \core_availability\info_module($cm);
+        $structure = (object)['type' => 'language', 'id' => 'en'];
+        $cond = new condition($structure);
+        $this->assertTrue($cond->is_available(false, $info, true, $user->id));
+        $this->assertTrue($cond->is_available(false, $info, false, $user->id));
+        // Change language.
+        $SESSION->lang = 'fr';
+        $this->assertFalse($cond->is_available(false, $info, true, $user->id));
+        $this->assertFalse($cond->is_available(false, $info, false, $user->id));
+        $PAGE->set_url('/course/view.php', ['id' => $course->id]);
+    }
+
+    /**
+     * Test privacy.
+     */
+    public function test_privacy() {
+        $privacy = new availability_language\privacy\provider();
+        $this->assertEquals($privacy->get_reason(), 'privacy:metadata');
     }
 }
