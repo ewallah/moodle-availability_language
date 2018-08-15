@@ -33,7 +33,7 @@ use availability_language\condition;
  * @copyright 2017 eWallah.net (info@eWallah.net)
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class availability_language_condition_testcase extends advanced_testcase {
+class testcase extends advanced_testcase {
     /**
      * Load required classes.
      */
@@ -128,8 +128,8 @@ class availability_language_condition_testcase extends advanced_testcase {
         $this->assertEquals($desc, 'The student\'s language is English ‎(en)‎');
         $desc = $language->get_description(true, true, $info);
         $this->assertEquals($desc, 'The student\'s language is not English ‎(en)‎');
-        $this->assertNotEmpty($language->get_standalone_description(false, false, $info));
-        $this->assertNotEmpty($language->get_standalone_description(false, true, $info));
+        $this->assertContains('language is English', $language->get_standalone_description(false, false, $info));
+        $this->assertContains('language is not English', $language->get_standalone_description(false, true, $info));
     }
 
     /**
