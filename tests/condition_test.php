@@ -169,6 +169,13 @@ class testcase extends advanced_testcase {
         // No language.
         $cond = new condition((object)['type' => 'language', 'id' => '']);
         $this->assertTrue($cond->is_available(false, $info, false, $USER->id));
+        // No id.
+        $cond = new condition((object)['type' => 'language']);
+        $this->assertTrue($cond->is_available(false, $info, false, $USER->id));
+        $this->assertFalse($cond->is_available_for_all());
+        $this->assertFalse($cond->update_dependency_id(null, 1, 2));
+        $this->assertEquals($cond->__toString(), '{language:any}');
+        $this->assertEquals($cond->get_standalone_description(true, true, $info), 'Not available unless: ');
     }
 
     /**
