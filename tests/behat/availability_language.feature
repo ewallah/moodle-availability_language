@@ -1,4 +1,4 @@
-@availability @availability_language
+@ewallah @availability @availability_language
 Feature: availability_language
   In order to control student access to activities
   As a admin
@@ -49,9 +49,9 @@ Feature: availability_language
     And the "Installed language packs" select box should contain "en_ar"
     And I log out
 
+    # Page P1 for English users only.
     And I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
-    # Page P1 for English users only.
     And I add a "Page" to section "1"
     And I set the following fields to these values:
       | Name         | P1 |
@@ -112,7 +112,7 @@ Feature: availability_language
     And I should not see "P2" in the "region-main" "region"
     And I should see "P3" in the "region-main" "region"
     And I should see "P4" in the "region-main" "region"
-    #And I should see "Not available unless: The student's language is English - Pirate ‎(en_ar)" in the ".availabilityinfo" "css_element"
+    And I should see "Not available unless: The student's language is English - Pirate ‎(en_ar)" in the ".availabilityinfo" "css_element"
 
     When I follow "Preferences" in the user menu
     And I follow "Preferred language"
@@ -126,4 +126,4 @@ Feature: availability_language
     And I should see "P2" in the "region-main" "region"
     And I should see "P3" in the "region-main" "region"
     And I should see "P4" in the "region-main" "region"
-    #And I should see "Not available unless: The student's language is English ‎(en)‎" in the ".availabilityinfo" "css_element"
+    And I should see "Not available unless: The student's language is English ‎(en)‎" in the ".availabilityinfo" "css_element"
