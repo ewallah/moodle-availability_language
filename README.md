@@ -39,3 +39,4 @@ DONE:
 
 
 ![travis](https://travis-ci.org/ewallah/moodle-availability_language.svg)
+[![Coverage Status](https://coveralls.io/repos/github/ewallah/moodle-availability_language/badge.svg?branch=master)](https://coveralls.io/github/ewallah/moodle-availability_language?branch=master)
