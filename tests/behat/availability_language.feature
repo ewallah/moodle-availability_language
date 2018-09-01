@@ -42,7 +42,7 @@ Feature: availability_language
     And I am on "Course 1" course homepage with editing mode on
     And I log out
     And I log in as "admin"
-    When I navigate to "Language packs" node in "Site administration > Language"
+    And I navigate to "Language > Language packs" in site administration
     And I set the field "Available language packs" to "en_ar"
     And I press "Install selected language pack(s)"
     Then I should see "Language pack 'en_ar' was successfully installed"
