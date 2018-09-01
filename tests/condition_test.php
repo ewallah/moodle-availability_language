@@ -136,7 +136,7 @@ class testcase extends advanced_testcase {
      * Tests using language condition in front end.
      */
     public function test_frontend() {
-        global $CFG, $PAGE, $SESSION, $USER;
+        global $CFG, $DB, $PAGE, $SESSION, $USER;
         $this->resetAfterTest();
         $this->setAdminUser();
         $CFG->enableavailability = true;
@@ -176,6 +176,18 @@ class testcase extends advanced_testcase {
         $this->assertFalse($cond->update_dependency_id(null, 1, 2));
         $this->assertEquals($cond->__toString(), '{language:any}');
         $this->assertEquals($cond->get_standalone_description(true, true, $info), 'Not available unless: ');
+
+        $course = $generator->create_course(['lang' => 'FR']);
+        $page = $generator->get_plugin_generator('mod_page')->create_instance(['course' => $course]);
+        $modinfo = get_fast_modinfo($course);
+        $cm = $modinfo->get_cm($page->cmid);
+        $PAGE->set_url('/course/modedit.php', ['update' => $page->cmid]);
+        \core_availability\frontend::include_all_javascript($course, $cm);
+
+        $this->setAdminUser();
+        $DB->set_field('user', 'lang', '', ['id' => $user->id]);
+        $cond = new condition((object)['type' => 'language', 'id' => '']);
+        $this->assertTrue($cond->is_available(false, $info, false, $user->id));
     }
 
     /**
