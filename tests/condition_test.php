@@ -32,55 +32,67 @@ use availability_language\condition;
  * @package availability_language
  * @copyright 2017 eWallah.net (info@eWallah.net)
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @coversDefaultClass availability_language
  */
-class availability_language_testcase extends advanced_testcase {
+class availability_language_condition_testcase extends advanced_testcase {
     /**
      * Load required classes.
      */
     public function setUp() {
         // Load the mock info class so that it can be used.
         global $CFG;
-        require_once($CFG->dirroot . '/availability/tests/fixtures/mock_condition.php');
         require_once($CFG->dirroot . '/availability/tests/fixtures/mock_info.php');
     }
 
     /**
      * Tests constructing and using language condition as part of tree.
+     * @covers availability_language\condition
      */
     public function test_in_tree() {
-        global $CFG, $SESSION, $USER;
+        global $CFG, $SESSION;
         $this->resetAfterTest();
-        $this->setAdminUser();
 
         // Create course with language turned on and a Page.
         $CFG->enableavailability = true;
         $generator = $this->getDataGenerator();
-        $course = $generator->create_course([]);
-        $info = new \core_availability\mock_info($course, $USER->id);
+        $course = $generator->create_course(['lang' => 'fr']);
+        $user1 = $generator->create_user(['lang' => 'nl']);
+        $user2 = $generator->create_user(['lang' => '']);
+        $info1 = new \core_availability\mock_info($course, $user1->id);
+        $info2 = new \core_availability\mock_info($course, $user2->id);
 
         $arr1 = ['type' => 'language', 'id' => 'en'];
         $arr2 = ['type' => 'language', 'id' => 'fr'];
-        $structure1 = (object)['op' => '|', 'show' => true, 'c' => [(object)$arr1]];
-        $structure2 = (object)['op' => '|', 'show' => true, 'c' => [(object)$arr2]];
-        $tree1 = new \core_availability\tree($structure1);
-        $tree2 = new \core_availability\tree($structure2);
+        $tree1 = new \core_availability\tree((object)['op' => '|', 'show' => true, 'c' => [(object)$arr1]]);
+        $tree2 = new \core_availability\tree((object)['op' => '|', 'show' => true, 'c' => [(object)$arr2]]);
 
         // Initial check.
-        $result1 = $tree1->check_available(false, $info, true, $USER->id);
-        $result2 = $tree2->check_available(false, $info, true, $USER->id);
-        $this->assertTrue($result1->is_available());
-        $this->assertFalse($result2->is_available());
+        $this->assertFalse($tree1->check_available(false, $info1, true, $user1->id)->is_available());
+        $this->assertTrue($tree2->check_available(false, $info1, true, $user1->id)->is_available());
+
+        // Change user.
+        $this->setuser($user1->id);
+        $this->assertTrue($tree1->check_available(false, $info1, true, $user1->id)->is_available());
+        $this->assertTrue($tree2->check_available(false, $info1, true, $user1->id)->is_available());
+        $this->assertFalse($tree1->check_available(true, $info1, true, $user1->id)->is_available());
+        $this->assertFalse($tree2->check_available(true, $info1, true, $user1->id)->is_available());
+
+        // Change user.
+        $this->setuser($user2->id);
+        $this->assertTrue($tree1->check_available(false, $info2, true, $user2->id)->is_available());
+        $this->assertTrue($tree2->check_available(false, $info2, true, $user2->id)->is_available());
+        $this->assertFalse($tree1->check_available(true, $info2, true, $user2->id)->is_available());
+        $this->assertFalse($tree2->check_available(true, $info2, true, $user2->id)->is_available());
 
         // Change language.
         $SESSION->lang = 'fr';
-        $result1 = $tree1->check_available(false, $info, true, $USER->id);
-        $result2 = $tree2->check_available(false, $info, true, $USER->id);
-        $this->assertFalse($result1->is_available());
-        $this->assertTrue($result2->is_available());
+        $this->assertFalse($tree1->check_available(false, $info1, true, $user1->id)->is_available());
+        $this->assertTrue($tree2->check_available(false, $info1, true, $user1->id)->is_available());
     }
 
     /**
      * Tests the constructor including error conditions.
+     * @covers availability_language\condition
      */
     public function test_constructor() {
         // This works with no parameters.
@@ -110,33 +122,44 @@ class availability_language_testcase extends advanced_testcase {
 
     /**
      * Tests the save() function.
+     * @covers availability_language\condition
      */
     public function test_save() {
         $structure = (object)['id' => 'fr'];
         $cond = new condition($structure);
         $structure->type = 'language';
         $this->assertEquals($structure, $cond->save());
+        $this->assertEquals((object)['type' => 'language', 'id' => ''], $cond->get_json());
     }
 
     /**
      * Tests the get_description and get_standalone_description functions.
+     * @covers availability_language\condition
      */
     public function test_get_description() {
         $info = new \core_availability\mock_info();
+        $language = new condition((object)['type' => 'language', 'id' => '']);
+        $this->assertEquals($language->get_description(false, false, $info), '');
         $language = new condition((object)['type' => 'language', 'id' => 'en']);
         $desc = $language->get_description(true, false, $info);
-        $this->assertEquals($desc, 'The student\'s language is English ‎(en)‎');
+        $this->assertEquals('The student\'s language is English ‎(en)‎', $desc);
         $desc = $language->get_description(true, true, $info);
-        $this->assertEquals($desc, 'The student\'s language is not English ‎(en)‎');
-        $this->assertContains('language is English', $language->get_standalone_description(false, false, $info));
-        $this->assertContains('language is not English', $language->get_standalone_description(false, true, $info));
+        $this->assertEquals('The student\'s language is not English ‎(en)‎', $desc);
+        $desc = $language->get_standalone_description(true, false, $info);
+        $this->assertContains('Not available unless: The student\'s language is English', $desc);
+
+        $class = new ReflectionClass('availability_language\condition');
+        $method = $class->getMethod('get_debug_string');
+        $method->setAccessible(true);
+        $this->assertEquals('en', $method->invokeArgs($language, []));
     }
 
     /**
      * Tests using language condition in front end.
+     * @covers availability_language\frontend
      */
     public function test_frontend() {
-        global $CFG, $DB, $PAGE, $SESSION, $USER;
+        global $CFG;
         $this->resetAfterTest();
         $this->setAdminUser();
         $CFG->enableavailability = true;
@@ -144,66 +167,36 @@ class availability_language_testcase extends advanced_testcase {
         $course = $generator->create_course();
         $user = $generator->create_user();
         $generator->enrol_user($user->id, $course->id);
+
+        $frontend = new availability_language\frontend();
+        $class = new ReflectionClass('availability_language\frontend');
+        $method = $class->getMethod('get_javascript_strings');
+        $method->setAccessible(true);
+        $this->assertEquals([], $method->invokeArgs($frontend, []));
+        $method = $class->getMethod('get_javascript_init_params');
+        $method->setAccessible(true);
+        $this->assertEquals(1, count($method->invokeArgs($frontend, [$course])));
+        $method = $class->getMethod('allow_add');
+        $method->setAccessible(true);
+        $this->assertEquals(false, $method->invokeArgs($frontend, [$course]));
+
         $page = $generator->get_plugin_generator('mod_page')->create_instance(['course' => $course]);
-        $modinfo = get_fast_modinfo($course);
-        $cm = $modinfo->get_cm($page->cmid);
-        $PAGE->set_url('/course/modedit.php', ['update' => $page->cmid]);
-        \core_availability\frontend::include_all_javascript($course, $cm);
+        $context = context_module::instance($page->cmid);
+        $mpage = new moodle_page();
+        $mpage->set_url('/course/modedit.php', ['update' => $page->cmid]);
+        $mpage->set_context($context);
+        $renderer = $mpage->get_renderer('core');
         $this->setuser($user);
-        $info = new \core_availability\info_module($cm);
-        $cond = new condition((object)['type' => 'language', 'id' => 'en']);
-        $this->assertTrue($cond->is_available(false, $info, true, $user->id));
-        $this->assertTrue($cond->is_available(false, $info, false, $user->id));
-        $this->assertFalse($cond->is_available(true, $info, false, $user->id));
-        $this->assertFalse($cond->is_available(true, $info, true, $user->id));
-        // Change language.
-        $SESSION->lang = 'fr';
-        $this->assertFalse($cond->is_available(false, $info, true, $user->id));
-        $this->assertFalse($cond->is_available(false, $info, false, $user->id));
-        $PAGE->set_url('/course/view.php', ['id' => $course->id]);
-        $this->setAdminUser();
-        $this->assertTrue($cond->is_available(false, $info, true, $user->id));
-        $this->assertTrue($cond->is_available(false, $info, false, $user->id));
-        $this->assertTrue($cond->is_available(false, $info, true, $USER->id));
-        $this->assertTrue($cond->is_available(false, $info, false, $USER->id));
-        // No language.
-        $cond = new condition((object)['type' => 'language', 'id' => '']);
-        $this->assertTrue($cond->is_available(false, $info, false, $USER->id));
-        // No id.
-        $cond = new condition((object)['type' => 'language']);
-        $this->assertTrue($cond->is_available(false, $info, false, $USER->id));
-        $this->assertFalse($cond->is_available_for_all());
-        $this->assertFalse($cond->update_dependency_id(null, 1, 2));
-        $this->assertEquals($cond->__toString(), '{language:any}');
-        $this->assertEquals($cond->get_standalone_description(true, true, $info), 'Not available unless: ');
-
-        $course = $generator->create_course(['lang' => 'FR']);
-        $page = $generator->get_plugin_generator('mod_page')->create_instance(['course' => $course]);
-        $modinfo = get_fast_modinfo($course);
-        $cm = $modinfo->get_cm($page->cmid);
-        $PAGE->set_url('/course/modedit.php', ['update' => $page->cmid]);
-        \core_availability\frontend::include_all_javascript($course, $cm);
-
-        $this->setAdminUser();
-        $DB->set_field('user', 'lang', '', ['id' => $user->id]);
-        $cond = new condition((object)['type' => 'language', 'id' => '']);
-        $this->assertTrue($cond->is_available(false, $info, false, $user->id));
-    }
-
-    /**
-     * Tests using language condition in front end.
-     */
-    public function test_other() {
-        global $CFG;
-        $this->resetAfterTest();
-        $this->setAdminUser();
-        $CFG->enableavailability = true;
-        $condition = \availability_language\condition::get_json('fr');
-        $this->assertEquals($condition, (object)['type' => 'language', 'id' => 'fr']);
+        $mpage = new moodle_page();
+        $mpage->set_url('/course/index.php', ['id' => $course->id]);
+        $context = context_course::instance($course->id);
+        $mpage->set_context($context);
+        $renderer = $mpage->get_renderer('core');
     }
 
     /**
      * Test privacy.
+     * @covers availability_language\privacy\provider
      */
     public function test_privacy() {
         $privacy = new availability_language\privacy\provider();
