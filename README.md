@@ -29,13 +29,15 @@ Installation:
 
 TODO:
 * Mobile app.
-* grabthelot functionality
 
 DONE:
 * Standard hidden for participants
 * Behat testing
 * Unit testing
 * userid bug
+* MOODLE_37_STABLE code coverage changes
+* GPL 3 licence
+* GDPR
 
 
 ![travis](https://travis-ci.org/ewallah/moodle-availability_language.svg)
