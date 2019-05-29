@@ -141,10 +141,13 @@ class condition extends \core_availability\condition {
             return '';
         }
         $installedlangs = get_string_manager()->get_list_of_translations(false);
-        if ($not) {
-            return get_string('getdescriptionnot', 'availability_language', $installedlangs[$this->languageid]);
+        if (array_key_exists($this->languageid, $installedlangs)) {
+            if ($not) {
+                return get_string('getdescriptionnot', 'availability_language', $installedlangs[$this->languageid]);
+            }
+            return get_string('getdescription', 'availability_language', $installedlangs[$this->languageid]);
         }
-        return get_string('getdescription', 'availability_language', $installedlangs[$this->languageid]);
+        return '';
     }
 
     /**

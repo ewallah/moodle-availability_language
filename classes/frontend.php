@@ -79,7 +79,6 @@ class frontend extends \core_availability\frontend {
             return false;
         }
         // If there is only one language installed.
-        $installedlangs = get_string_manager()->get_list_of_translations(false);
-        return count($installedlangs) > 1;
+        return count(get_string_manager()->get_list_of_translations(false)) > 1;
     }
 }

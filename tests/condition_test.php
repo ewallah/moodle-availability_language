@@ -49,20 +49,20 @@ class availability_language_condition_testcase extends advanced_testcase {
      * @covers availability_language\condition
      */
     public function test_in_tree() {
-        global $CFG, $SESSION;
+        global $CFG;
         $this->resetAfterTest();
 
         // Create course with language turned on and a Page.
         $CFG->enableavailability = true;
         $generator = $this->getDataGenerator();
-        $course = $generator->create_course(['lang' => 'fr']);
+        $course = $generator->create_course();
         $user1 = $generator->create_user(['lang' => 'nl']);
-        $user2 = $generator->create_user(['lang' => '']);
+        $user2 = $generator->create_user();
         $info1 = new \core_availability\mock_info($course, $user1->id);
         $info2 = new \core_availability\mock_info($course, $user2->id);
 
         $arr1 = ['type' => 'language', 'id' => 'en'];
-        $arr2 = ['type' => 'language', 'id' => 'fr'];
+        $arr2 = ['type' => 'language', 'id' => 'nl'];
         $tree1 = new \core_availability\tree((object)['op' => '|', 'show' => true, 'c' => [(object)$arr1]]);
         $tree2 = new \core_availability\tree((object)['op' => '|', 'show' => true, 'c' => [(object)$arr2]]);
 
@@ -73,21 +73,51 @@ class availability_language_condition_testcase extends advanced_testcase {
         // Change user.
         $this->setuser($user1->id);
         $this->assertTrue($tree1->check_available(false, $info1, true, $user1->id)->is_available());
-        $this->assertTrue($tree2->check_available(false, $info1, true, $user1->id)->is_available());
+        $this->assertFalse($tree2->check_available(false, $info1, true, $user1->id)->is_available());
         $this->assertFalse($tree1->check_available(true, $info1, true, $user1->id)->is_available());
-        $this->assertFalse($tree2->check_available(true, $info1, true, $user1->id)->is_available());
-
+        $this->assertTrue($tree2->check_available(true, $info1, true, $user1->id)->is_available());
         // Change user.
         $this->setuser($user2->id);
         $this->assertTrue($tree1->check_available(false, $info2, true, $user2->id)->is_available());
-        $this->assertTrue($tree2->check_available(false, $info2, true, $user2->id)->is_available());
+        $this->assertFalse($tree2->check_available(false, $info2, true, $user2->id)->is_available());
         $this->assertFalse($tree1->check_available(true, $info2, true, $user2->id)->is_available());
-        $this->assertFalse($tree2->check_available(true, $info2, true, $user2->id)->is_available());
+        $this->assertTrue($tree2->check_available(true, $info2, true, $user2->id)->is_available());
+    }
 
-        // Change language.
-        $SESSION->lang = 'fr';
-        $this->assertFalse($tree1->check_available(false, $info1, true, $user1->id)->is_available());
-        $this->assertTrue($tree2->check_available(false, $info1, true, $user1->id)->is_available());
+    /**
+     * Tests section availability.
+     * @covers availability_language\condition
+     */
+    public function test_sections() {
+        global $CFG, $DB;
+        $this->resetAfterTest();
+
+        // Create course with language turned on and a Page.
+        $CFG->enableavailability = true;
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $user1 = $generator->create_user(['lang' => 'nl']);
+        $user2 = $generator->create_user();
+        $generator->enrol_user($user1->id, $course->id);
+        $generator->enrol_user($user2->id, $course->id);
+        $DB->set_field('course_sections', 'availability', '{"op":"|","show":false,"c":[{"type":"language","id":"nl"}]}',
+                ['course' => $course->id, 'section' => 0]);
+        $DB->set_field('course_sections', 'availability', '{"op":"|","show":true,"c":[{"type":"language","id":""}]}',
+                ['course' => $course->id, 'section' => 1]);
+        $DB->set_field('course_sections', 'availability', '{"op":"|","show":true,"c":[{"type":"language","id":"fr"}]}',
+                ['course' => $course->id, 'section' => 2]);
+        $DB->set_field('course_sections', 'availability', '{"op":"|","show":true,"c":[{"type":"language","id":"en"}]}',
+                ['course' => $course->id, 'section' => 3]);
+        $modinfo1 = get_fast_modinfo($course, $user1->id);
+        $modinfo2 = get_fast_modinfo($course, $user2->id);
+        $this->assertTrue($modinfo1->get_section_info(0)->uservisible);
+        $this->assertTrue($modinfo1->get_section_info(1)->uservisible);
+        $this->assertFalse($modinfo1->get_section_info(2)->uservisible);
+        $this->assertFalse($modinfo1->get_section_info(3)->uservisible);
+        $this->assertFalse($modinfo2->get_section_info(0)->uservisible);
+        $this->assertTrue($modinfo2->get_section_info(1)->uservisible);
+        $this->assertFalse($modinfo2->get_section_info(2)->uservisible);
+        $this->assertTrue($modinfo2->get_section_info(3)->uservisible);
     }
 
     /**
@@ -179,6 +209,8 @@ class availability_language_condition_testcase extends advanced_testcase {
         $method = $class->getMethod('allow_add');
         $method->setAccessible(true);
         $this->assertEquals(false, $method->invokeArgs($frontend, [$course]));
+        $coursenl = $generator->create_course(['lang' => 'nl']);
+        $this->assertEquals(false, $method->invokeArgs($frontend, [$coursenl]));
 
         $page = $generator->get_plugin_generator('mod_page')->create_instance(['course' => $course]);
         $context = context_module::instance($page->cmid);

@@ -18,29 +18,6 @@ Feature: availability_language
       | user     | course | role           |
       | teacher1 | C1     | editingteacher |
       | student1 | C1     | student        |
-
-  @javascript
-  Scenario: Only one language pack installed
-    When I log in as "teacher1"
-    And I am on "Course 1" course homepage with editing mode on
-    And I add a "Page" to section "1"
-    And I set the following fields to these values:
-      | Name         | P1 |
-      | Description  | x  |
-      | Page content | x  |
-    And I expand all fieldsets
-    And I click on "Add restriction..." "button"
-    Then "Language" "button" should not exist in the "Add restriction..." "dialogue"
-    And I click on "Cancel" "button" in the "Add restriction..." "dialogue"
-    And I log out
-
-  @javascript
-  Scenario: Two language packs installed
-
-    # Basic setup.
-    When I log in as "teacher1"
-    And I am on "Course 1" course homepage with editing mode on
-    And I log out
     And I log in as "admin"
     And I navigate to "Language > Language packs" in site administration
     And I set the field "Available language packs" to "en_ar"
@@ -48,10 +25,13 @@ Feature: availability_language
     Then I should see "Language pack 'en_ar' was successfully installed"
     And the "Installed language packs" select box should contain "en_ar"
     And I log out
-
-    # Page P1 for English users only.
     And I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
+
+  @javascript
+  Scenario: Two language packs installed
+
+    # Page P1 for English users only.
     And I add a "Page" to section "1"
     And I set the following fields to these values:
       | Name         | P1 |
@@ -117,7 +97,7 @@ Feature: availability_language
     And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save and return to course" "button"
 
-    # Log back in as student.
+    # Log in as student.
     When I log out
     And I log in as "student1"
     And I am on "Course 1" course homepage
@@ -147,34 +127,27 @@ Feature: availability_language
   @javascript
   Scenario: Restrict sections
 
-    # Basic setup.
-    When I log in as "teacher1"
-    And I am on "Course 1" course homepage with editing mode on
-    And I log out
-    And I log in as "admin"
-    And I navigate to "Language > Language packs" in site administration
-    And I set the field "Available language packs" to "en_ar"
-    And I press "Install selected language pack(s)"
-    Then I should see "Language pack 'en_ar' was successfully installed"
-    And the "Installed language packs" select box should contain "en_ar"
-    And I log out
-
     # Section1 for English users only.
-    And I log in as "teacher1"
-    And I am on "Course 1" course homepage with editing mode on
     When I edit the section "1"
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
     Then "Language" "button" should exist in the "Add restriction..." "dialogue"
     And I click on "Language" "button" in the "Add restriction..." "dialogue"
-    Then I should see "Please set" in the "region-main" "region"
     And I set the field "Language" to "en"
-    Then I should not see "Please set" in the "region-main" "region"
+    And I click on "Save changes" "button"
+
+    # Section2 for English users only hidden.
+    When I edit the section "2"
+    And I expand all fieldsets
+    And I click on "Add restriction..." "button"
+    Then "Language" "button" should exist in the "Add restriction..." "dialogue"
+    And I click on "Language" "button" in the "Add restriction..." "dialogue"
+    And I set the field "Language" to "en"
     And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save changes" "button"
 
-    # Section2 for pirate English users only hidden.
-    When I edit the section "2"
+    # Section3 for pirate English users only.
+    When I edit the section "3"
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
     Then "Language" "button" should exist in the "Add restriction..." "dialogue"
@@ -182,7 +155,42 @@ Feature: availability_language
     And I set the field "Language" to "en_ar"
     And I click on "Save changes" "button"
 
-    # Section0 for pirate English users only hidden.
+    # Section4 for pirate English users only hidden.
+    When I edit the section "4"
+    And I expand all fieldsets
+    And I click on "Add restriction..." "button"
+    Then "Language" "button" should exist in the "Add restriction..." "dialogue"
+    And I click on "Language" "button" in the "Add restriction..." "dialogue"
+    And I set the field "Language" to "en_ar"
+    And I click on ".availability-item .availability-eye img" "css_element"
+    And I click on "Save changes" "button"
+
+    # Log in as student.
+    When I log out
+    And I log in as "student1"
+    And I am on "Course 1" course homepage
+    Then I should see "Topic 1" in the "region-main" "region"
+    And I should see "Topic 2" in the "region-main" "region"
+    And I should see "Topic 3" in the "region-main" "region"
+    And I should not see "Topic 4" in the "region-main" "region"
+
+    When I follow "Preferences" in the user menu
+    And I follow "Preferred language"
+    And I set the field "lang" to "en_ar"
+    And I click on "Save changes" "button"
+    And I log out
+
+    When I log in as "student1"
+    And I am on "Course 1" course homepage
+    Then I should see "Topic 1" in the "region-main" "region"
+    And I should not see "Topic 2" in the "region-main" "region"
+    And I should see "Topic 3" in the "region-main" "region"
+    And I should see "Topic 4" in the "region-main" "region"
+
+  @javascript
+  Scenario: Restrict section0 visible
+
+    # Section0 for pirate English users only.
     When I edit the section "0"
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
@@ -201,9 +209,7 @@ Feature: availability_language
     When I log out
     And I log in as "student1"
     And I am on "Course 1" course homepage
-    Then I should see "Topic 1" in the "region-main" "region"
-    And I should see "Topic 2" in the "region-main" "region"
-    And I should see "General" in the "region-main" "region"
+    Then I should see "General" in the "region-main" "region"
     And I should not see "P0" in the "region-main" "region"
 
     When I follow "Preferences" in the user menu
@@ -214,7 +220,42 @@ Feature: availability_language
 
     When I log in as "student1"
     And I am on "Course 1" course homepage
-    Then I should not see "Topic 1" in the "region-main" "region"
-    And I should see "Topic 2" in the "region-main" "region"
+    And I should see "General" in the "region-main" "region"
+    And I should see "P0" in the "region-main" "region"
+
+  @javascript
+  Scenario: Restrict section0 hidden
+
+    # Section0 for pirate English users only.
+    When I edit the section "0"
+    And I expand all fieldsets
+    And I click on "Add restriction..." "button"
+    Then "Language" "button" should exist in the "Add restriction..." "dialogue"
+    And I click on "Language" "button" in the "Add restriction..." "dialogue"
+    And I set the field "Language" to "en_ar"
+    And I click on ".availability-item .availability-eye img" "css_element"
+    And I click on "Save changes" "button"
+    And I add a "Page" to section "0"
+    And I set the following fields to these values:
+      | Name         | P0 |
+      | Description  | x  |
+      | Page content | x  |
+    And I click on "Save and return to course" "button"
+
+    # Log in as student.
+    When I log out
+    And I log in as "student1"
+    And I am on "Course 1" course homepage
+    Then I should see "General" in the "region-main" "region"
+    And I should not see "P0" in the "region-main" "region"
+
+    When I follow "Preferences" in the user menu
+    And I follow "Preferred language"
+    And I set the field "lang" to "en_ar"
+    And I click on "Save changes" "button"
+    And I log out
+
+    When I log in as "student1"
+    And I am on "Course 1" course homepage
     And I should see "General" in the "region-main" "region"
     And I should see "P0" in the "region-main" "region"
