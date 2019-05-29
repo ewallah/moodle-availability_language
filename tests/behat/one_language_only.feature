@@ -1,5 +1,5 @@
 @ewallah @availability @availability_language
-Feature: availability_language
+Feature: one language only availability_language
   When there is only one language installed
   As a teacher
   I cannot use a language condition to prevent student access
