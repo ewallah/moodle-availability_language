@@ -210,7 +210,7 @@ Feature: availability_language
     And I set the field "Language" to "en_ar"
     Then I should not see "Please set" in the "region-main" "region"
     And I click on "Save and return to course" "button"
-    
+
     # Log in as student.
     When I log out
     And I log in as "student1"
@@ -246,7 +246,7 @@ Feature: availability_language
     Then I should not see "Please set" in the "region-main" "region"
     And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save and return to course" "button"
-    
+
     # Log in as student.
     When I log out
     And I log in as "student1"
