@@ -67,16 +67,21 @@ class availability_language_condition_testcase extends advanced_testcase {
         $tree2 = new \core_availability\tree((object)['op' => '|', 'show' => true, 'c' => [(object)$arr2]]);
 
         // Initial check.
+        $this->setAdminUser();
         $this->assertFalse($tree1->check_available(false, $info1, true, $user1->id)->is_available());
         $this->assertTrue($tree2->check_available(false, $info1, true, $user1->id)->is_available());
-
+        $this->assertTrue($tree1->check_available(false, $info1, true, $user2->id)->is_available());
+        $this->assertFalse($tree2->check_available(false, $info1, true, $user2->id)->is_available());
+        $this->assertFalse($tree1->check_available(false, $info2, true, $user1->id)->is_available());
+        $this->assertTrue($tree2->check_available(false, $info2, true, $user1->id)->is_available());
+        $this->assertTrue($tree1->check_available(false, $info2, true, $user2->id)->is_available());
+        $this->assertFalse($tree2->check_available(false, $info2, true, $user2->id)->is_available());
         // Change user.
         $this->setuser($user1->id);
         $this->assertTrue($tree1->check_available(false, $info1, true, $user1->id)->is_available());
         $this->assertFalse($tree2->check_available(false, $info1, true, $user1->id)->is_available());
         $this->assertFalse($tree1->check_available(true, $info1, true, $user1->id)->is_available());
         $this->assertTrue($tree2->check_available(true, $info1, true, $user1->id)->is_available());
-        // Change user.
         $this->setuser($user2->id);
         $this->assertTrue($tree1->check_available(false, $info2, true, $user2->id)->is_available());
         $this->assertFalse($tree2->check_available(false, $info2, true, $user2->id)->is_available());
@@ -196,6 +201,8 @@ class availability_language_condition_testcase extends advanced_testcase {
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
         $user = $generator->create_user();
+        $modinfo = get_fast_modinfo($course);
+        $sections = $modinfo->get_section_info_all();
         $generator->enrol_user($user->id, $course->id);
 
         $frontend = new availability_language\frontend();
@@ -208,9 +215,11 @@ class availability_language_condition_testcase extends advanced_testcase {
         $this->assertEquals(1, count($method->invokeArgs($frontend, [$course])));
         $method = $class->getMethod('allow_add');
         $method->setAccessible(true);
-        $this->assertEquals(false, $method->invokeArgs($frontend, [$course]));
+        $this->assertFalse($method->invokeArgs($frontend, [$course]));
+        $this->assertFalse($method->invokeArgs($frontend, [$course, null, $sections[0]]));
+        $this->assertFalse($method->invokeArgs($frontend, [$course, null, $sections[1]]));
         $coursenl = $generator->create_course(['lang' => 'nl']);
-        $this->assertEquals(false, $method->invokeArgs($frontend, [$coursenl]));
+        $this->assertFalse($method->invokeArgs($frontend, [$coursenl]));
 
         $page = $generator->get_plugin_generator('mod_page')->create_instance(['course' => $course]);
         $context = context_module::instance($page->cmid);

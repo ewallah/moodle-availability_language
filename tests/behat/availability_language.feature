@@ -189,28 +189,34 @@ Feature: availability_language
 
   @javascript
   Scenario: Restrict section0 visible
-
-    # Section0 for pirate English users only.
     When I edit the section "0"
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
-    Then "Language" "button" should exist in the "Add restriction..." "dialogue"
-    And I click on "Language" "button" in the "Add restriction..." "dialogue"
-    And I set the field "Language" to "en_ar"
-    And I click on "Save changes" "button"
-    And I add a "Page" to section "0"
+    Then "Language" "button" should not exist in the "Add restriction..." "dialogue"
+
+  @javascript
+  Scenario: Restrict activity in section0
+
+    When I add a "Page" to section "0"
     And I set the following fields to these values:
       | Name         | P0 |
       | Description  | x  |
       | Page content | x  |
+    And I expand all fieldsets
+    And I click on "Add restriction..." "button"
+    Then "Language" "button" should exist in the "Add restriction..." "dialogue"
+    And I click on "Language" "button" in the "Add restriction..." "dialogue"
+    Then I should see "Please set" in the "region-main" "region"
+    And I set the field "Language" to "en_ar"
+    Then I should not see "Please set" in the "region-main" "region"
     And I click on "Save and return to course" "button"
-
+    
     # Log in as student.
     When I log out
     And I log in as "student1"
     And I am on "Course 1" course homepage
     Then I should see "General" in the "region-main" "region"
-    And I should not see "P0" in the "region-main" "region"
+    And I should see "P0" in the "region-main" "region"
 
     When I follow "Preferences" in the user menu
     And I follow "Preferred language"
@@ -224,24 +230,23 @@ Feature: availability_language
     And I should see "P0" in the "region-main" "region"
 
   @javascript
-  Scenario: Restrict section0 hidden
+  Scenario: Restrict activity in section0 hidden
 
-    # Section0 for pirate English users only.
-    When I edit the section "0"
-    And I expand all fieldsets
-    And I click on "Add restriction..." "button"
-    Then "Language" "button" should exist in the "Add restriction..." "dialogue"
-    And I click on "Language" "button" in the "Add restriction..." "dialogue"
-    And I set the field "Language" to "en_ar"
-    And I click on ".availability-item .availability-eye img" "css_element"
-    And I click on "Save changes" "button"
-    And I add a "Page" to section "0"
+    When I add a "Page" to section "0"
     And I set the following fields to these values:
       | Name         | P0 |
       | Description  | x  |
       | Page content | x  |
+    And I expand all fieldsets
+    And I click on "Add restriction..." "button"
+    Then "Language" "button" should exist in the "Add restriction..." "dialogue"
+    And I click on "Language" "button" in the "Add restriction..." "dialogue"
+    Then I should see "Please set" in the "region-main" "region"
+    And I set the field "Language" to "en_ar"
+    Then I should not see "Please set" in the "region-main" "region"
+    And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save and return to course" "button"
-
+    
     # Log in as student.
     When I log out
     And I log in as "student1"

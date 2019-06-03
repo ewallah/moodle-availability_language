@@ -78,6 +78,10 @@ class frontend extends \core_availability\frontend {
         if ($course->lang != '') {
             return false;
         }
+        // Section 0.
+        if ($section && $section->section === 0) {
+            return false;
+        }
         // If there is only one language installed.
         return count(get_string_manager()->get_list_of_translations(false)) > 1;
     }
