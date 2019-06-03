@@ -24,9 +24,9 @@ php:
  - 7.2
 
 env:
-  - DB=pgsql master
-  - DB=mysqli master
-  - DB=mariadb master
+  - DB=pgsql MOODLE_BRANCH=master
+  - DB=mysqli MOODLE_BRANCH=master
+  - DB=mariadb MOODLE_BRANCH=master
 
 matrix:
   include:
