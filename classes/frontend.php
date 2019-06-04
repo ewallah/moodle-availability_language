@@ -36,15 +36,6 @@ defined('MOODLE_INTERNAL') || die();
 class frontend extends \core_availability\frontend {
 
     /**
-     * Gets a list of string identifiers that are required in JavaScript for this plugin.
-     *
-     * @return array Array of required string identifiers
-     */
-    protected function get_javascript_strings() {
-        return [];
-    }
-
-    /**
      * Gets additional parameters for the plugin's initInner function.
      *
      * Returns an array of array of id, name
@@ -55,12 +46,7 @@ class frontend extends \core_availability\frontend {
      * @return array Array of parameters for the JavaScript function
      */
     protected function get_javascript_init_params($course, \cm_info $cm = null, \section_info $section = null) {
-        $langs = get_string_manager()->get_list_of_translations(false);
-        $jsarray = [];
-        foreach ($langs as $key => $value) {
-            $jsarray[] = (object)['id' => $key, 'name' => $value];
-        }
-        return [$jsarray];
+        return [self::convert_associative_array_for_js(get_string_manager()->get_list_of_translations(false), 'id', 'name')];
     }
 
     /**

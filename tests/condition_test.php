@@ -58,6 +58,7 @@ class availability_language_condition_testcase extends advanced_testcase {
         $course = $generator->create_course();
         $user1 = $generator->create_user(['lang' => 'nl']);
         $user2 = $generator->create_user();
+
         $info1 = new \core_availability\mock_info($course, $user1->id);
         $info2 = new \core_availability\mock_info($course, $user2->id);
 
@@ -68,6 +69,7 @@ class availability_language_condition_testcase extends advanced_testcase {
 
         // Initial check.
         $this->setAdminUser();
+        $this->assertTrue($tree1->check_available(false, $info1, true, null)->is_available());
         $this->assertFalse($tree1->check_available(false, $info1, true, $user1->id)->is_available());
         $this->assertTrue($tree2->check_available(false, $info1, true, $user1->id)->is_available());
         $this->assertTrue($tree1->check_available(false, $info1, true, $user2->id)->is_available());

@@ -108,12 +108,14 @@ class condition extends \core_availability\condition {
             // or the language of the current course may be different.
             $language = current_language();
         } else {
-            // Checking access for someone else than the logged in user, so
-            // use the preferred language of that user account.
-            $language = $DB->get_field('user', 'lang', ['id' => $userid]);
-            if (empty($language)) {
-                // The user had no preferred language set, so fall back to site language or English.
+            if (is_null($userid)) {
+                // Fall back to site language or English.
                 $language = isset($CFG->lang) ? $CFG->lang : 'en';
+            } else {
+                // Checking access for someone else than the logged in user, so
+                // use the preferred language of that user account.
+                // This language is never empty as there is a not-null constraint.
+                $language = $DB->get_field('user', 'lang', ['id' => $userid]);
             }
         }
         if ($language == $this->languageid) {
