@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Coverage information for the language availability condition.
  *
@@ -21,9 +23,13 @@
  * @copyright 2017 eWallah.net (info@eWallah.net)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-defined('MOODLE_INTERNAL') || die();
 
-// Class extending phpunit coverage info.
+/**
+ * Coverage information for the language availability condition.
+ *
+ * @copyright 2017 eWallah.net (info@eWallah.net)
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 return new class extends phpunit_coverage_info {
     /** @var array The list of folders relative to the plugin root to whitelist in coverage generation. */
     protected $whitelistfolders = ['classes'];

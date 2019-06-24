@@ -36,9 +36,9 @@ defined('MOODLE_INTERNAL') || die();
 class frontend extends \core_availability\frontend {
 
     /**
-     * Gets additional parameters for the plugin's initInner function.
+     * Additional parameters for the plugin's initInner function.
      *
-     * Returns an array of array of id, name
+     * Returns an array of array of id, name of languages.
      *
      * @param stdClass $course Course object
      * @param cm_info $cm Course-module currently being edited (null if none)
@@ -52,6 +52,7 @@ class frontend extends \core_availability\frontend {
     /**
      * Language condition should be available if
      *     the course language is not forced, or
+     *     the section is not 0, or
      *     more than language is installed.
      *
      * @param stdClass $course Course object
@@ -65,7 +66,7 @@ class frontend extends \core_availability\frontend {
             return false;
         }
         // Section 0.
-        if ($section && $section->section === 0) {
+        if ($section && $section->section == 0) {
             return false;
         }
         // If there is only one language installed.

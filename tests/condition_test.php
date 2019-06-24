@@ -23,7 +23,6 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
 use availability_language\condition;
 
 /**
@@ -197,13 +196,16 @@ class availability_language_condition_testcase extends advanced_testcase {
      */
     public function test_frontend() {
         global $CFG;
+        require_once($CFG->dirroot.'/mod/lesson/locallib.php');
         $this->resetAfterTest();
         $this->setAdminUser();
         $CFG->enableavailability = true;
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
+        $les = new lesson($generator->get_plugin_generator('mod_lesson')->create_instance(['course' => $course, 'section' => 0]));
         $user = $generator->create_user();
         $modinfo = get_fast_modinfo($course);
+        $cm = $modinfo->get_cm($les->cmid);
         $sections = $modinfo->get_section_info_all();
         $generator->enrol_user($user->id, $course->id);
 
@@ -218,6 +220,7 @@ class availability_language_condition_testcase extends advanced_testcase {
         $method = $class->getMethod('allow_add');
         $method->setAccessible(true);
         $this->assertFalse($method->invokeArgs($frontend, [$course]));
+        $this->assertFalse($method->invokeArgs($frontend, [$course, $cm, null]));
         $this->assertFalse($method->invokeArgs($frontend, [$course, null, $sections[0]]));
         $this->assertFalse($method->invokeArgs($frontend, [$course, null, $sections[1]]));
         $coursenl = $generator->create_course(['lang' => 'nl']);
