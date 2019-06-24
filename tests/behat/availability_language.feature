@@ -215,8 +215,7 @@ Feature: availability_language
     When I log out
     And I log in as "student1"
     And I am on "Course 1" course homepage
-    Then I should see "General" in the "region-main" "region"
-    And I should see "P0" in the "region-main" "region"
+    Then I should see "P0" in the "region-main" "region"
 
     When I follow "Preferences" in the user menu
     And I follow "Preferred language"
@@ -226,8 +225,7 @@ Feature: availability_language
 
     When I log in as "student1"
     And I am on "Course 1" course homepage
-    And I should see "General" in the "region-main" "region"
-    And I should see "P0" in the "region-main" "region"
+    Then I should see "P0" in the "region-main" "region"
 
   @javascript
   Scenario: Restrict activity in section0 hidden
@@ -251,8 +249,7 @@ Feature: availability_language
     When I log out
     And I log in as "student1"
     And I am on "Course 1" course homepage
-    Then I should see "General" in the "region-main" "region"
-    And I should not see "P0" in the "region-main" "region"
+    Then I should not see "P0" in the "region-main" "region"
 
     When I follow "Preferences" in the user menu
     And I follow "Preferred language"
@@ -262,5 +259,4 @@ Feature: availability_language
 
     When I log in as "student1"
     And I am on "Course 1" course homepage
-    And I should see "General" in the "region-main" "region"
-    And I should see "P0" in the "region-main" "region"
+    Then I should see "P0" in the "region-main" "region"
