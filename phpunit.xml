@@ -41,7 +41,6 @@
                     <directory suffix=".php">lang/en/</directory>
                     <file>version.php</file>
                     <file>format.php</file>
-                    <file>tests/coverage.php</file>
                 </exclude>
             </whitelist>
         </filter>
