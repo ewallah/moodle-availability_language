@@ -68,5 +68,6 @@ script:
   - moodle-plugin-ci mustache
   - moodle-plugin-ci grunt
   - moodle-plugin-ci phpunit
+  - vendor/bin/phpunit "provider_testcase" privacy/tests/provider_test.php
   - moodle-plugin-ci behat
   - moodle-plugin-ci behat --profile chrome
