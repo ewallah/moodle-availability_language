@@ -14,7 +14,7 @@ services:
 addons:
   firefox: "47.0.1"
   postgresql: "9.6"
-  chrome: "74.0"
+  chrome: "75.0.3770.80"
   apt:
     packages:
       - openjdk-8-jre-headless
