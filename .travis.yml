@@ -51,7 +51,7 @@ before_install:
   - cd ../..
   - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://127.0.0.1 &
 
 install:
   - moodle-plugin-ci install
