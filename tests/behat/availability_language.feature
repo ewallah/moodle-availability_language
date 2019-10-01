@@ -102,11 +102,11 @@ Feature: availability_language
     And I log in as "student1"
     And I am on "Course 1" course homepage
     Then I should see "P1" in the "region-main" "region"
-    And I should not see "P2" in the "region-main" "region"
+    And I should see "P2" in the "region-main" "region"
     And I should see "P3" in the "region-main" "region"
-    And I should see "P4" in the "region-main" "region"
+    And I should not see "P4" in the "region-main" "region"
     And I should see "Not available unless: The student's language is English - Pirate ‎(en_ar)" in the ".availabilityinfo" "css_element"
-    And I should not see "P5" in the "region-main" "region"
+    And I should see "P5" in the "region-main" "region"
 
     When I follow "Preferences" in the user menu
     And I follow "Preferred language"
@@ -116,9 +116,9 @@ Feature: availability_language
 
     When I log in as "student1"
     And I am on "Course 1" course homepage
-    Then I should not see "P1" in the "region-main" "region"
+    Then I should see "P1" in the "region-main" "region"
     And I should see "P2" in the "region-main" "region"
-    And I should see "P3" in the "region-main" "region"
+    And I should not see "P3" in the "region-main" "region"
     And I should see "P4" in the "region-main" "region"
     And I should see "Not available unless: The student's language is English ‎(en)‎" in the ".availabilityinfo" "css_element"
     And I should see "P5" in the "region-main" "region"
@@ -171,8 +171,8 @@ Feature: availability_language
     And I am on "Course 1" course homepage
     Then I should see "Topic 1" in the "region-main" "region"
     And I should see "Topic 2" in the "region-main" "region"
-    And I should see "Topic 3" in the "region-main" "region"
-    And I should not see "Topic 4" in the "region-main" "region"
+    And I should not see "Topic 3" in the "region-main" "region"
+    And I should see "Topic 4" in the "region-main" "region"
 
     When I follow "Preferences" in the user menu
     And I follow "Preferred language"
@@ -182,8 +182,8 @@ Feature: availability_language
 
     When I log in as "student1"
     And I am on "Course 1" course homepage
-    Then I should see "Topic 1" in the "region-main" "region"
-    And I should not see "Topic 2" in the "region-main" "region"
+    Then I should not see "Topic 1" in the "region-main" "region"
+    And I should see "Topic 2" in the "region-main" "region"
     And I should see "Topic 3" in the "region-main" "region"
     And I should see "Topic 4" in the "region-main" "region"
 
@@ -215,7 +215,7 @@ Feature: availability_language
     When I log out
     And I log in as "student1"
     And I am on "Course 1" course homepage
-    Then I should see "P0" in the "region-main" "region"
+    Then I should not see "P0" in the "region-main" "region"
 
     When I follow "Preferences" in the user menu
     And I follow "Preferred language"
@@ -249,7 +249,7 @@ Feature: availability_language
     When I log out
     And I log in as "student1"
     And I am on "Course 1" course homepage
-    Then I should not see "P0" in the "region-main" "region"
+    Then I should see "P0" in the "region-main" "region"
 
     When I follow "Preferences" in the user menu
     And I follow "Preferred language"

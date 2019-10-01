@@ -58,6 +58,17 @@ M.availability_language.form.getNode = function(json) {
     return node;
 };
 
+M.availability_language.form.focusAfterAdd = function(node) {
+    var selected = node.one('select[name=id]').get('value');
+    if (selected === 'choose') {
+        // Make default hidden if no value chosen.
+        var eyenode = node.ancestor().one('.availability-eye');
+        eyenode.simulate('click');
+    }
+    var target = node.one('input:not([disabled]),select:not([disabled])');
+    target.focus();
+};
+
 M.availability_language.form.fillValue = function(value, node) {
     var selected = node.one('select[name=id]').get('value');
     if (selected === 'choose') {
@@ -75,4 +86,4 @@ M.availability_language.form.fillErrors = function(errors, node) {
 };
 
 
-}, '@VERSION@', {"requires": ["base", "node", "event", "moodle-core_availability-form"]});
+}, '@VERSION@', {"requires": ["base", "node", "event", "node-event-simulate", "moodle-core_availability-form"]});
