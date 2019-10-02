@@ -84,7 +84,7 @@ Feature: availability_language
     And I set the field "Language" to "en_ar"
     And I click on "Save and return to course" "button"
 
-    # Page P5 for pirate English users hidden.
+    # Page P5 for pirate English users hidden in section 0.
     And I add a "Page" to section "0"
     And I set the following fields to these values:
       | Name         | P5 |
@@ -94,27 +94,22 @@ Feature: availability_language
     And I click on "Add restriction..." "button"
     And I click on "Language" "button"
     And I set the field "Language" to "en_ar"
-    And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save and return to course" "button"
+    And I log out
 
     # Log in as student.
-    When I log out
-    And I log in as "student1"
+    When I log in as "student1"
     And I am on "Course 1" course homepage
     Then I should see "P1" in the "region-main" "region"
     And I should see "P2" in the "region-main" "region"
     And I should see "P3" in the "region-main" "region"
     And I should not see "P4" in the "region-main" "region"
     And I should see "Not available unless: The student's language is English - Pirate ‎(en_ar)" in the ".availabilityinfo" "css_element"
-    And I should see "P5" in the "region-main" "region"
-
+    And I should not see "P5" in the "region-main" "region"
     When I follow "Preferences" in the user menu
     And I follow "Preferred language"
     And I set the field "lang" to "en_ar"
     And I click on "Save changes" "button"
-    And I log out
-
-    When I log in as "student1"
     And I am on "Course 1" course homepage
     Then I should see "P1" in the "region-main" "region"
     And I should see "P2" in the "region-main" "region"
@@ -127,7 +122,7 @@ Feature: availability_language
   @javascript
   Scenario: Restrict sections
 
-    # Section1 for English users only.
+    # Section1 for English users only hidden.
     When I edit the section "1"
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
@@ -136,7 +131,7 @@ Feature: availability_language
     And I set the field "Language" to "en"
     And I click on "Save changes" "button"
 
-    # Section2 for English users only hidden.
+    # Section2 for English users only.
     When I edit the section "2"
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
@@ -146,7 +141,7 @@ Feature: availability_language
     And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save changes" "button"
 
-    # Section3 for pirate English users only.
+    # Section3 for pirate English users only hidden.
     When I edit the section "3"
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
@@ -155,7 +150,7 @@ Feature: availability_language
     And I set the field "Language" to "en_ar"
     And I click on "Save changes" "button"
 
-    # Section4 for pirate English users only hidden.
+    # Section4 for pirate English users only.
     When I edit the section "4"
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
@@ -164,23 +159,19 @@ Feature: availability_language
     And I set the field "Language" to "en_ar"
     And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save changes" "button"
+    And I log out
 
     # Log in as student.
-    When I log out
-    And I log in as "student1"
+    When I log in as "student1"
     And I am on "Course 1" course homepage
     Then I should see "Topic 1" in the "region-main" "region"
     And I should see "Topic 2" in the "region-main" "region"
     And I should not see "Topic 3" in the "region-main" "region"
     And I should see "Topic 4" in the "region-main" "region"
-
     When I follow "Preferences" in the user menu
     And I follow "Preferred language"
     And I set the field "lang" to "en_ar"
     And I click on "Save changes" "button"
-    And I log out
-
-    When I log in as "student1"
     And I am on "Course 1" course homepage
     Then I should not see "Topic 1" in the "region-main" "region"
     And I should see "Topic 2" in the "region-main" "region"
@@ -210,20 +201,16 @@ Feature: availability_language
     And I set the field "Language" to "en_ar"
     Then I should not see "Please set" in the "region-main" "region"
     And I click on "Save and return to course" "button"
+    And I log out
 
     # Log in as student.
-    When I log out
-    And I log in as "student1"
+    When I log in as "student1"
     And I am on "Course 1" course homepage
     Then I should not see "P0" in the "region-main" "region"
-
     When I follow "Preferences" in the user menu
     And I follow "Preferred language"
     And I set the field "lang" to "en_ar"
     And I click on "Save changes" "button"
-    And I log out
-
-    When I log in as "student1"
     And I am on "Course 1" course homepage
     Then I should see "P0" in the "region-main" "region"
 
@@ -244,19 +231,15 @@ Feature: availability_language
     Then I should not see "Please set" in the "region-main" "region"
     And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save and return to course" "button"
+    And I log out
 
     # Log in as student.
-    When I log out
-    And I log in as "student1"
+    When I log in as "student1"
     And I am on "Course 1" course homepage
     Then I should see "P0" in the "region-main" "region"
-
     When I follow "Preferences" in the user menu
     And I follow "Preferred language"
     And I set the field "lang" to "en_ar"
     And I click on "Save changes" "button"
-    And I log out
-
-    When I log in as "student1"
     And I am on "Course 1" course homepage
     Then I should see "P0" in the "region-main" "region"

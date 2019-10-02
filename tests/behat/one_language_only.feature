@@ -30,4 +30,3 @@ Feature: one language only availability_language
     And I click on "Add restriction..." "button"
     Then "Language" "button" should not exist in the "Add restriction..." "dialogue"
     And I click on "Cancel" "button" in the "Add restriction..." "dialogue"
-    And I log out
