@@ -11,15 +11,13 @@ Feature: one language only availability_language
     And the following "users" exist:
       | username |
       | teacher1 |
-      | student1 |
     And the following "course enrolments" exist:
       | user     | course | role           |
       | teacher1 | C1     | editingteacher |
-      | student1 | C1     | student        |
 
   @javascript
   Scenario: Only one language pack installed
-    When I log in as "teacher1"
+    Given I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
     And I add a "Page" to section "1"
     And I set the following fields to these values:
