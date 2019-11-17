@@ -36,15 +36,10 @@ matrix:
       env: DB=pgsql MOODLE_BRANCH=MOODLE_36_STABLE
     - php: 7.2
       env: DB=pgsql MOODLE_BRANCH=MOODLE_37_STABLE
-<<<<<<< HEAD
     - php: 7.2
       env: DB=pgsql MOODLE_BRANCH=MOODLE_38_STABLE
     - php: 7.3
       env: DB=pgsql MOODLE_BRANCH=master
-    - php: 7.4
-      env: DB=pgsql MOODLE_BRANCH=master
-=======
->>>>>>> 7bc5d0c314e6ee321b71df744f5e492a2fe47445
 
 before_install:
   - phpenv config-rm xdebug.ini
