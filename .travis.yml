@@ -26,7 +26,6 @@ php:
 env:
   - DB=pgsql MOODLE_BRANCH=master
   - DB=mysqli MOODLE_BRANCH=master
-  - DB=mariadb MOODLE_BRANCH=master
 
 matrix:
   include:

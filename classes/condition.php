@@ -110,7 +110,7 @@ class condition extends \core_availability\condition {
         } else {
             if (is_null($userid)) {
                 // Fall back to site language or English.
-                $language = isset($CFG->lang) ? $CFG->lang : 'en';
+                $language = $CFG->lang ?? 'en';
             } else {
                 // Checking access for someone else than the logged in user, so
                 // use the preferred language of that user account.
@@ -159,7 +159,6 @@ class condition extends \core_availability\condition {
      * @return string Text representation of parameters
      */
     protected function get_debug_string() {
-        return $this->languageid ? '' . $this->languageid : 'any';
+        return $this->languageid ?? 'any';
     }
 }
-
