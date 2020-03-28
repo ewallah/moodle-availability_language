@@ -61,7 +61,7 @@ script:
   - >
         if [ "$MOODLE_BRANCH" = 'master' ];
         then
-            /home/travis/build/moodle/vendor/bin/phpunit --testsuite=tool_dataprivacy_testsuite,tool_policy_testsuite,core_privacy_testsuite
+            $COMPOSER_BIN_DIR/phpunit --testsuite="tool_dataprivacy_testsuite,tool_policy_testsuite,core_privacy_testsuite"
             moodle-plugin-ci phplint
             moodle-plugin-ci phpcpd
             moodle-plugin-ci phpmd
