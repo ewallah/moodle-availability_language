@@ -1,4 +1,4 @@
-@ewallah @availability @availability_language
+@ewallah @availability @availability_language @javascript
 Feature: availability_language
   In order to control student access to activities
   As a admin
@@ -25,12 +25,10 @@ Feature: availability_language
     Then I should see "Language pack 'en_ar' was successfully installed"
     And the "Installed language packs" select box should contain "en_ar"
     And I log out
-    And I log in as "teacher1"
-    And I am on "Course 1" course homepage with editing mode on
+    And I am on the "C1" "Course" page logged in as "teacher1"
+    And I turn editing mode on
 
-  @javascript
   Scenario: Two language packs installed
-
     # Page P1 for English users only.
     And I add a "Page" to section "1"
     And I set the following fields to these values:
@@ -98,8 +96,7 @@ Feature: availability_language
     And I log out
 
     # Log in as student.
-    When I log in as "student1"
-    And I am on "Course 1" course homepage
+    When I am on the "C1" "Course" page logged in as "student1"
     Then I should see "P1" in the "region-main" "region"
     And I should see "P2" in the "region-main" "region"
     And I should see "P3" in the "region-main" "region"
@@ -117,11 +114,8 @@ Feature: availability_language
     And I should see "P4" in the "region-main" "region"
     And I should see "Not available unless: The student's language is English ‎(en)‎" in the ".availabilityinfo" "css_element"
     And I should see "P5" in the "region-main" "region"
-    And I log out
 
-  @javascript
   Scenario: Restrict sections
-
     # Section1 for English users only hidden.
     When I edit the section "1"
     And I expand all fieldsets
@@ -162,8 +156,7 @@ Feature: availability_language
     And I log out
 
     # Log in as student.
-    When I log in as "student1"
-    And I am on "Course 1" course homepage
+    When I am on the "C1" "Course" page logged in as "student1"
     Then I should see "Topic 1" in the "region-main" "region"
     And I should see "Topic 2" in the "region-main" "region"
     And I should not see "Topic 3" in the "region-main" "region"
@@ -178,16 +171,13 @@ Feature: availability_language
     And I should see "Topic 3" in the "region-main" "region"
     And I should see "Topic 4" in the "region-main" "region"
 
-  @javascript
   Scenario: Restrict section0 visible
     When I edit the section "0"
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
     Then "Language" "button" should not exist in the "Add restriction..." "dialogue"
 
-  @javascript
   Scenario: Restrict activity in section0
-
     When I add a "Page" to section "0"
     And I set the following fields to these values:
       | Name         | P0 |
@@ -204,19 +194,16 @@ Feature: availability_language
     And I log out
 
     # Log in as student.
-    When I log in as "student1"
-    And I am on "Course 1" course homepage
+    When I am on the "C1" "Course" page logged in as "student1"
     Then I should not see "P0" in the "region-main" "region"
-    When I follow "Preferences" in the user menu
+    And I follow "Preferences" in the user menu
     And I follow "Preferred language"
     And I set the field "lang" to "en_ar"
     And I click on "Save changes" "button"
     And I am on "Course 1" course homepage
     Then I should see "P0" in the "region-main" "region"
 
-  @javascript
   Scenario: Restrict activity in section0 hidden
-
     When I add a "Page" to section "0"
     And I set the following fields to these values:
       | Name         | P0 |
@@ -234,10 +221,9 @@ Feature: availability_language
     And I log out
 
     # Log in as student.
-    When I log in as "student1"
-    And I am on "Course 1" course homepage
+    When I am on the "C1" "Course" page logged in as "student1"
     Then I should see "P0" in the "region-main" "region"
-    When I follow "Preferences" in the user menu
+    And I follow "Preferences" in the user menu
     And I follow "Preferred language"
     And I set the field "lang" to "en_ar"
     And I click on "Save changes" "button"

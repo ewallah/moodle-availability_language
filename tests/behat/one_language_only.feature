@@ -1,4 +1,4 @@
-@ewallah @availability @availability_language
+@ewallah @availability @availability_language @javascript
 Feature: one language only availability_language
   When there is only one language installed
   As a teacher
@@ -15,10 +15,9 @@ Feature: one language only availability_language
       | user     | course | role           |
       | teacher1 | C1     | editingteacher |
 
-  @javascript
   Scenario: Only one language pack installed
-    Given I log in as "teacher1"
-    And I am on "Course 1" course homepage with editing mode on
+    When I am on the "C1" "Course" page logged in as "teacher1"
+    And I turn editing mode on
     And I add a "Page" to section "1"
     And I set the following fields to these values:
       | Name         | P1 |
@@ -27,4 +26,3 @@ Feature: one language only availability_language
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
     Then "Language" "button" should not exist in the "Add restriction..." "dialogue"
-    And I click on "Cancel" "button" in the "Add restriction..." "dialogue"
