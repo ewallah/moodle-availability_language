@@ -5,11 +5,13 @@ os:
 
 dist: bionic
 
+services:
+  - mysql
+
 addons:
   postgresql: "9.6"
-  mariadb: "10.0"
   chrome: stable
-  firefox: "35.0.1"
+  firefox: "47.0.1"
   apt:
     packages:
       - openjdk-8-jre-headless
