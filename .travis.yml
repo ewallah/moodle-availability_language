@@ -5,17 +5,17 @@ os:
 
 dist: bionic
 
-services:
-  - mysql
-
 addons:
   postgresql: "9.6"
   chrome: stable
   firefox: "47.0.1"
   apt:
     packages:
-      - openjdk-8-jre-headless
       - chromium-chromedriver
+
+services:
+  - mysql
+  - postgresql
 
 cache:
   directories:
@@ -39,8 +39,7 @@ jobs:
 
 before_install:
   - phpenv config-rm xdebug.ini
-  - nvm install 8.9
-  - nvm use 8.9
+  - nvm install 14.2.0
   - cd ../..
   - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
