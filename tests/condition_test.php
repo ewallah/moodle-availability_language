@@ -31,7 +31,6 @@ use availability_language\condition;
  * @package availability_language
  * @copyright 2017 eWallah.net <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @coversDefaultClass availability_language
  */
 class availability_language_condition_testcase extends advanced_testcase {
     /**
@@ -110,14 +109,14 @@ class availability_language_condition_testcase extends advanced_testcase {
         $user2 = $generator->create_user()->id;
         $generator->enrol_user($user1, $course->id);
         $generator->enrol_user($user2, $course->id);
-        $DB->set_field('course_sections', 'availability', '{"op":"|","show":false,"c":[{"type":"language","id":"nl"}]}',
-                ['course' => $course->id, 'section' => 0]);
-        $DB->set_field('course_sections', 'availability', '{"op":"|","show":true,"c":[{"type":"language","id":""}]}',
-                ['course' => $course->id, 'section' => 1]);
-        $DB->set_field('course_sections', 'availability', '{"op":"|","show":true,"c":[{"type":"language","id":"fr"}]}',
-                ['course' => $course->id, 'section' => 2]);
-        $DB->set_field('course_sections', 'availability', '{"op":"|","show":true,"c":[{"type":"language","id":"en"}]}',
-                ['course' => $course->id, 'section' => 3]);
+        $cond = '{"op":"|","show":false,"c":[{"type":"language","id":"nl"}]}';
+        $DB->set_field('course_sections', 'availability', $cond, ['course' => $course->id, 'section' => 0]);
+        $cond = '{"op":"|","show":true,"c":[{"type":"language","id":""}]}';
+        $DB->set_field('course_sections', 'availability', $cond, ['course' => $course->id, 'section' => 1]);
+        $cond = '{"op":"|","show":true,"c":[{"type":"language","id":"fr"}]}';
+        $DB->set_field('course_sections', 'availability', $cond, ['course' => $course->id, 'section' => 2]);
+        $cond = '{"op":"|","show":true,"c":[{"type":"language","id":"en"}]}';
+        $DB->set_field('course_sections', 'availability', $cond, ['course' => $course->id, 'section' => 3]);
         $modinfo1 = get_fast_modinfo($course, $user1);
         $modinfo2 = get_fast_modinfo($course, $user2);
         $this->assertTrue($modinfo1->get_section_info(0)->uservisible);
@@ -169,7 +168,7 @@ class availability_language_condition_testcase extends advanced_testcase {
         $cond = new condition($structure);
         $structure->type = 'language';
         $this->assertEquals($structure, $cond->save());
-        $this->assertEquals((object)['type' => 'language', 'id' => ''], $cond->get_json());
+        $this->assertEquals((object)['type' => 'language', 'id' => 'nl'], $cond->get_json('nl'));
     }
 
     /**
@@ -229,27 +228,46 @@ class availability_language_condition_testcase extends advanced_testcase {
         $this->assertFalse($method->invokeArgs($frontend, [$course, null, $sections[1]]));
         $coursenl = $generator->create_course(['lang' => 'nl']);
         $this->assertFalse($method->invokeArgs($frontend, [$coursenl]));
-
-        $page = $generator->get_plugin_generator('mod_page')->create_instance(['course' => $course]);
-        $context = context_module::instance($page->cmid);
-        $mpage = new moodle_page();
-        $mpage->set_url('/course/modedit.php', ['update' => $page->cmid]);
-        $mpage->set_context($context);
-        $renderer = $mpage->get_renderer('core');
-        $this->setuser($user);
-        $mpage = new moodle_page();
-        $mpage->set_url('/course/index.php', ['id' => $course->id]);
-        $context = context_course::instance($course->id);
-        $mpage->set_context($context);
-        $renderer = $mpage->get_renderer('core');
     }
 
+
     /**
-     * Test privacy.
-     * @covers availability_language\privacy\provider
+     * Tests using language condition in back end.
+     * @covers availability_language\condition
      */
-    public function test_privacy() {
-        $privacy = new availability_language\privacy\provider();
-        $this->assertEquals($privacy->get_reason(), 'privacy:metadata');
+    public function test_backend() {
+        global $CFG, $DB;
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $CFG->enableavailability = true;
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $context = context_course::instance($course->id);
+        $user = $generator->create_user();
+        $generator->enrol_user($user->id, $course->id);
+        $pagegen = $generator->get_plugin_generator('mod_page');
+        $restriction = \core_availability\tree::get_root_json([condition::get_json('fr')]);
+        $pagegen->create_instance(['course' => $course, 'availability' => json_encode($restriction)]);
+        $restriction = \core_availability\tree::get_root_json([condition::get_json('en')]);
+        $pagegen->create_instance(['course' => $course, 'availability' => json_encode($restriction)]);
+        $restriction = \core_availability\tree::get_root_json([condition::get_json('nl')]);
+        $pagegen->create_instance(['course' => $course, 'availability' => json_encode($restriction)]);
+        rebuild_course_cache($course->id, true);
+        $mpage = new moodle_page();
+        $mpage->set_url('/course/index.php', ['id' => $course->id]);
+        $mpage->set_context($context);
+        $renderer = $mpage->get_renderer('format_topics');
+        ob_start();
+        echo $renderer->print_multiple_section_page($course, null, null, null, null);
+        $out = ob_get_clean();
+        $this->assertContains('Not available unless: The student\'s language is English ‎(en)', $out);
+        // MDL-68333 hack when nl language is not installed.
+        $DB->set_field('user', 'lang', 'fr', ['id' => $user->id]);
+        $this->setuser($user);
+        rebuild_course_cache($course->id, true);
+        ob_start();
+        echo $renderer->print_multiple_section_page($course, null, null, null, null);
+        $out = ob_get_clean();
+        $this->assertNotContains('Not available unless: The student\'s language is English ‎(en)', $out);
     }
 }
