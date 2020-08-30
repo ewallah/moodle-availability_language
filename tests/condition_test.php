@@ -44,7 +44,7 @@ class availability_language_condition_testcase extends advanced_testcase {
 
     /**
      * Tests constructing and using language condition as part of tree.
-     * @covers availability_language\condition
+     * @coversDefaultClass availability_language\condition
      */
     public function test_in_tree() {
         global $CFG, $DB;
@@ -195,7 +195,7 @@ class availability_language_condition_testcase extends advanced_testcase {
 
     /**
      * Tests using language condition in front end.
-     * @covers availability_language\frontend
+     * @coversDefaultClass availability_language\frontend
      */
     public function test_frontend() {
         global $CFG;
@@ -233,7 +233,7 @@ class availability_language_condition_testcase extends advanced_testcase {
 
     /**
      * Tests using language condition in back end.
-     * @covers availability_language\condition
+     * @coversDefaultClass availability_language\condition
      */
     public function test_backend() {
         global $CFG, $DB;
