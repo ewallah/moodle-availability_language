@@ -33,10 +33,11 @@ use availability_language\condition;
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class availability_language_condition_testcase extends advanced_testcase {
+
     /**
      * Load required classes.
      */
-    public function setUp() {
+    public function setUp():void {
         // Load the mock info class so that it can be used.
         global $CFG;
         require_once($CFG->dirroot . '/availability/tests/fixtures/mock_info.php');
@@ -148,14 +149,14 @@ class availability_language_condition_testcase extends advanced_testcase {
             $language = new condition($structure);
             $this->fail();
         } catch (coding_exception $e) {
-            $this->assertContains('Invalid ->id for language condition', $e->getMessage());
+            $this->assertStringContainsString('Invalid ->id for language condition', $e->getMessage());
         }
         $structure->id = 12;
         try {
             $language = new condition($structure);
             $this->fail();
         } catch (coding_exception $e) {
-            $this->assertContains('Invalid ->id for language condition', $e->getMessage());
+            $this->assertStringContainsString('Invalid ->id for language condition', $e->getMessage());
         }
     }
 
@@ -167,8 +168,8 @@ class availability_language_condition_testcase extends advanced_testcase {
         $structure = (object)['id' => 'fr'];
         $cond = new condition($structure);
         $structure->type = 'language';
-        $this->assertEquals($structure, $cond->save());
-        $this->assertEquals((object)['type' => 'language', 'id' => 'nl'], $cond->get_json('nl'));
+        $this->assertEqualsCanonicalizing($structure, $cond->save());
+        $this->assertEqualsCanonicalizing((object)['type' => 'language', 'id' => 'nl'], $cond->get_json('nl'));
     }
 
     /**
@@ -185,7 +186,7 @@ class availability_language_condition_testcase extends advanced_testcase {
         $desc = $language->get_description(true, true, $info);
         $this->assertEquals('The student\'s language is not English ‎(en)‎', $desc);
         $desc = $language->get_standalone_description(true, false, $info);
-        $this->assertContains('Not available unless: The student\'s language is English', $desc);
+        $this->assertStringContainsString('Not available unless: The student\'s language is English', $desc);
 
         $class = new ReflectionClass('availability_language\condition');
         $method = $class->getMethod('get_debug_string');
@@ -216,10 +217,10 @@ class availability_language_condition_testcase extends advanced_testcase {
         $class = new ReflectionClass('availability_language\frontend');
         $method = $class->getMethod('get_javascript_strings');
         $method->setAccessible(true);
-        $this->assertEquals([], $method->invokeArgs($frontend, []));
+        $this->assertEqualsCanonicalizing([], $method->invokeArgs($frontend, []));
         $method = $class->getMethod('get_javascript_init_params');
         $method->setAccessible(true);
-        $this->assertEquals(1, count($method->invokeArgs($frontend, [$course])));
+        $this->assertCount(1, $method->invokeArgs($frontend, [$course]));
         $method = $class->getMethod('allow_add');
         $method->setAccessible(true);
         $this->assertFalse($method->invokeArgs($frontend, [$course]));
@@ -260,7 +261,7 @@ class availability_language_condition_testcase extends advanced_testcase {
         ob_start();
         echo $renderer->print_multiple_section_page($course, null, null, null, null);
         $out = ob_get_clean();
-        $this->assertContains('Not available unless: The student\'s language is English ‎(en)', $out);
+        $this->assertStringContainsString('Not available unless: The student\'s language is English ‎(en)', $out);
         // MDL-68333 hack when nl language is not installed.
         $DB->set_field('user', 'lang', 'fr', ['id' => $user->id]);
         $this->setuser($user);
@@ -268,6 +269,6 @@ class availability_language_condition_testcase extends advanced_testcase {
         ob_start();
         echo $renderer->print_multiple_section_page($course, null, null, null, null);
         $out = ob_get_clean();
-        $this->assertNotContains('Not available unless: The student\'s language is English ‎(en)', $out);
+        $this->assertStringNotContainsString('Not available unless: The student\'s language is English ‎(en)', $out);
     }
 }

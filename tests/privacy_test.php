@@ -40,11 +40,9 @@ class availability_language_privacy_testcase extends provider_testcase {
      * @coversDefaultClass availability_language\privacy\provider
      */
     public function test_get_metadata() {
-        $this->resetAfterTest(true);
         $collection = new \core_privacy\local\metadata\collection('availability_language');
         $reason = \availability_language\privacy\provider::get_reason($collection);
         $this->assertEquals($reason, 'privacy:metadata');
-        $str = 'does not store';
-        $this->assertContains($str, get_string($reason, 'availability_language'));
+        $this->assertStringContainsString('does not store', get_string($reason, 'availability_language'));
     }
 }
