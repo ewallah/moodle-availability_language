@@ -30,7 +30,7 @@ jobs:
     - php: 7.3
       env: DB=mysqli MOODLE_BRANCH=MOODLE_38_STABLE
     - env: DB=mysqli MOODLE_BRANCH=MOODLE_39_STABLE
-    - env: DB=mysqli MOODLE_BRANCH=MOODLE_310_STABLE
+    # No lang strings available - env: DB=mysqli MOODLE_BRANCH=MOODLE_310_STABLE
 
 before_install:
   - phpenv config-rm xdebug.ini
@@ -40,7 +40,6 @@ before_install:
 
 install:
   - moodle-plugin-ci install
-  - moodle-plugin-ci add-config '$CFG->skiplangupgrade = true;'
   - cd moodle
 
 script:
