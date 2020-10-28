@@ -23,6 +23,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
+
 use availability_language\condition;
 
 /**
@@ -48,11 +49,11 @@ class availability_language_condition_testcase extends advanced_testcase {
      * @coversDefaultClass availability_language\condition
      */
     public function test_in_tree() {
-        global $CFG, $DB;
+        global $DB;
         $this->resetAfterTest();
 
         // Create course with language turned on and a Page.
-        $CFG->enableavailability = true;
+        set_config('enableavailability', true);
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
         $user1 = $generator->create_user()->id;
@@ -97,11 +98,10 @@ class availability_language_condition_testcase extends advanced_testcase {
      * @covers availability_language\condition
      */
     public function test_sections() {
-        global $CFG, $DB;
+        global $DB;
         $this->resetAfterTest();
-
+        set_config('enableavailability', true);
         // Create course with language turned on and a Page.
-        $CFG->enableavailability = true;
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
         $user1 = $generator->create_user()->id;
@@ -138,12 +138,15 @@ class availability_language_condition_testcase extends advanced_testcase {
         // This works with no parameters.
         $structure = (object)[];
         $language = new condition($structure);
+        $this->assertNotEmpty($language);
 
         // This works with custom made languages.
         $structure->id = 'en_ar';
         $language = new condition($structure);
+        $this->assertNotEmpty($language);
 
         // Invalid ->id.
+        $language = null;
         $structure->id = null;
         try {
             $language = new condition($structure);
@@ -158,6 +161,7 @@ class availability_language_condition_testcase extends advanced_testcase {
         } catch (coding_exception $e) {
             $this->assertStringContainsString('Invalid ->id for language condition', $e->getMessage());
         }
+        $this->assertEquals(null, $language);
     }
 
     /**
@@ -187,11 +191,8 @@ class availability_language_condition_testcase extends advanced_testcase {
         $this->assertEquals('The student\'s language is not English ‎(en)‎', $desc);
         $desc = $language->get_standalone_description(true, false, $info);
         $this->assertStringContainsString('Not available unless: The student\'s language is English', $desc);
-
-        $class = new ReflectionClass('availability_language\condition');
-        $method = $class->getMethod('get_debug_string');
-        $method->setAccessible(true);
-        $this->assertEquals('en', $method->invokeArgs($language, []));
+        $result = phpunit_util::call_internal_method($language, 'get_debug_string', [], 'availability_language\condition');
+        $this->assertEquals('en', $result);
     }
 
     /**
@@ -203,7 +204,7 @@ class availability_language_condition_testcase extends advanced_testcase {
         require_once($CFG->dirroot.'/mod/lesson/locallib.php');
         $this->resetAfterTest();
         $this->setAdminUser();
-        $CFG->enableavailability = true;
+        set_config('enableavailability', true);
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
         $les = new lesson($generator->get_plugin_generator('mod_lesson')->create_instance(['course' => $course, 'section' => 0]));
@@ -213,22 +214,24 @@ class availability_language_condition_testcase extends advanced_testcase {
         $sections = $modinfo->get_section_info_all();
         $generator->enrol_user($user->id, $course->id);
 
+        $name = 'availability_language\frontend';
         $frontend = new availability_language\frontend();
-        $class = new ReflectionClass('availability_language\frontend');
-        $method = $class->getMethod('get_javascript_strings');
-        $method->setAccessible(true);
-        $this->assertEqualsCanonicalizing([], $method->invokeArgs($frontend, []));
-        $method = $class->getMethod('get_javascript_init_params');
-        $method->setAccessible(true);
-        $this->assertCount(1, $method->invokeArgs($frontend, [$course]));
-        $method = $class->getMethod('allow_add');
-        $method->setAccessible(true);
-        $this->assertFalse($method->invokeArgs($frontend, [$course]));
-        $this->assertFalse($method->invokeArgs($frontend, [$course, $cm, null]));
-        $this->assertFalse($method->invokeArgs($frontend, [$course, null, $sections[0]]));
-        $this->assertFalse($method->invokeArgs($frontend, [$course, null, $sections[1]]));
-        $coursenl = $generator->create_course(['lang' => 'nl']);
-        $this->assertFalse($method->invokeArgs($frontend, [$coursenl]));
+        // There is only 1 language installed, so we cannot assert allow add will return true.
+        $this->assertCount(1, get_string_manager()->get_list_of_translations(true));
+        $this->assertCount(1, phpunit_util::call_internal_method($frontend, 'get_javascript_init_params', [$course], $name));
+        $this->assertFalse(phpunit_util::call_internal_method($frontend, 'allow_add', [$course], $name));
+        $this->assertFalse(phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm, null], $name));
+        $this->assertFalse(phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm, $sections[1]], $name));
+        $this->assertFalse(phpunit_util::call_internal_method($frontend, 'allow_add', [$course, null, $sections[0]], $name));
+        $this->assertFalse(phpunit_util::call_internal_method($frontend, 'allow_add', [$course, null, $sections[1]], $name));
+        $course = $generator->create_course(['lang' => 'nl']);
+        $this->assertFalse(phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm, $sections[1]], $name));
+
+        $tmpdir = realpath($CFG->phpunit_dataroot);
+        mkdir($tmpdir . '/lang', $CFG->directorypermissions, true);
+        mkdir($tmpdir . '/lang/nl', $CFG->directorypermissions, true);
+        $this->assertCount(1, get_string_manager()->get_list_of_translations(true));
+        $this->assertFalse(phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm, $sections[1]], $name));
     }
 
 
@@ -237,10 +240,10 @@ class availability_language_condition_testcase extends advanced_testcase {
      * @coversDefaultClass availability_language\condition
      */
     public function test_backend() {
-        global $CFG, $DB;
+        global $DB;
         $this->resetAfterTest();
         $this->setAdminUser();
-        $CFG->enableavailability = true;
+        set_config('enableavailability', true);
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
         $context = context_course::instance($course->id);
