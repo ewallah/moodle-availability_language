@@ -215,7 +215,7 @@ class availability_language_condition_testcase extends advanced_testcase {
         $generator->enrol_user($user->id, $course->id);
 
         $name = 'availability_language\frontend';
-        $frontend = new availability_language\frontend();
+        $frontend = new \availability_language\frontend();
         // There is only 1 language installed, so we cannot assert allow add will return true.
         $this->assertCount(1, get_string_manager()->get_list_of_translations(true));
         $this->assertCount(1, phpunit_util::call_internal_method($frontend, 'get_javascript_init_params', [$course], $name));
