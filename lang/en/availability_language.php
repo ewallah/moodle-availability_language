@@ -18,7 +18,7 @@
  * Language strings.
  *
  * @package availability_language
- * @copyright 2018 Renaat Debleu (www.eWallah.net)
+ * @copyright 2018 Renaat Debleu <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

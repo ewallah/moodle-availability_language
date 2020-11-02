@@ -18,7 +18,7 @@
  * Condition main class.
  *
  * @package availability_language
- * @copyright 2018 Renaat Debleu (www.eWallah.net)
+ * @copyright 2018 Renaat Debleu <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
  * Condition main class.
  *
  * @package availability_language
- * @copyright 2014 Renaat Debleu (www.eWallah.net)
+ * @copyright 2018 Renaat Debleu <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class condition extends \core_availability\condition {
