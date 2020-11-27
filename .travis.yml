@@ -32,7 +32,6 @@ before_install:
 
 install:
   - moodle-plugin-ci install
-  - cd moodle
 
 script:
   - moodle-plugin-ci phplint
