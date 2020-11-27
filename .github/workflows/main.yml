@@ -1,4 +1,4 @@
-name: Run all tests
+name: Tests
 
 # Run this workflow every time a new commit pushed to your repository
 on: push
@@ -77,8 +77,8 @@ jobs:
       - name: grunt
         run: moodle-plugin-ci grunt
 
-      - name: phpunit
-        run: moodle-plugin-ci phpunit
+      - name: phpunit 
+        run: moodle-plugin-ci phpunit --coverage-text --coverage-clover
 
       - name: behat
         run: moodle-plugin-ci behat
