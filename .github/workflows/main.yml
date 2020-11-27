@@ -47,6 +47,9 @@ jobs:
       - name: Set path 2
         run: echo "$(cd ci/vendor/bin; pwd)" >> $GITHUB_PATH
 
+      - name: Set AU
+        run: sudo locale-gen en_AU.UTF-8
+
       - name: Install Moodle
         run: moodle-plugin-ci install --db-user moodleuser --db-pass moodle --plugin this-plugin
 
