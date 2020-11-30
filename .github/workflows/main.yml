@@ -17,6 +17,7 @@ jobs:
         env:
           POSTGRES_USER: moodleuser
           POSTGRES_PASSWORD: moodle
+          COVERALLS_RUN_LOCALLY:  
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -98,5 +99,18 @@ jobs:
       - name: chrome
         run: moodle-plugin-ci behat --profile chrome
 
-      - name: Coveralls
-        run: moodle-plugin-ci coveralls-upload
+      - name: coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          flag-name: run-${{ matrix.moodle-branch }}
+          parallel: true
+  finish:
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+    - name: coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel-finished: true:  
