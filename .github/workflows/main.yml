@@ -5,11 +5,10 @@ on: push
 
 jobs:
   ci:
-    name: With Moodle 3.10
+    name: ci
     runs-on: ubuntu-latest
 
     env:
-      MOODLE_BRANCH: MOODLE_310_STABLE
       DB: pgsql
 
     services:
@@ -64,8 +63,8 @@ jobs:
         run: sudo locale-gen en_AU.UTF-8
 
       - name: Install Moodle
-        run: moodle-plugin-ci install --db-user moodleuser --db-pass moodle --plugin this-plugin
-
+        run: moodle-plugin-ci install --branch ${{ matrix.moodle-branch }} --db-user moodleuser --db-pass moodle --plugin this-plugin
+      
       - name: phplint
         run: moodle-plugin-ci phplint
 
