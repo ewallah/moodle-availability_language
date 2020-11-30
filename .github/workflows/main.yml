@@ -99,4 +99,4 @@ jobs:
         run: moodle-plugin-ci behat --profile chrome
 
       - name: Coveralls
-        run: moodle-plugin-ci coveralls-uploaduses
+        run: moodle-plugin-ci coveralls-upload
