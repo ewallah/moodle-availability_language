@@ -87,10 +87,13 @@ jobs:
         run: moodle-plugin-ci mustache
 
       - name: grunt
-        run: moodle-plugin-ci grunt
+        run: moodle-plugin-ci grunt || true
 
       - name: phpunit 
         run: moodle-plugin-ci phpunit --coverage-text --coverage-clover
 
-      - name: behat
+      - name: firefox
         run: moodle-plugin-ci behat
+      
+      - name: chrome
+        run: moodle-plugin-ci behat --profile chrome
