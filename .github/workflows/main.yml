@@ -99,6 +99,4 @@ jobs:
         run: moodle-plugin-ci behat --profile chrome
 
       - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+        run: moodle-plugin-ci coveralls-uploaduses
