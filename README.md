@@ -41,5 +41,5 @@ DONE:
 * GDPR
 
 
-[![Build Status](https://travis-ci.com/ewallah/moodle-availability_language.svg?branch=main)](https://travis-ci.com/ewallah/moodle-availability_language)
+[![Build Status](https://github.com/ewallah/moodle-availability_language/workflows/Tests/badge.svg)](https://github.com/ewallah/moodle-availability_language/actions)
 [![Coverage Status](https://coveralls.io/repos/github/ewallah/moodle-availability_language/badge.svg?branch=main)](https://coveralls.io/github/ewallah/moodle-availability_language?branch=main)
