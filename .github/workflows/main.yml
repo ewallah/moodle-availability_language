@@ -62,7 +62,12 @@ jobs:
       - name: phpunit 
         run: moodle-plugin-ci phpunit --coverage-text --coverage-clover
 
-      - name: Coveralls
-        env:
-            COVERALLS_REPO_TOKEN: ${{ secrets.REPOTOKEN }}
+      - name: coveralls
         run: moodle-plugin-ci coveralls-upload
+        
+      - name: coverage
+        uses: coverallsapp/github-action@master
+        with:
+          COVERALLS_REPO_TOKEN: ${{ secrets.REPOTOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: /home/runner/work/moodle-availability_language/moodle-availability_language/moodle/availability/condition/language/build/logs/coveralls-upload.json
