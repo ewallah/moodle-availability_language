@@ -38,7 +38,7 @@ jobs:
         with:
           path: this-plugin
 
-      - name: Checkout my custom moodle-plugin-ci
+      - name: Checkout moodle-plugin-ci
         uses: actions/checkout@v2
         with:
           repository: moodlehq/moodle-plugin-ci
@@ -91,9 +91,14 @@ jobs:
       
       - name: chrome
         run: moodle-plugin-ci behat --profile chrome
-      
+
+      - name: Install dependencies
+        run: npm install
+        
+      - name: make test-coverage
+        run: make test-coverage
+
       - name: coverage
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: coverage.xml
