@@ -47,7 +47,7 @@ jobs:
       - name: Checkout my custom moodle-plugin-ci
         uses: actions/checkout@v2
         with:
-          repository: timhunt/moodle-plugin-ci
+          repository: moodlehq/moodle-plugin-ci
           path: ci
 
       - name: Composer install
@@ -90,11 +90,15 @@ jobs:
         run: moodle-plugin-ci grunt || true
 
       - name: phpunit 
-        run: moodle-plugin-ci phpunit --coverage-text
+        run: moodle-plugin-ci phpunit --colors --coverage-text --coverage-clover ./coverage/lcov.info
 
       - name: firefox
         run: moodle-plugin-ci behat
       
       - name: chrome
         run: moodle-plugin-ci behat --profile chrome
-
+      
+      - name: coverage
+        uses: coverallsapp/github-action@master
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
