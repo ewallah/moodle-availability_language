@@ -62,9 +62,7 @@ jobs:
       - name: phpunit 
         run: moodle-plugin-ci phpunit --coverage-text --coverage-clover
 
-      - name: Upload coverage results to Coveralls
+      - name: Coveralls
         env:
             COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-            composer global require php-coveralls/php-coveralls
-            php-coveralls --coverage_clover=build/logs/clover.xml -v
+        run: moodle-plugin-ci coveralls-upload
