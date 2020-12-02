@@ -31,12 +31,6 @@ jobs:
         include:
           - php: '7.4'
             moodle-branch: 'master'
-          - php: '7.4'
-            moodle-branch: 'MOODLE_310_STABLE'
-          - php: '7.4'
-            moodle-branch: 'MOODLE_39_STABLE'
-          - php: '7.4'
-            moodle-branch: 'MOODLE_38_STABLE'            
 
     steps:
       - name: Checkout
@@ -102,3 +96,4 @@ jobs:
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: coverage.xml
