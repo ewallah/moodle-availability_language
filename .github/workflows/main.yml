@@ -90,7 +90,7 @@ jobs:
         run: moodle-plugin-ci grunt || true
 
       - name: phpunit 
-        run: moodle-plugin-ci phpunit --colors --coverage-text --coverage-clover ./coverage/lcov.info
+        run: moodle-plugin-ci phpunit --coverage-text --coverage-clover
 
       - name: firefox
         run: moodle-plugin-ci behat
