@@ -66,10 +66,6 @@ jobs:
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.REPOTOKEN }}
           COVERALLS_RUN_LOCALLY: 1
+          github-token: ${{ secrets.GITHUB_TOKEN }}
         run: moodle-plugin-ci coveralls-upload
         
-      - name: coverage
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: /home/runner/work/moodle-availability_language/moodle-availability_language/moodle/availability/condition/language/build/logs/coveralls-upload.json
