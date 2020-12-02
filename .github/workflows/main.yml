@@ -64,5 +64,5 @@ jobs:
 
       - name: Coveralls
         env:
-            COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            COVERALLS_REPO_TOKEN: ${{ secrets.REPOTOKEN }}
         run: moodle-plugin-ci coveralls-upload
