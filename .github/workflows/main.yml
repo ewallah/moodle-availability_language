@@ -64,6 +64,7 @@ jobs:
 
       - name: coveralls
         env:
+          repo_token: ${{ secrets.REPOTOKEN }}
           COVERALLS_REPO_TOKEN: ${{ secrets.REPOTOKEN }}
           COVERALLS_RUN_LOCALLY: 1
           github-token: ${{ secrets.GITHUB_TOKEN }}
