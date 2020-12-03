@@ -31,9 +31,17 @@ jobs:
         include:
           - php: '7.4'
             moodle-branch: 'master'
+          - php: '7.4'
+            moodle-branch: 'MOODLE_311_STABLE'
+          - php: '7.4'
+            moodle-branch: 'MOODLE_310_STABLE'
+          - php: '7.4'
+            moodle-branch: 'MOODLE_39_STABLE'
+          - php: '7.4'
+            moodle-branch: 'MOODLE_38_STABLE'            
 
     steps:
-      - name: Checkout
+      - name: Checkout plugin
         uses: actions/checkout@v2
         with:
           path: this-plugin
@@ -58,38 +66,36 @@ jobs:
 
       - name: Install Moodle
         run: moodle-plugin-ci install --branch ${{ matrix.moodle-branch }} --db-user moodleuser --db-pass moodle --plugin this-plugin
+      
+      - name: phplint
+        run: moodle-plugin-ci phplint
+
+      - name: phpcpd
+        run: moodle-plugin-ci phpcpd
+
+      - name: phpmd
+        run: moodle-plugin-ci phpmd
+
+      - name: codechecker
+        run: moodle-plugin-ci codechecker
+
+      - name: validate
+        run: moodle-plugin-ci validate
+
+      - name: savepoints
+        run: moodle-plugin-ci savepoints
+
+      - name: mustache
+        run: moodle-plugin-ci mustache
+
+      - name: grunt
+        run: moodle-plugin-ci grunt || true
 
       - name: phpunit 
-        run: moodle-plugin-ci phpunit --coverage-text --coverage-clover
+        run: moodle-plugin-ci phpunit --coverage-text
 
-      - name: coveralls
-        env:
-          repo_token: ${{ secrets.REPOTOKEN }}
-          COVERALLS_REPO_TOKEN: ${{ secrets.REPOTOKEN }}
-          COVERALLS_RUN_LOCALLY: 1
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: run-${{ matrix.moodle-branch }}
-          parallel: true
-          base-path: /home/runner/work/moodle-availability_language/moodle-availability_language/moodle/availability/condition/language
-        run: moodle-plugin-ci coveralls-upload
-        
-      - name: Coveralls Parallel
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
-          flag-name: run-${{ matrix.moodle-branch }}
-          parallel: true
-          path-to-lcov: /home/runner/work/moodle-availability_language/moodle-availability_language/moodle/availability/condition/language/build/logs/coveralls-upload.json
-          base-path: /home/runner/work/moodle-availability_language/moodle-availability_language/moodle/availability/condition/language
-        
-  finish:
-    needs: ci
-    runs-on: ubuntu-latest
-    steps:
-    - name: Coveralls Finished
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.github_token }}
-        parallel-finished: true
-        base-path: /home/runner/work/moodle-availability_language/moodle-availability_language/moodle/availability/condition/language
-
+      - name: firefox
+        run: moodle-plugin-ci behat
+      
+      - name: chrome
+        run: moodle-plugin-ci behat --profile chrome
