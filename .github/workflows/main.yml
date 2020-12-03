@@ -68,10 +68,18 @@ jobs:
           COVERALLS_REPO_TOKEN: ${{ secrets.REPOTOKEN }}
           COVERALLS_RUN_LOCALLY: 1
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: run-${{ matrix.test_number }}
+          flag-name: run-${{ matrix.moodle-branch }}
           parallel: true
           base-path: /home/runner/work/moodle-availability_language/moodle-availability_language/moodle/availability/condition/language
         run: moodle-plugin-ci coveralls-upload
+        
+      - name: Coveralls Parallel
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          flag-name: run-${{ matrix.moodle-branch }}
+          parallel: true
+          base-path: /home/runner/work/moodle-availability_language/moodle-availability_language/moodle/availability/condition/language
         
   finish:
     needs: ci
