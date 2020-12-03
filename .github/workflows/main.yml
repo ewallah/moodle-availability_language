@@ -74,7 +74,7 @@ jobs:
         run: moodle-plugin-ci coveralls-upload
         
   finish:
-    needs: cu
+    needs: ci
     runs-on: ubuntu-latest
     steps:
     - name: coveralls
