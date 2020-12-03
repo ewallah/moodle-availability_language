@@ -77,10 +77,10 @@ jobs:
     needs: ci
     runs-on: ubuntu-latest
     steps:
-    - name: coveralls
-      env:
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@master
+      with:
         github-token: ${{ secrets.github_token }}
+        parallel-finished: true
         COVERALLS_REPO_TOKEN: ${{ secrets.REPOTOKEN }}
         COVERALLS_RUN_LOCALLY: 1
-        parallel-finished: true
-      run: moodle-plugin-ci coveralls-upload
