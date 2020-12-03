@@ -82,5 +82,5 @@ jobs:
       with:
         github-token: ${{ secrets.github_token }}
         parallel-finished: true
-        COVERALLS_REPO_TOKEN: ${{ secrets.REPOTOKEN }}
-        COVERALLS_RUN_LOCALLY: 1
+        base-path: /home/runner/work/moodle-availability_language/moodle-availability_language/moodle/availability/condition/language
+
