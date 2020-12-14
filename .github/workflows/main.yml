@@ -38,7 +38,7 @@ jobs:
           - php: '7.4'
             moodle-branch: 'MOODLE_39_STABLE'
           - php: '7.4'
-            moodle-branch: 'MOODLE_38_STABLE'            
+            moodle-branch: 'MOODLE_38_STABLE'
 
     steps:
       - name: Checkout plugin
@@ -53,13 +53,7 @@ jobs:
           path: ci
 
       - name: Composer install
-        run: cd ci; composer install
-
-      - name: Set path 1
-        run: echo "$(cd ci/bin; pwd)" >> $GITHUB_PATH
-
-      - name: Set path 2
-        run: echo "$(cd ci/vendor/bin; pwd)" >> $GITHUB_PATH
+        run: cd ci && composer install && echo "$(cd ci/bin; pwd)" >> $GITHUB_PATH && echo "$(cd ci/vendor/bin; pwd)" >> $GITHUB_PATH
 
       - name: Set AU
         run: sudo locale-gen en_AU.UTF-8
@@ -89,7 +83,8 @@ jobs:
         run: moodle-plugin-ci mustache
 
       - name: grunt
-        run: moodle-plugin-ci grunt || true
+        run: moodle-plugin-ci grunt
+        if: matrix.moodle-branch == 'master'
 
       - name: phpunit 
         run: moodle-plugin-ci phpunit --coverage-text
@@ -99,3 +94,10 @@ jobs:
       
       - name: chrome
         run: moodle-plugin-ci behat --profile chrome
+
+      - name: coveralls
+        env:
+          COVERALLS_RUN_LOCALLY: true
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        run: moodle-plugin-ci coveralls-upload
+        if: matrix.moodle-branch == 'master'
