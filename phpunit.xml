@@ -35,13 +35,12 @@
         </testsuite>
     </testsuites>
     <filter>
-
-            <whitelist processUncoveredFilesFromWhitelist="false">
-                <directory suffix=".php">.</directory>
-                <exclude>
-                    <directory suffix="_test.php">.</directory>
-                </exclude>
-            </whitelist>
+        <whitelist processUncoveredFilesFromWhitelist="false">
+            <directory suffix=".php">.</directory>
+            <exclude>
+                <directory suffix="_test.php">.</directory>
+                <file>version.php</file>
+            </exclude>
+        </whitelist>
     </filter>
-
 </phpunit>
