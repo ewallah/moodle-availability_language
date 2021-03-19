@@ -269,7 +269,7 @@ class availability_language_condition_testcase extends advanced_testcase {
             $output = new $outputclass($format);
             ob_start();
             echo $renderer->render($output);
-        } else  {
+        } else {
             ob_start();
             echo $renderer->print_multiple_section_page($course, null, null, null, null);
         }
