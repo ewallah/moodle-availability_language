@@ -264,7 +264,8 @@ class availability_language_condition_testcase extends advanced_testcase {
         $renderer = $mpage->get_renderer('format_topics');
         $branch = null;
         require("$CFG->dirroot/version.php");
-        if ($branch > 310) {
+        $branch = (int)$branch;
+        if ($branch > 311) {
             $outputclass = $format->get_output_classname('course_format');
             $output = new $outputclass($format);
             ob_start();
@@ -280,7 +281,11 @@ class availability_language_condition_testcase extends advanced_testcase {
         $this->setuser($user);
         rebuild_course_cache($course->id, true);
         ob_start();
-        echo $renderer->print_multiple_section_page($course, null, null, null, null);
+        if ($branch > 311) {
+            echo $renderer->render($output);
+        } else {
+            echo $renderer->print_multiple_section_page($course, null, null, null, null);
+        }
         $out = ob_get_clean();
         $this->assertStringNotContainsString('Not available unless: The student\'s language is English ‎(en)', $out);
     }
