@@ -262,10 +262,8 @@ class availability_language_condition_testcase extends advanced_testcase {
         $mpage->set_context($context);
         $format = course_get_format($course);
         $renderer = $mpage->get_renderer('format_topics');
-        $branch = null;
-        require("$CFG->dirroot/version.php");
-        $branch = (int)$branch;
-        if ($branch > 311) {
+        $branch = (int)$CFG->branch;
+        if ($branch > 310) {
             $outputclass = $format->get_output_classname('course_format');
             $output = new $outputclass($format);
             ob_start();
@@ -281,7 +279,7 @@ class availability_language_condition_testcase extends advanced_testcase {
         $this->setuser($user);
         rebuild_course_cache($course->id, true);
         ob_start();
-        if ($branch > 311) {
+        if ($branch > 310) {
             echo $renderer->render($output);
         } else {
             echo $renderer->print_multiple_section_page($course, null, null, null, null);
