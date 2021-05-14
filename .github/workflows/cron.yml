@@ -69,7 +69,7 @@ jobs:
       - name: grunt
         run: moodle-plugin-ci --ansi grunt
 
-      - name: phpunit 
+      - name: phpunit
         run: moodle-plugin-ci --ansi phpunit --coverage-text --coverage-clover
      
       - name: chrome
@@ -80,4 +80,3 @@ jobs:
           COVERALLS_RUN_LOCALLY: true
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         run: moodle-plugin-ci coveralls-upload
-        if: matrix.moodle-branch == 'master'
