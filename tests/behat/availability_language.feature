@@ -176,7 +176,7 @@ Feature: availability_language
     When I edit the section "0"
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
-    Then "Language" "button" should not exist in the "Add restriction..." "dialogue"
+    Then "Language" "button" should exist in the "Add restriction..." "dialogue"
 
   Scenario: Restrict activity in section0
     When I add a "Page" to section "0"
