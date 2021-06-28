@@ -33,13 +33,13 @@
             <directory suffix="_test.php">.</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="false">
+    <coverage>
+        <include>
             <directory suffix=".php">.</directory>
-            <exclude>
-                <directory suffix="_test.php">.</directory>
-                <file>version.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
+        </include>
+        <exclude>
+            <directory suffix="_test.php">.</directory>
+            <file>version.php</file>
+        </exclude>
+    </coverage>
 </phpunit>
