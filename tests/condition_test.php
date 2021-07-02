@@ -264,7 +264,7 @@ class availability_language_condition_testcase extends advanced_testcase {
         $renderer = $mpage->get_renderer('format_topics');
         $branch = (int)$CFG->branch;
         if ($branch > 311) {
-            $outputclass = $format->get_output_classname('course_format');
+            $outputclass = $format->get_output_classname($branch == 311 ? 'course_format' : 'content');
             $output = new $outputclass($format);
             ob_start();
             echo $renderer->render($output);
