@@ -29,4 +29,3 @@ $plugin->requires  = 2020061500;
 $plugin->component = 'availability_language';
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->release   = '3.9+';
-$plugin->supported = [39, 40];
