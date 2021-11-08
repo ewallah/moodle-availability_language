@@ -1,8 +1,7 @@
-moodle-availability_language
-======================================
-
+# Availability language
 Restrict module and section access based on user language.
 
+# Idea
 Language filters are great, but sometimes they can make your resources and activities very complex. 
 This availability condition makes it easy to show an English resource only to English users and an
 activity in French only to French speaking students.
@@ -15,31 +14,46 @@ This plugin only pops up when
    user will ever arrive with another language enabled. On that moment there is no need to show the
    restriction, as it would only create the illusion that people could be restricted.
 
-WARNING: The Moodle Mobile app relies on the user profile language and/or course language to show or
-hide a resource: the language selected in the app does NOT prevail.
-
+# Conditional availability conditions
 Check the global documentation about conditional availability conditions:
    https://docs.moodle.org/en/Conditional_activities_settings
 
-Installation:
+# Warning
+The Moodle Mobile app relies on the user profile language and/or course language to show or
+hide a resource: the language selected in the app does NOT prevail.
 
-1. Unpack the zip file into the availability/condition/ directory. A new directory will be created called
-   language.
-2. Go to Site administration > Notifications to complete the plugin installation.
+# Requirements
+This plugin requires Moodle 3.9+
 
-TODO:
-* Mobile app.
+# Installation
+Install the plugin like any other plugin to folder /availability/condition/language
+See http://docs.moodle.org/en/Installing_plugins for details on installing Moodle plugins
 
-DONE:
-* MOODLE_10_STABLE language compability
-* Standard hidden for participants
-* Behat testing
-* Unit testing
-* userid bug
-* MOODLE_37_STABLE code coverage changes
-* GPL 3 licence
-* GDPR
+# Initial Configuration
+This plugin does not need a After installing the plugin, you have to enable the plugin on site level: a site administrator can enable this filter for the site in Administration > Site administration > Plugins > Filters > Manage filters.
 
+# Theme support
+This plugin is developed and tested on Moodle Core's Boost theme and Boost child themes, including Moodle Core's Classic theme.
 
+# Plugin repositories
+This plugin will be published and regularly updated on Github: https://github.com/ewallah/moodle-availability_language
+
+# Bug and problem reports / Support requests
+This plugin is carefully developed and thoroughly tested, but bugs and problems can always appear.
+Please report bugs and problems on Github: https://github.com/ewallah/moodle-availability_language/issues
+We will do our best to solve your problems, but please note that due to limited resources we can't always provide per-case support.
+
+# Feature proposals
+Please issue feature proposals on Github: https://github.com/ewallah/moodle-availability_language/issues
+Please create pull requests on Github: https://github.com/ewallah/moodle-availability_language/pulls
+We are always interested to read about your feature proposals or even get a pull request from you, but please accept that we can handle your issues only as feature proposals and not as feature requests.
+
+# Moodle release support
+This plugin is maintained for the latest major releases of Moodle.
+
+# Status
 [![Build Status](https://github.com/ewallah/moodle-availability_language/workflows/Tests/badge.svg)](https://github.com/ewallah/moodle-availability_language/actions)
 [![Coverage Status](https://coveralls.io/repos/github/ewallah/moodle-availability_language/badge.svg?branch=main)](https://coveralls.io/github/ewallah/moodle-availability_language?branch=main)
+
+# Copyright
+eWallah.net
