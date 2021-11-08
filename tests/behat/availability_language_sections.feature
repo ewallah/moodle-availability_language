@@ -1,5 +1,5 @@
 @ewallah @availability @availability_language
-Feature: availability_language
+Feature: availability_language sections
   In order to control student access to sections
   As a admin
   I need to add language
@@ -25,7 +25,7 @@ Feature: availability_language
     And I log out
     And I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
-    
+
   @javascript
   Scenario: Restrict sections based on language
     # Section1 for English users only hidden.

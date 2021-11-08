@@ -1,5 +1,5 @@
 @ewallah @availability @availability_language
-Feature: availability_language
+Feature: availability_language modules
   In order to control student access to activities
   As a admin
   I need to add language
@@ -32,8 +32,8 @@ Feature: availability_language
     And I press "Install selected language pack(s)"
     And I log out
 
-   @javascript
-   Scenario: Restriction based on language when two language packs are installed
+  @javascript
+  Scenario: Restriction based on language when two language packs are installed
     # Page P1 for English users only.
     Given I am on the "P1" "page activity editing" page logged in as teacher1
     And I expand all fieldsets
