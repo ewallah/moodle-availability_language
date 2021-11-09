@@ -30,7 +30,7 @@ Install the plugin like any other plugin to folder /availability/condition/langu
 See http://docs.moodle.org/en/Installing_plugins for details on installing Moodle plugins
 
 # Initial Configuration
-This plugin does not need a After installing the plugin, you have to enable the plugin on site level: a site administrator can enable this filter for the site in Administration > Site administration > Plugins > Filters > Manage filters.
+This plugin does not need configuration after installation.
 
 # Theme support
 This plugin is developed and tested on Moodle Core's Boost theme and Boost child themes, including Moodle Core's Classic theme.
