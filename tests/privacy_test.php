@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace availability_language\privacy;
+
 defined('MOODLE_INTERNAL') || die();
 
 use \core_privacy\tests\provider_testcase;
@@ -33,7 +35,7 @@ use \core_privacy\tests\provider_testcase;
  * @copyright 2018 Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class availability_language_privacy_testcase extends provider_testcase {
+class priv_testcase extends provider_testcase {
 
     /**
      * Test returning metadata.
