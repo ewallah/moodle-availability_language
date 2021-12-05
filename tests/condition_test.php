@@ -34,7 +34,7 @@ use availability_language\condition;
  * @copyright 2017 eWallah.net <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class condition_testcase extends \advanced_testcase {
+class condition_test extends \advanced_testcase {
 
     /**
      * Load required classes.
