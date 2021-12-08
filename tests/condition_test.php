@@ -26,6 +26,7 @@ namespace availability_language;
 defined('MOODLE_INTERNAL') || die();
 
 use availability_language\condition;
+use moodle_exception;
 
 /**
  * Unit tests for the language condition.
@@ -149,11 +150,17 @@ class condition_test extends \advanced_testcase {
         // Invalid ->id.
         $language = null;
         $structure->id = null;
-        $this->expectException(\coding_exception::class);
-        $language = new condition($structure);
+        try {
+            $language = new condition($structure);
+        } catch (\coding_exception $e) {
+            $this->assertStringContainsString('Invalid ->id for language condition', $e->getMessage());
+        }
         $structure->id = 12;
-        $language = new condition($structure);
-        $this->expectException(\coding_exception::class);
+        try {
+            $language = new condition($structure);
+        } catch (\coding_exception $e) {
+            $this->assertStringContainsString('Invalid ->id for language condition', $e->getMessage());
+        }
         $this->assertEquals(null, $language);
     }
 
