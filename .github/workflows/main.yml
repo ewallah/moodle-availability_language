@@ -32,10 +32,10 @@ jobs:
         php: ['8.0', '7.4']
         database: ['mariadb', 'pgsql']
         include:
-        - php: 7.3
+        - php: 7.4
           moodle-branch: MOODLE_310_STABLE
           database: mariadb
-        - php: 7.2
+        - php: 7.3
           moodle-branch: MOODLE_39_STABLE
           database: mariadb
 
@@ -53,13 +53,19 @@ jobs:
           ini-values: max_input_vars=5000
           coverage: xdebug
 
+      - name: cache composer
+        uses: actions/cache@v2
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+
       - name: composer
         run: |
-           composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^3
-           echo $(cd ci/bin; pwd) >> $GITHUB_PATH
-           echo $(cd ci/vendor/bin; pwd) >> $GITHUB_PATH
-           echo "NVM_DIR=$HOME/.nvm" >> $GITHUB_ENV
-           sudo locale-gen en_AU.UTF-8
+          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^3
+          echo $(cd ci/bin; pwd) >> $GITHUB_PATH
+          echo $(cd ci/vendor/bin; pwd) >> $GITHUB_PATH
+          sudo locale-gen en_AU.UTF-8
+          echo "NVM_DIR=$HOME/.nvm" >> $GITHUB_ENV
 
       - name: install Moodle
         run: moodle-plugin-ci --ansi install --db-host=127.0.0.1 --plugin this-plugin
