@@ -35,7 +35,7 @@ jobs:
         - php: 7.4
           moodle-branch: MOODLE_310_STABLE
           database: mariadb
-        - php: 7.3
+        - php: 7.4
           moodle-branch: MOODLE_39_STABLE
           database: mariadb
 
@@ -139,3 +139,9 @@ jobs:
         if: ${{ always() }}
         run: vendor/bin/phpunit --colors --no-coverage --testsuite tool_dataprivacy_testsuite,tool_policy_testsuite,core_privacy_testsuite
         working-directory: moodle
+
+      - name: coveralls
+        env:
+          COVERALLS_RUN_LOCALLY: true
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        run: moodle-plugin-ci --ansi coveralls-upload
