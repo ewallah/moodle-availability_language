@@ -23,8 +23,8 @@
  */
 namespace availability_language;
 
-defined('MOODLE_INTERNAL') || die();
-
+use \core_availability\mock_info;
+use \core_availability\tree;
 use availability_language\condition;
 use moodle_exception;
 
@@ -63,8 +63,8 @@ class condition_test extends \advanced_testcase {
         $DB->set_field('user', 'lang', 'nl', ['id' => $user1]);
         $user2 = $generator->create_user()->id;
 
-        $info1 = new \core_availability\mock_info($course, $user1);
-        $info2 = new \core_availability\mock_info($course, $user2);
+        $info1 = new mock_info($course, $user1);
+        $info2 = new mock_info($course, $user2);
 
         $arr1 = ['type' => 'language', 'id' => 'en'];
         $arr2 = ['type' => 'language', 'id' => 'nl'];
@@ -181,7 +181,7 @@ class condition_test extends \advanced_testcase {
      * @covers availability_language\condition
      */
     public function test_get_description() {
-        $info = new \core_availability\mock_info();
+        $info = new mock_info();
         $language = new condition((object)['type' => 'language', 'id' => '']);
         $this->assertEquals($language->get_description(false, false, $info), '');
         $language = new condition((object)['type' => 'language', 'id' => 'en']);

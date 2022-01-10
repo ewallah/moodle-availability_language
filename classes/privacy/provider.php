@@ -24,8 +24,6 @@
 
 namespace availability_language\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy main class.
  *

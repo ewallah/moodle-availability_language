@@ -24,8 +24,6 @@
 
 namespace availability_language;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Front-end class.
  *

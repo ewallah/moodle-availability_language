@@ -24,8 +24,6 @@
 
 namespace availability_language\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 use \core_privacy\tests\provider_testcase;
 
 /**
