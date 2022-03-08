@@ -18,7 +18,8 @@
  * Unit tests for the language condition.
  *
  * @package   availability_language
- * @copyright 2018 Renaat Debleu <info@eWallah.net>
+ * @copyright 2022 eWallah.net
+ * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,14 +31,15 @@ use \core_privacy\tests\provider_testcase;
  * Unit tests for the language condition.
  *
  * @package   availability_language
- * @copyright 2018 Renaat Debleu <info@eWallah.net>
+ * @copyright 2022 eWallah.net
+ * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class privacy_test extends provider_testcase {
 
     /**
      * Test returning metadata.
-     * @coversDefaultClass availability_language\privacy\provider
+     * @covers \availability_language\privacy\provider
      */
     public function test_get_metadata() {
         $collection = new \core_privacy\local\metadata\collection('availability_language');

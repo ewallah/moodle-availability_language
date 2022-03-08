@@ -17,9 +17,10 @@
 /**
  * Language strings.
  *
- * @package availability_language
- * @copyright 2018 Renaat Debleu <info@eWallah.net>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   availability_language
+ * @copyright 2022 eWallah.net
+ * @author    Renaat Debleu <info@eWallah.net>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['description'] = 'Require students to use a certain language.';

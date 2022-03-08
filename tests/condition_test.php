@@ -17,9 +17,10 @@
 /**
  * Unit tests for the language condition.
  *
- * @package availability_language
- * @copyright 2017 eWallah.net <info@eWallah.net>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   availability_language
+ * @copyright 2022 eWallah.net
+ * @author    Renaat Debleu <info@eWallah.net>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace availability_language;
 
@@ -31,9 +32,11 @@ use moodle_exception;
 /**
  * Unit tests for the language condition.
  *
- * @package availability_language
- * @copyright 2017 eWallah.net <info@eWallah.net>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   availability_language
+ * @copyright 2022 eWallah.net
+ * @author    Renaat Debleu <info@eWallah.net>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @coversDefaultClass \availability_language
  */
 class condition_test extends \advanced_testcase {
 
@@ -48,7 +51,7 @@ class condition_test extends \advanced_testcase {
 
     /**
      * Tests constructing and using language condition as part of tree.
-     * @coversDefaultClass availability_language\condition
+     * @covers \availability_language\condition
      */
     public function test_in_tree() {
         global $DB;
@@ -97,7 +100,7 @@ class condition_test extends \advanced_testcase {
 
     /**
      * Tests section availability.
-     * @covers availability_language\condition
+     * @covers \availability_language\condition
      */
     public function test_sections() {
         global $DB;
@@ -134,7 +137,7 @@ class condition_test extends \advanced_testcase {
 
     /**
      * Tests the constructor including error conditions.
-     * @covers availability_language\condition
+     * @covers \availability_language\condition
      */
     public function test_constructor() {
         // This works with no parameters.
@@ -166,7 +169,7 @@ class condition_test extends \advanced_testcase {
 
     /**
      * Tests the save() function.
-     * @covers availability_language\condition
+     * @covers \availability_language\condition
      */
     public function test_save() {
         $structure = (object)['id' => 'fr'];
@@ -178,7 +181,7 @@ class condition_test extends \advanced_testcase {
 
     /**
      * Tests the get_description and get_standalone_description functions.
-     * @covers availability_language\condition
+     * @covers \availability_language\condition
      */
     public function test_get_description() {
         $info = new mock_info();
@@ -197,7 +200,7 @@ class condition_test extends \advanced_testcase {
 
     /**
      * Tests using language condition in front end.
-     * @coversDefaultClass availability_language\frontend
+     * @covers \availability_language\frontend
      */
     public function test_frontend() {
         global $CFG;
@@ -237,7 +240,7 @@ class condition_test extends \advanced_testcase {
 
     /**
      * Tests using language condition in back end.
-     * @coversDefaultClass availability_language\condition
+     * @covers \availability_language\condition
      */
     public function test_backend() {
         global $CFG, $DB;
