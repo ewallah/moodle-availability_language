@@ -21,6 +21,8 @@ jobs:
         env:
           MYSQL_USER: 'root'
           MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+          MYSQL_CHARACTER_SET_SERVER: "utf8mb4"
+          MYSQL_COLLATION_SERVER: "utf8mb4_unicode_ci"
         options: --health-cmd="mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 3
         ports:
           - 3306:3306
@@ -28,16 +30,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        moodle-branch: ['master', 'MOODLE_311_STABLE']
+        moodle-branch: ['master', 'MOODLE_311_STABLE', 'MOODLE_400_STABLE']
         php: ['8.0', '7.4']
         database: ['mariadb', 'pgsql']
-        include:
-        - php: 7.4
-          moodle-branch: MOODLE_310_STABLE
-          database: mariadb
-        - php: 7.4
-          moodle-branch: MOODLE_39_STABLE
-          database: mariadb
 
     steps:
       - name: checkout plugin
@@ -53,12 +48,6 @@ jobs:
           ini-values: max_input_vars=5000
           coverage: xdebug
 
-      - name: cache composer
-        uses: actions/cache@v2
-        with:
-          path: /tmp/composer-cache
-          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
-
       - name: composer
         run: |
           composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^3
@@ -66,7 +55,6 @@ jobs:
           echo $(cd ci/vendor/bin; pwd) >> $GITHUB_PATH
           sudo locale-gen en_AU.UTF-8
           echo "NVM_DIR=$HOME/.nvm" >> $GITHUB_ENV
-          sed -i 's/phpdbg -d memory_limit=-1 -qrr//g' ci/src/Command/PHPUnitCommand.php
 
       - name: install Moodle
         run: moodle-plugin-ci --ansi install --db-host=127.0.0.1 --plugin this-plugin
