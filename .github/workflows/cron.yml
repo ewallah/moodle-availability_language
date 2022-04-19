@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        moodle-branch: ['master']
+        moodle-branch: ['MOODLE_400_STABLE']
         php: ['8.0']
         database: ['mysqli']
 
