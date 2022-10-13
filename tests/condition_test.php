@@ -210,10 +210,14 @@ class condition_test extends \advanced_testcase {
         set_config('enableavailability', true);
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
-        $les = new \lesson($generator->get_plugin_generator('mod_lesson')->create_instance(['course' => $course, 'section' => 0]));
+        $params = ['course' => $course, 'section' => 0];
+        $les = new \lesson($generator->get_plugin_generator('mod_lesson')->create_instance($params));
+        $params['lang'] = 'nl';
+        $page = $generator->get_plugin_generator('mod_page')->create_instance($params);
         $user = $generator->create_user();
         $modinfo = get_fast_modinfo($course);
-        $cm = $modinfo->get_cm($les->cmid);
+        $cm1 = $modinfo->get_cm($les->cmid);
+        $cm2 = $modinfo->get_cm($page->cmid);
         $sections = $modinfo->get_section_info_all();
         $generator->enrol_user($user->id, $course->id);
 
@@ -222,19 +226,26 @@ class condition_test extends \advanced_testcase {
         // There is only 1 language installed, so we cannot assert allow add will return true.
         $this->assertCount(1, get_string_manager()->get_list_of_translations(true));
         $this->assertCount(1, \phpunit_util::call_internal_method($frontend, 'get_javascript_init_params', [$course], $name));
+        $this->assertCount(1, \phpunit_util::call_internal_method($frontend, 'get_javascript_init_params', [$course, $cm1], $name));
         $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course], $name));
-        $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm, null], $name));
-        $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm, $sections[1]], $name));
+        $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm1, null], $name));
+        $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm2, null], $name));
+        $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm1, $sections[1]], $name));
+        $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm2, $sections[1]], $name));
         $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, null, $sections[0]], $name));
         $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, null, $sections[1]], $name));
         $course = $generator->create_course(['lang' => 'nl']);
-        $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm, $sections[1]], $name));
+        $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm1, $sections[1]], $name));
+        $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm2, $sections[1]], $name));
 
-        $tmpdir = realpath($CFG->phpunit_dataroot);
-        mkdir($tmpdir . '/lang', $CFG->directorypermissions, true);
-        mkdir($tmpdir . '/lang/nl', $CFG->directorypermissions, true);
-        $this->assertCount(1, get_string_manager()->get_list_of_translations(true));
-        $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm, $sections[1]], $name));
+        mkdir("$CFG->dataroot/lang/de", 0777, true);
+        mkdir("$CFG->dataroot/lang/nl", 0777, true);
+        // Ensure the new langs are picked up and not taken from the cache.
+        $stringmanager = get_string_manager();
+        $stringmanager->reset_caches(true);
+        $this->assertCount(3, get_string_manager()->get_list_of_translations(true));
+        $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm1, $sections[1]], $name));
+        $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm2, $sections[1]], $name));
     }
 
 

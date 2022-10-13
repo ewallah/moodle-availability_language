@@ -52,6 +52,7 @@ class frontend extends \core_availability\frontend {
     /**
      * Language condition should be available if
      *     the course language is not forced, or
+     *     the module language is not forced, or
      *     more than language is installed.
      *
      * @param stdClass $course Course object
@@ -62,6 +63,10 @@ class frontend extends \core_availability\frontend {
     protected function allow_add($course, \cm_info $cm = null, \section_info $section = null) {
         // If forced course language.
         if ($course->lang != '') {
+            return false;
+        }
+        // If forced module language.
+        if ($cm && property_exists($cm, 'lang') && $cm->lang != '') {
             return false;
         }
         // If there is only one language installed.

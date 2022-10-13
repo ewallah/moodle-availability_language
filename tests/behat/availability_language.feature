@@ -157,3 +157,16 @@ Feature: availability_language modules
     And I click on "Save changes" "button"
     And I am on "Course 1" course homepage
     Then I should see "P5" in the "region-main" "region"
+
+  @javascript
+  Scenario: Forced module language means the module cannot be restriced
+    When the following "activities" exist:
+      | activity | name | intro   | course | section | lang |
+      | page     | P7   | Test 7  | C1     | 1       | en   |
+    And I am on the "P7" "page activity editing" page logged in as teacher1
+    Then the following fields match these values:
+      | Name           | P7           |
+      | Force language | English ‎(en)‎ |
+    And I expand all fieldsets
+    And I click on "Add restriction..." "button"
+    Then "Language" "button" should not exist in the "Add restriction..." "dialogue"
