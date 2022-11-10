@@ -44,7 +44,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: mbstring, pgsql, mysqli, gd, xmlrpc, zip
+          extensions: mbstring, pgsql, mysqli, gd, xmlrpc, zip, intl-70.1
           ini-values: max_input_vars=5000
           coverage: xdebug
 
