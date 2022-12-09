@@ -93,4 +93,6 @@ jobs:
 
       - name: behat
         if: ${{ always() }}
+        env:
+          LC_ALL: en_AU.UTF-8
         run: moodle-plugin-ci --ansi behat --profile=chrome
