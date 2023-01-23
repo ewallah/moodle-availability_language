@@ -86,13 +86,11 @@ jobs:
         run: moodle-plugin-ci --ansi phpunit --coverage-text --coverage-clover
 
       - name: coveralls
-        env:
-          COVERALLS_RUN_LOCALLY: true
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        if: ${{ always() }}
         run: moodle-plugin-ci coveralls-upload
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: behat
         if: ${{ always() }}
-        env:
-          LC_ALL: en_AU.UTF-8
         run: moodle-plugin-ci --ansi behat --profile=chrome

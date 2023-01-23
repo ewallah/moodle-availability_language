@@ -103,26 +103,18 @@ jobs:
 
       - name: firefox
         if: ${{ always() }}
-        env:
-          LC_ALL: en_AU.UTF-8
         run: moodle-plugin-ci --ansi behat
       
       - name: chrome
         if: ${{ always() }}
-        env:
-          LC_ALL: en_AU.UTF-8
         run: moodle-plugin-ci --ansi behat --profile chrome
 
       - name: firefox classic
         if: ${{ always() }}
-        env:
-          LC_ALL: en_AU.UTF-8
         run: moodle-plugin-ci --ansi behat --suite="classic"
       
       - name: chrome classic
         if: ${{ always() }}
-        env:
-          LC_ALL: en_AU.UTF-8
         run: moodle-plugin-ci --ansi behat  --suite="classic" --profile chrome
 
       - name: privacy
@@ -131,7 +123,7 @@ jobs:
         working-directory: moodle
 
       - name: coveralls
+        if: ${{ always() }}
+        run: moodle-plugin-ci coveralls-upload
         env:
-          COVERALLS_RUN_LOCALLY: true
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        run: moodle-plugin-ci --ansi coveralls-upload
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
