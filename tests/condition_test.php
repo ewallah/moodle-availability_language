@@ -254,7 +254,7 @@ class condition_test extends \advanced_testcase {
      * @covers \availability_language\condition
      */
     public function test_backend() {
-        global $CFG, $DB;
+        global $CFG, $DB, $PAGE;
         $this->resetAfterTest();
         $this->setAdminUser();
         set_config('enableavailability', true);
@@ -273,12 +273,13 @@ class condition_test extends \advanced_testcase {
         rebuild_course_cache($course->id, true);
         $mpage = new \moodle_page();
         $mpage->set_url('/course/index.php', ['id' => $course->id]);
+        $PAGE->set_url('/course/index.php', ['id' => $course->id]);
         $mpage->set_context($context);
         $format = course_get_format($course);
         $renderer = $mpage->get_renderer('format_topics');
         $branch = (int)$CFG->branch;
         if ($branch > 311) {
-            $outputclass = $format->get_output_classname($branch == 311 ? 'course_format' : 'content');
+            $outputclass = $format->get_output_classname('content');
             $output = new $outputclass($format);
             ob_start();
             echo $renderer->render($output);
