@@ -118,6 +118,17 @@ jobs:
         if: ${{ always() }}
         run: moodle-plugin-ci --ansi phpunit --coverage-text --coverage-clover
 
+      - name: coveralls
+        if: ${{ always() }}
+        run: moodle-plugin-ci coveralls-upload
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: privacy
+        if: ${{ always() }}
+        run: vendor/bin/phpunit --colors --no-coverage --testsuite tool_dataprivacy_testsuite,tool_policy_testsuite,core_privacy_testsuite
+        working-directory: moodle
+
       - name: firefox
         if: ${{ always() }}
         run: moodle-plugin-ci --ansi behat
@@ -133,14 +144,3 @@ jobs:
       - name: chrome classic
         if: ${{ always() }}
         run: moodle-plugin-ci --ansi behat  --suite="classic" --profile chrome
-
-      - name: privacy
-        if: ${{ always() }}
-        run: vendor/bin/phpunit --colors --no-coverage --testsuite tool_dataprivacy_testsuite,tool_policy_testsuite,core_privacy_testsuite
-        working-directory: moodle
-
-      - name: coveralls
-        if: ${{ always() }}
-        run: moodle-plugin-ci coveralls-upload
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
