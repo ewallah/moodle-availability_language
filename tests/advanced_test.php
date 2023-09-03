@@ -79,8 +79,11 @@ class advanced_test extends \advanced_testcase {
 
         $arr1 = ['type' => 'language', 'id' => 'en'];
         $arr2 = ['type' => 'language', 'id' => 'nl'];
+        $arr3 = ['type' => 'language', 'id' => ''];
+
         $tree1 = new \core_availability\tree((object)['op' => '|', 'show' => true, 'c' => [(object)$arr1]]);
         $tree2 = new \core_availability\tree((object)['op' => '|', 'show' => true, 'c' => [(object)$arr2]]);
+        $tree3 = new \core_availability\tree((object)['op' => '|', 'show' => true, 'c' => [(object)$arr3]]);
 
         // Initial check.
         $this->assertTrue($tree1->check_available(false, $info1, true, null)->is_available());
@@ -94,23 +97,36 @@ class advanced_test extends \advanced_testcase {
         $this->assertFalse($tree2->check_available(false, $info2, true, $this->useren->id)->is_available());
         $this->assertTrue($tree1->check_available(false, $info2, true, $this->useren->id)->is_available());
         $this->assertFalse($tree2->check_available(false, $info2, true, $this->useren->id)->is_available());
+        $this->assertTrue($tree3->check_available(false, $info1, true, $this->useren->id)->is_available());
+        $this->assertFalse($tree3->check_available(true, $info1, true, $this->useren->id)->is_available());
+        $this->assertTrue($tree3->check_available(false, $info1, false, $this->useren->id)->is_available());
 
         // Change user.
         $this->setuser($this->usernl);
         $this->assertFalse($tree1->check_available(false, $info1, true, $this->usernl->id)->is_available());
         $this->assertTrue($tree2->check_available(false, $info1, true, $this->usernl->id)->is_available());
+        $this->assertFalse($tree1->check_available(false, $info1, false, $this->usernl->id)->is_available());
+        $this->assertTrue($tree2->check_available(false, $info1, false, $this->usernl->id)->is_available());
         $this->assertTrue($tree1->check_available(true, $info1, true, $this->usernl->id)->is_available());
         $this->assertFalse($tree2->check_available(true, $info1, true, $this->usernl->id)->is_available());
+        $this->assertTrue($tree1->check_available(true, $info1, false, $this->usernl->id)->is_available());
+        $this->assertFalse($tree2->check_available(true, $info1, false, $this->usernl->id)->is_available());
         $this->assertTrue($tree1->is_available_for_all(true));
         $this->assertFalse($tree1->is_available_for_all(false));
         $this->assertFalse($tree2->is_available_for_all(true));
         $this->assertTrue($tree2->is_available_for_all(false));
+        $this->assertFalse($tree3->is_available_for_all(true));
+        $this->assertTrue($tree3->is_available_for_all(false));
 
         $this->setuser($this->useren);
         $this->assertTrue($tree1->check_available(false, $info2, true, $this->useren->id)->is_available());
         $this->assertFalse($tree2->check_available(false, $info2, true, $this->useren->id)->is_available());
+        $this->assertTrue($tree1->check_available(false, $info2, false, $this->useren->id)->is_available());
+        $this->assertFalse($tree2->check_available(false, $info2, false, $this->useren->id)->is_available());
         $this->assertFalse($tree1->check_available(true, $info2, true, $this->useren->id)->is_available());
         $this->assertTrue($tree2->check_available(true, $info2, true, $this->useren->id)->is_available());
+        $this->assertFalse($tree1->check_available(true, $info2, false, $this->useren->id)->is_available());
+        $this->assertTrue($tree2->check_available(true, $info2, false, $this->useren->id)->is_available());
         $this->assertFalse($tree1->is_available_for_all(true));
         $this->assertTrue($tree1->is_available_for_all(false));
         $this->assertTrue($tree2->is_available_for_all(true));
@@ -160,10 +176,15 @@ class advanced_test extends \advanced_testcase {
         $sections = $modinfo->get_section_info_all();
 
         $name = 'availability_language\frontend';
-        $frontend = new \availability_language\frontend();
+        $front = new \availability_language\frontend();
         $this->assertCount(4, get_string_manager()->get_list_of_translations(true));
-        $this->assertTrue(\phpunit_util::call_internal_method($frontend, 'allow_add', [$this->course, $cm1, $sections[1]], $name));
-        $this->assertTrue(\phpunit_util::call_internal_method($frontend, 'allow_add', [$this->course, $cm2, $sections[1]], $name));
+        $this->assertTrue(\phpunit_util::call_internal_method($front, 'allow_add', [$this->course, $cm1, $sections[1]], $name));
+        $this->assertTrue(\phpunit_util::call_internal_method($front, 'allow_add', [$this->course, $cm2, $sections[1]], $name));
+        $this->assertCount(1, \phpunit_util::call_internal_method($front, 'get_javascript_init_params', [$this->course], $name));
+        $course = $generator->create_course(['lang' => 'nl']);
+        $this->assertFalse(\phpunit_util::call_internal_method($front, 'allow_add', [$course, $cm1, $sections[1]], $name));
+        $this->assertFalse(\phpunit_util::call_internal_method($front, 'allow_add', [$course, $cm2, $sections[1]], $name));
+        $this->assertCount(1, \phpunit_util::call_internal_method($front, 'get_javascript_init_params', [$course], $name));
     }
 
 
