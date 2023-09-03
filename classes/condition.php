@@ -95,14 +95,10 @@ class condition extends \core_availability\condition {
      */
     public function is_available($not, \core_availability\info $info, $grabthelot, $userid) {
         global $CFG, $DB, $USER;
-
-        // If course has forced language.
-        $course = $info->get_course();
-        $allow = false;
-        if (isset($course->lang) && $course->lang == $this->languageid) {
-            $allow = true;
-        }
         if ($userid == $USER->id) {
+            if ($grabthelot) {
+                return $this->is_available_for_all($not);
+            }
             // Checking the language of the currently logged in user, so do not
             // default to the account language, because the session language
             // or the language of the current course may be different.
@@ -118,6 +114,7 @@ class condition extends \core_availability\condition {
                 $language = $DB->get_field('user', 'lang', ['id' => $userid]);
             }
         }
+        $allow = $this->is_forced($info);
         if ($language == $this->languageid) {
             $allow = true;
         }
@@ -157,5 +154,49 @@ class condition extends \core_availability\condition {
      */
     protected function get_debug_string() {
         return $this->languageid ?? 'any';
+    }
+
+    /**
+     * Forced language.
+     *
+     * @param bool $full Set true if this is the 'full information' view
+     * @param bool $not Set true if we are inverting the condition
+     * @param info $info Item we're checking
+     * @return bool True if available
+     */
+    private function is_forced(\core_availability\info $info) {
+        $course = $info->get_course();
+        if (isset($course->lang) && $course->lang == $this->languageid) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether this condition applies to user lists.
+     *
+     * @return bool True if this condition applies to user lists
+     */
+    public function is_applied_to_user_lists() {
+        // Session languages are not 'permanent'.
+        return false;
+    }
+
+    /**
+     * Is available for all.
+     *
+     * @param bool $not Set true if we are inverting the condition
+     * @return bool True if available
+     */
+    public function is_available_for_all($not = false) {
+        if ($this->languageid == '') {
+            $allow = true;
+        } else {
+            $allow = current_language() == $this->languageid;
+        }
+        if ($not) {
+            $allow = !$allow;
+        }
+        return $allow;
     }
 }
