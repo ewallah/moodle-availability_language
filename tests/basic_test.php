@@ -24,8 +24,8 @@
  */
 namespace availability_language;
 
-use \availability_language\{condition, frontend};
-use \core_availability\{tree, info_module, mock_info, mock_condition};
+use availability_language\{condition, frontend};
+use core_availability\{tree, info_module, mock_info, mock_condition};
 
 /**
  * Unit tests for the language condition.
