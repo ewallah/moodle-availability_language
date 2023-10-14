@@ -24,8 +24,7 @@
  */
 namespace availability_language;
 
-use \core_availability\mock_info;
-use \core_availability\tree;
+use core_availability\{mock_info, tree};
 use availability_language\condition;
 use moodle_exception;
 
