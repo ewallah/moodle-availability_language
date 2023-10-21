@@ -52,7 +52,7 @@ class condition_test extends \advanced_testcase {
      * Tests constructing and using language condition as part of tree.
      * @covers \availability_language\condition
      */
-    public function test_in_tree() {
+    public function test_in_tree(): void {
         global $DB;
         $this->resetAfterTest();
 
@@ -101,7 +101,7 @@ class condition_test extends \advanced_testcase {
      * Tests section availability.
      * @covers \availability_language\condition
      */
-    public function test_sections() {
+    public function test_sections(): void {
         global $DB;
         $this->resetAfterTest();
         set_config('enableavailability', true);
@@ -138,7 +138,7 @@ class condition_test extends \advanced_testcase {
      * Tests the constructor including error conditions.
      * @covers \availability_language\condition
      */
-    public function test_constructor() {
+    public function test_constructor(): void {
         // This works with no parameters.
         $structure = (object)[];
         $language = new condition($structure);
@@ -170,7 +170,7 @@ class condition_test extends \advanced_testcase {
      * Tests the save() function.
      * @covers \availability_language\condition
      */
-    public function test_save() {
+    public function test_save(): void {
         $structure = (object)['id' => 'fr'];
         $cond = new condition($structure);
         $structure->type = 'language';
@@ -182,7 +182,7 @@ class condition_test extends \advanced_testcase {
      * Tests the get_description and get_standalone_description functions.
      * @covers \availability_language\condition
      */
-    public function test_get_description() {
+    public function test_get_description(): void {
         $info = new mock_info();
         $language = new condition((object)['type' => 'language', 'id' => '']);
         $this->assertEquals($language->get_description(false, false, $info), '');
@@ -201,7 +201,7 @@ class condition_test extends \advanced_testcase {
      * Tests using language condition in front end.
      * @covers \availability_language\frontend
      */
-    public function test_frontend() {
+    public function test_frontend(): void {
         global $CFG;
         require_once($CFG->dirroot.'/mod/lesson/locallib.php');
         $this->resetAfterTest();
@@ -252,7 +252,7 @@ class condition_test extends \advanced_testcase {
      * Tests using language condition in back end.
      * @covers \availability_language\condition
      */
-    public function test_backend() {
+    public function test_backend(): void {
         global $CFG, $DB, $PAGE;
         $this->resetAfterTest();
         $this->setAdminUser();
