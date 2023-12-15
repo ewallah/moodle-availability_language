@@ -53,17 +53,16 @@ class condition_test extends \advanced_testcase {
      * @covers \availability_language\condition
      */
     public function test_in_tree(): void {
-        global $DB;
         $this->resetAfterTest();
+        $controller = new \tool_langimport\controller();
+        $controller->install_languagepacks('nl');
 
         // Create course with language turned on and a Page.
         set_config('enableavailability', true);
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
-        $user1 = $generator->create_user()->id;
-        // MDL-68333 hack when nl language is not installed.
-        $DB->set_field('user', 'lang', 'nl', ['id' => $user1]);
-        $user2 = $generator->create_user()->id;
+        $user1 = $generator->create_user(['lang' => 'nl'])->id;
+        $user2 = $generator->create_user(['lang' => 'en'])->id;
 
         $info1 = new mock_info($course, $user1);
         $info2 = new mock_info($course, $user2);
@@ -86,10 +85,10 @@ class condition_test extends \advanced_testcase {
         $this->assertFalse($tree2->check_available(false, $info2, true, $user2)->is_available());
         // Change user.
         $this->setuser($user1);
-        $this->assertTrue($tree1->check_available(false, $info1, true, $user1)->is_available());
-        $this->assertFalse($tree2->check_available(false, $info1, true, $user1)->is_available());
-        $this->assertFalse($tree1->check_available(true, $info1, true, $user1)->is_available());
-        $this->assertTrue($tree2->check_available(true, $info1, true, $user1)->is_available());
+        $this->assertFalse($tree1->check_available(false, $info1, true, $user1)->is_available());
+        $this->assertTrue($tree2->check_available(false, $info1, true, $user1)->is_available());
+        $this->assertTrue($tree1->check_available(true, $info1, true, $user1)->is_available());
+        $this->assertFalse($tree2->check_available(true, $info1, true, $user1)->is_available());
         $this->setuser($user2);
         $this->assertTrue($tree1->check_available(false, $info2, true, $user2)->is_available());
         $this->assertFalse($tree2->check_available(false, $info2, true, $user2)->is_available());
@@ -253,7 +252,7 @@ class condition_test extends \advanced_testcase {
      * @covers \availability_language\condition
      */
     public function test_backend(): void {
-        global $CFG, $DB, $PAGE;
+        global $DB, $PAGE;
         $this->resetAfterTest();
         $this->setAdminUser();
         set_config('enableavailability', true);
@@ -276,16 +275,10 @@ class condition_test extends \advanced_testcase {
         $mpage->set_context($context);
         $format = course_get_format($course);
         $renderer = $mpage->get_renderer('format_topics');
-        $branch = (int)$CFG->branch;
-        if ($branch > 311) {
-            $outputclass = $format->get_output_classname('content');
-            $output = new $outputclass($format);
-            ob_start();
-            echo $renderer->render($output);
-        } else {
-            ob_start();
-            echo $renderer->print_multiple_section_page($course, null, null, null, null);
-        }
+        $outputclass = $format->get_output_classname('content');
+        $output = new $outputclass($format);
+        ob_start();
+        echo $renderer->render($output);
         $out = ob_get_clean();
         $this->assertStringContainsString('Not available unless: The student\'s language is English ‎(en)', $out);
         // MDL-68333 hack when nl language is not installed.
@@ -293,11 +286,7 @@ class condition_test extends \advanced_testcase {
         $this->setuser($user);
         rebuild_course_cache($course->id, true);
         ob_start();
-        if ($branch > 311) {
-            echo $renderer->render($output);
-        } else {
-            echo $renderer->print_multiple_section_page($course, null, null, null, null);
-        }
+        echo $renderer->render($output);
         $out = ob_get_clean();
         $this->assertStringNotContainsString('Not available unless: The student\'s language is English ‎(en)', $out);
     }
