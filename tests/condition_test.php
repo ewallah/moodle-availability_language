@@ -55,8 +55,13 @@ class condition_test extends \advanced_testcase {
     public function test_in_tree(): void {
         $this->resetAfterTest();
         $controller = new \tool_langimport\controller();
-        $controller->install_languagepacks('nl');
-
+        try {
+            $controller->install_languagepacks('nl');
+        } catch (\Exception $e) {
+            // We cannot be 100% sure the language can be downloaded.
+            $this->markTestSkipped($e->getMessage());
+            return;
+        }
         // Create course with language turned on and a Page.
         set_config('enableavailability', true);
         $generator = $this->getDataGenerator();
