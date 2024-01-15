@@ -112,25 +112,14 @@ jobs:
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi phpunit --coverage-text --coverage-clover
 
-      - name: firefox
-        if: ${{ !cancelled() }}
-        run: moodle-plugin-ci --ansi behat
-      
-      - name: chrome
-        if: ${{ !cancelled() }}
-        run: moodle-plugin-ci --ansi behat --profile chrome
-
-      - name: firefox classic
-        if: ${{ !cancelled() }}
-        run: moodle-plugin-ci --ansi behat --suite="classic"
-      
-      - name: chrome classic
-        if: ${{ !cancelled() }}
-        run: moodle-plugin-ci --ansi behat  --suite="classic" --profile chrome
-
       - name: privacy
         if: ${{ !cancelled() }}
         run: vendor/bin/phpunit --colors --no-coverage --testsuite tool_dataprivacy_testsuite,tool_policy_testsuite,core_privacy_testsuite
+        working-directory: moodle
+
+      - name: other
+        if: ${{ matrix.moodle-branch == 'main'}}
+        run: vendor/bin/phpunit --colors --no-coverage --testsuite core_availability_testsuite
         working-directory: moodle
 
       - name: coveralls
@@ -138,3 +127,19 @@ jobs:
         run: moodle-plugin-ci coveralls-upload || true
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: chrome
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci --ansi behat --profile chrome --tags='@core_availability' availability/condition/language
+
+      - name: chrome classic
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci --ansi behat --suite classic --profile chrome
+
+      - name: firefox
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci --ansi behat
+
+      - name: firefox classic
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci --ansi behat --suite classic
