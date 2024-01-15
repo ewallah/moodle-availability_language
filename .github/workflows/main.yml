@@ -1,4 +1,4 @@
-name: Tests
+ name: Tests
 
 on: [push, pull_request]
 
@@ -50,14 +50,6 @@ jobs:
           php-version: ${{ matrix.php }}
           ini-values: max_input_vars=5000
           coverage: pcov
-
-      - name: npm cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: node-${{ matrix.php }}-${{ matrix.moodle-branch }}-${{ matrix.database }}-cache
-          restore-keys: |
-            node-${{ matrix.php }}-${{ matrix.moodle-branch }}-${{ matrix.database }}-cache
 
       - name: composer
         run: |
@@ -118,7 +110,7 @@ jobs:
         working-directory: moodle
 
       - name: other
-        if: ${{ matrix.moodle-branch == 'main'}}
+        if: ${{ !cancelled() }}
         run: vendor/bin/phpunit --colors --no-coverage --testsuite core_availability_testsuite
         working-directory: moodle
 
@@ -130,7 +122,7 @@ jobs:
 
       - name: chrome
         if: ${{ !cancelled() }}
-        run: moodle-plugin-ci --ansi behat --profile chrome --tags='@core_availability' availability/condition/language
+        run: moodle-plugin-ci --ansi behat --profile chrome
 
       - name: chrome classic
         if: ${{ !cancelled() }}
