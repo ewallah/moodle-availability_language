@@ -8,8 +8,8 @@ Feature: availability_language sections
 
   Background:
     Given the following "courses" exist:
-      | fullname | shortname | format |
-      | Course 1 | C1        | topics |
+      | fullname | shortname | format | numsections |
+      | Course 1 | C1        | topics | 5           |
     And the following "users" exist:
       | username |
       | teacher1 |

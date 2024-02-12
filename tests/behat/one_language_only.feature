@@ -8,6 +8,9 @@ Feature: one language only availability_language
     Given the following "courses" exist:
       | fullname | shortname | format |
       | Course 1 | C1        | topics |
+    And the following "activities" exist:
+      | activity | name       | intro      | course | idnumber |
+      | page     | PageName1  | PageDesc1  | C1     | PAGE1    |
     And the following "users" exist:
       | username |
       | teacher1 |
@@ -16,13 +19,7 @@ Feature: one language only availability_language
       | teacher1 | C1     | editingteacher |
 
   Scenario: Only one language pack installed
-    When I am on the "C1" "Course" page logged in as "teacher1"
-    And I turn editing mode on
-    And I add a "Page" to section "1"
-    And I set the following fields to these values:
-      | Name         | P1 |
-      | Description  | x  |
-      | Page content | x  |
+    When I am on the "PageName1" "page activity editing" page logged in as teacher1
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
     Then "Language" "button" should not exist in the "Add restriction..." "dialogue"
