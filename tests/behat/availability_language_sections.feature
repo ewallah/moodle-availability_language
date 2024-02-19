@@ -40,6 +40,7 @@ Feature: availability_language sections
     And I click on "Save changes" "button"
 
     # Section2 for English users only.
+    And I am on "Course 1" course homepage with editing mode on
     When I edit the section "2"
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
@@ -50,6 +51,7 @@ Feature: availability_language sections
     And I click on "Save changes" "button"
 
     # Section3 for pirate English users only hidden.
+    And I am on "Course 1" course homepage with editing mode on
     When I edit the section "3"
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
@@ -59,6 +61,7 @@ Feature: availability_language sections
     And I click on "Save changes" "button"
 
     # Section4 for pirate English users only.
+    And I am on "Course 1" course homepage with editing mode on
     When I edit the section "4"
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
