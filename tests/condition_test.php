@@ -42,7 +42,7 @@ class condition_test extends \advanced_testcase {
     /**
      * Load required classes.
      */
-    public function setUp():void {
+    public function setUp(): void {
         // Load the mock info class so that it can be used.
         global $CFG;
         require_once($CFG->dirroot . '/availability/tests/fixtures/mock_info.php');
