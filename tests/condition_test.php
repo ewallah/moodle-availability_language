@@ -220,7 +220,7 @@ class condition_test extends \advanced_testcase {
         $cm1 = $modinfo->get_cm($les->cmid);
         $cm2 = $modinfo->get_cm($page->cmid);
         $sections = $modinfo->get_section_info_all();
- 
+
         $name = 'availability_language\frontend';
         $frontend = new \availability_language\frontend();
         // There is only 1 language installed, so we cannot assert allow add will return true.
