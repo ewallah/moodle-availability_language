@@ -112,12 +112,10 @@ class condition_test extends \advanced_testcase {
         // Create course with language turned on and a Page.
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
-        $user1 = $generator->create_user()->id;
+        $user1 = $generator->create_and_enrol($course)->id;
         // MDL-68333 hack when nl language is not installed.
         $DB->set_field('user', 'lang', 'nl', ['id' => $user1]);
-        $user2 = $generator->create_user()->id;
-        $generator->enrol_user($user1, $course->id);
-        $generator->enrol_user($user2, $course->id);
+        $user2 = $generator->create_and_enrol($course)->id;
         $cond = '{"op":"|","show":false,"c":[{"type":"language","id":"nl"}]}';
         $DB->set_field('course_sections', 'availability', $cond, ['course' => $course->id, 'section' => 0]);
         $cond = '{"op":"|","show":true,"c":[{"type":"language","id":""}]}';
@@ -217,13 +215,12 @@ class condition_test extends \advanced_testcase {
         $les = new \lesson($generator->get_plugin_generator('mod_lesson')->create_instance($params));
         $params['lang'] = 'nl';
         $page = $generator->get_plugin_generator('mod_page')->create_instance($params);
-        $user = $generator->create_user();
+        $user = $generator->create_and_enrol($course);
         $modinfo = get_fast_modinfo($course);
         $cm1 = $modinfo->get_cm($les->cmid);
         $cm2 = $modinfo->get_cm($page->cmid);
         $sections = $modinfo->get_section_info_all();
-        $generator->enrol_user($user->id, $course->id);
-
+ 
         $name = 'availability_language\frontend';
         $frontend = new \availability_language\frontend();
         // There is only 1 language installed, so we cannot assert allow add will return true.
@@ -264,8 +261,7 @@ class condition_test extends \advanced_testcase {
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
         $context = \context_course::instance($course->id);
-        $user = $generator->create_user();
-        $generator->enrol_user($user->id, $course->id);
+        $user = $generator->create_and_enrol($course);
         $pagegen = $generator->get_plugin_generator('mod_page');
         $restriction = \core_availability\tree::get_root_json([condition::get_json('fr')]);
         $pagegen->create_instance(['course' => $course, 'availability' => json_encode($restriction)]);
