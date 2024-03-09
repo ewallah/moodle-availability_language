@@ -37,7 +37,7 @@ use moodle_exception;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @coversDefaultClass \availability_language
  */
-class condition_test extends \advanced_testcase {
+final class condition_test extends \advanced_testcase {
 
     /**
      * Load required classes.
