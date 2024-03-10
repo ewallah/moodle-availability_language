@@ -7,7 +7,8 @@ Feature: availability_language sections
   I need to set language conditions which prevent student access
 
   Background:
-    Given the following "courses" exist:
+    Given the site is running Moodle version 4.3 or lower
+    And the following "courses" exist:
       | fullname | shortname | format | numsections |
       | Course 1 | C1        | topics | 5           |
     And the following "users" exist:
@@ -70,20 +71,20 @@ Feature: availability_language sections
     And I set the field "Language" to "en_ar"
     And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save changes" "button"
-    And I log out
 
     # Log in as student.
-    When I am on the "C1" "Course" page logged in as "student1"
+    When I log out
+    And I am on the "C1" "Course" page logged in as "student1"
     Then I should see "Topic 1" in the "region-main" "region"
     And I should see "Topic 2" in the "region-main" "region"
     And I should not see "Topic 3" in the "region-main" "region"
     And I should see "Topic 4" in the "region-main" "region"
-    When I follow "Preferences" in the user menu
+    And I follow "Preferences" in the user menu
     And I follow "Preferred language"
     And I set the field "lang" to "en_ar"
     And I click on "Save changes" "button"
     And I am on "Course 1" course homepage
-    Then I should not see "Topic 1" in the "region-main" "region"
+    But I should not see "Topic 1" in the "region-main" "region"
     And I should see "Topic 2" in the "region-main" "region"
     And I should see "Topic 3" in the "region-main" "region"
     And I should see "Topic 4" in the "region-main" "region"
