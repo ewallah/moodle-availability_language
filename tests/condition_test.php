@@ -38,7 +38,6 @@ use moodle_exception;
  * @coversDefaultClass \availability_language
  */
 final class condition_test extends \advanced_testcase {
-
     /**
      * Load required classes.
      */
@@ -205,7 +204,7 @@ final class condition_test extends \advanced_testcase {
      */
     public function test_frontend(): void {
         global $CFG;
-        require_once($CFG->dirroot.'/mod/lesson/locallib.php');
+        require_once($CFG->dirroot . '/mod/lesson/locallib.php');
         $this->resetAfterTest();
         $this->setAdminUser();
         set_config('enableavailability', true);

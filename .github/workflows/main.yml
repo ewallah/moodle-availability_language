@@ -31,11 +31,11 @@ jobs:
       fail-fast: false
       matrix:
         moodle-branch: ['MOODLE_402_STABLE', 'MOODLE_403_STABLE']
-        php: ['8.1']
+        php: ['8.2']
         database: ['mariadb', 'pgsql']
         include:
-          - php: '8.2'
-            moodle-branch: 'MOODLE_403_STABLE'
+          - php: '8.3'
+            moodle-branch: 'main'
             database: 'pgsql'
 
     steps:
@@ -117,8 +117,18 @@ jobs:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: chrome
+        id: behat
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi behat --profile chrome
+
+      - name: Upload Behat Faildump
+        if: ${{ failure() && steps.behat.outcome == 'failure' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: Behat Faildump (${{ join(matrix.*, ', ') }})
+          path: ${{ github.workspace }}/moodledata/behat_dump
+          retention-days: 7
+          if-no-files-found: ignore
 
       - name: chrome classic
         if: ${{ !cancelled() }}

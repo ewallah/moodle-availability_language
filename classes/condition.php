@@ -34,7 +34,6 @@ namespace availability_language;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class condition extends \core_availability\condition {
-
     /** @var string ID of language that this condition requires, or '' = any language */
     protected $languageid;
 
@@ -140,7 +139,7 @@ class condition extends \core_availability\condition {
      */
     public function get_description($full, $not, \core_availability\info $info) {
         if ($this->languageid != '') {
-            $installedlangs = get_string_manager()->get_list_of_translations(false);
+            $installedlangs = get_string_manager()->get_list_of_translations();
             if (array_key_exists($this->languageid, $installedlangs)) {
                 $snot = $not ? 'not' : '';
                 return get_string('getdescription' . $snot, 'availability_language', $installedlangs[$this->languageid]);

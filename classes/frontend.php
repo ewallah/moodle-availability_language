@@ -34,7 +34,6 @@ namespace availability_language;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class frontend extends \core_availability\frontend {
-
     /**
      * Additional parameters for the plugin's initInner function.
      *
@@ -46,7 +45,7 @@ class frontend extends \core_availability\frontend {
      * @return array Array of parameters for the JavaScript function
      */
     protected function get_javascript_init_params($course, \cm_info $cm = null, \section_info $section = null) {
-        return [self::convert_associative_array_for_js(get_string_manager()->get_list_of_translations(false), 'id', 'name')];
+        return [self::convert_associative_array_for_js(get_string_manager()->get_list_of_translations(), 'id', 'name')];
     }
 
     /**
@@ -66,6 +65,6 @@ class frontend extends \core_availability\frontend {
             return false;
         }
         // If there is only one language installed.
-        return count(get_string_manager()->get_list_of_translations(false)) > 1;
+        return count(get_string_manager()->get_list_of_translations()) > 1;
     }
 }

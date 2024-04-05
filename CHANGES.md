@@ -1,10 +1,37 @@
-## v4.0.0 (2022-04-19)
+## [4.2.2](https://github.com/ewallah/moodle-availability_language/compare/v4.2.1...v4.2.2) (2024-03-13)
+
+* code review
+* PHP 8.3
+* different behat tests for main
+* changelogs
+
+## [4.2.1](https://github.com/ewallah/moodle-availability_language/compare/v4.0.2...v4.2.1) (2024-03-11)
+
+* master => main
+* code review (final test classes)
+* iplusacademy icon
+
+## [4.0.2](https://github.com/ewallah/moodle-availability_language/compare/v4.0.1...v4.0.2) (2023-10-14)
+
+* MOODLE_403_STABLE
+* script always => not canceled
+* code review (use /... => use ...)
+
+## [4.0.1](https://github.com/ewallah/moodle-availability_language/compare/v4.0.0...v4.0.1) (2023-04-23)
+
+* MOODLE_402_STABLE
+* better tests
+* better documentation
+
+## [4.0.0](https://github.com/ewallah/moodle-availability_language/compare/v3.11.1...v4.0.0) (2022-04-19)
 
 * MOODLE_400_STABLE 
 * no master language yet 
 * version upgrade 
 
-## v3.11.1 (2022-03-10)
+## [3.11.1](https://github.com/ewallah/moodle-availability_language/compare/v3.9.9...v3.11.1) (2022-03-10)
+
+* MOODLE_311_STABLE 
 
 ## v3.9.9 (2022-03-10)
 
