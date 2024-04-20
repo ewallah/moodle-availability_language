@@ -214,7 +214,6 @@ final class condition_test extends \advanced_testcase {
         $les = new \lesson($generator->get_plugin_generator('mod_lesson')->create_instance($params));
         $params['lang'] = 'nl';
         $page = $generator->get_plugin_generator('mod_page')->create_instance($params);
-        $user = $generator->create_and_enrol($course);
         $modinfo = get_fast_modinfo($course);
         $cm1 = $modinfo->get_cm($les->cmid);
         $cm2 = $modinfo->get_cm($page->cmid);

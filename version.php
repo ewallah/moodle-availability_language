@@ -29,5 +29,5 @@ $plugin->component = 'availability_language';
 $plugin->requires = 2023042400;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->supported = [402, 404];
-$plugin->release = 'v4.4.1'
+$plugin->release = 'v4.4.1';
 $plugin->version = 2024042000;
