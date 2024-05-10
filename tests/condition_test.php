@@ -18,7 +18,7 @@
  * Unit tests for the language condition.
  *
  * @package   availability_language
- * @copyright 2022 eWallah.net
+ * @copyright eWallah (www.eWallah.net)
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -32,7 +32,7 @@ use moodle_exception;
  * Unit tests for the language condition.
  *
  * @package   availability_language
- * @copyright 2022 eWallah.net
+ * @copyright eWallah (www.eWallah.net)
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @coversDefaultClass \availability_language
@@ -52,6 +52,7 @@ final class condition_test extends \advanced_testcase {
      * @covers \availability_language\condition
      */
     public function test_in_tree(): void {
+        global $CFG;
         $this->resetAfterTest();
         $controller = new \tool_langimport\controller();
         try {
@@ -79,6 +80,7 @@ final class condition_test extends \advanced_testcase {
         // Initial check.
         $this->setAdminUser();
         $this->assertTrue($tree1->check_available(false, $info1, true, null)->is_available());
+        $this->assertFalse($tree1->check_available(true, $info1, true, null)->is_available());
         $this->assertFalse($tree1->check_available(false, $info1, true, $user1)->is_available());
         $this->assertTrue($tree2->check_available(false, $info1, true, $user1)->is_available());
         $this->assertTrue($tree1->check_available(false, $info1, true, $user2)->is_available());
@@ -98,6 +100,13 @@ final class condition_test extends \advanced_testcase {
         $this->assertFalse($tree2->check_available(false, $info2, true, $user2)->is_available());
         $this->assertFalse($tree1->check_available(true, $info2, true, $user2)->is_available());
         $this->assertTrue($tree2->check_available(true, $info2, true, $user2)->is_available());
+        // Other language and user null.
+        set_config('lang', 'fr');
+        $CFG->lang = 'fr';
+        $this->assertFalse($tree1->check_available(false, $info2, true, null)->is_available());
+        $this->assertFalse($tree2->check_available(false, $info2, true, null)->is_available());
+        $this->assertTrue($tree1->check_available(true, $info2, true, null)->is_available());
+        $this->assertTrue($tree2->check_available(true, $info2, true, null)->is_available());
     }
 
     /**

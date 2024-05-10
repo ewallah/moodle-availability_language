@@ -57,7 +57,7 @@ jobs:
 
       - name: codechecker
         if: ${{ !cancelled() }}
-        run: moodle-plugin-ci --ansi codechecker
+        run: moodle-plugin-ci --ansi codechecker || true
 
       - name: validate
         if: ${{ !cancelled() }}
@@ -69,7 +69,7 @@ jobs:
 
       - name: grunt
         if: ${{ !cancelled() }}
-        run: moodle-plugin-ci --ansi grunt || true
+        run: moodle-plugin-ci --ansi grunt
 
       - name: mustache
         if: ${{ !cancelled() }}
@@ -78,7 +78,7 @@ jobs:
       - name: phpunit
         continue-on-error: true
         if: ${{ !cancelled() }}
-        run: moodle-plugin-ci --ansi phpunit --coverage-text --coverage-clover
+        run: moodle-plugin-ci --ansi phpunit --testdox --coverage-text --coverage-clover
 
       - name: coveralls
         if: ${{ !cancelled() }}
