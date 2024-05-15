@@ -49,10 +49,10 @@ jobs:
       - name: autoload
         working-directory: moodle
         run: |
-           echo "<?php
-define('PHPUNIT_UTIL', true);
-require(__DIR__ . '/../lib/phpunit/bootstrap.php');
-require('autoload.php');" > vendor/autoloadmoodle.php
+           echo '<?php' > vendor/autoloadmoodle.php
+           echo 'define("PHPUNIT_UTIL", true);' >> vendor/autoloadmoodle.php
+           echo 'require(__DIR__ . "/../lib/phpunit/bootstrap.php");' >> vendor/autoloadmoodle.php
+           echo 'require("autoload.php");' >> vendor/autoloadmoodle.php
 
       - name: infection
         if: ${{ !cancelled() }}
