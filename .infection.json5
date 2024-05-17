@@ -13,5 +13,5 @@
         "customPath": "./vendor/bin/phpunit"
     },
     "initialTestsPhpOptions": "-dxdebug.mode=off -dpcov.enabled=1 -dpcov.directory=.",
-    "bootstrap": "./lib/phpunit/bootstrap.php"
+    "bootstrap": "./vendor/autoloadmoodle.php"
 }
