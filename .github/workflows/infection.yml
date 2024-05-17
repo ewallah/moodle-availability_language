@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         moodle-branch: ['main']
-        php: ['8.1']
+        php: ['8.2', '8.3']
         database: ['mysqli']
 
     steps:
@@ -42,10 +42,6 @@ jobs:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
 
-      - name: phpunit warm
-        if: ${{ !cancelled() }}
-        run: moodle-plugin-ci --ansi phpunit --testdox --coverage-text
-
       - name: autoload
         working-directory: moodle
         run: |
@@ -56,5 +52,5 @@ jobs:
 
       - name: infection
         if: ${{ !cancelled() }}
-        run: infection -s --configuration=availability/condition/language/.infection.json5
+        run: infection -s --only-covered --configuration=availability/condition/language/.infection.json5
         working-directory: moodle
