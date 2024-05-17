@@ -82,7 +82,9 @@ final class condition_test extends \advanced_testcase {
         $this->assertTrue($tree1->check_available(false, $info1, true, null)->is_available());
         $this->assertFalse($tree1->check_available(true, $info1, true, null)->is_available());
         $this->assertFalse($tree1->check_available(false, $info1, true, $user1)->is_available());
+        $this->assertTrue($tree1->check_available(true, $info1, true, $user1)->is_available());
         $this->assertTrue($tree2->check_available(false, $info1, true, $user1)->is_available());
+        $this->assertFalse($tree2->check_available(true, $info1, true, $user1)->is_available());
         $this->assertTrue($tree1->check_available(false, $info1, true, $user2)->is_available());
         $this->assertFalse($tree2->check_available(false, $info1, true, $user2)->is_available());
         $this->assertFalse($tree1->check_available(false, $info2, true, $user1)->is_available());
@@ -100,13 +102,20 @@ final class condition_test extends \advanced_testcase {
         $this->assertFalse($tree2->check_available(false, $info2, true, $user2)->is_available());
         $this->assertFalse($tree1->check_available(true, $info2, true, $user2)->is_available());
         $this->assertTrue($tree2->check_available(true, $info2, true, $user2)->is_available());
-        // Other language and user null.
+        // Other language or user null.
         set_config('lang', 'fr');
         $CFG->lang = 'fr';
         $this->assertFalse($tree1->check_available(false, $info2, true, null)->is_available());
         $this->assertFalse($tree2->check_available(false, $info2, true, null)->is_available());
         $this->assertTrue($tree1->check_available(true, $info2, true, null)->is_available());
         $this->assertTrue($tree2->check_available(true, $info2, true, null)->is_available());
+
+        set_config('lang', null);
+        $CFG->lang = null;
+        $this->assertFalse($tree1->check_available(false, $info2, true, $user1)->is_available());
+        $this->assertTrue($tree1->check_available(true, $info2, true, $user1)->is_available());
+        $this->assertFalse($tree2->check_available(false, $info2, true, $user2)->is_available());
+        $this->assertTrue($tree2->check_available(true, $info2, true, $user2)->is_available());
     }
 
     /**
