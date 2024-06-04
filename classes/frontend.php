@@ -43,7 +43,6 @@ class frontend extends \core_availability\frontend {
      * @param cm_info $cm Course-module currently being edited (null if none)
      * @param section_info $section Section currently being edited (null if none)
      * @return array Array of parameters for the JavaScript function
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function get_javascript_init_params($course, \cm_info $cm = null, \section_info $section = null) {
         return [self::convert_associative_array_for_js(get_string_manager()->get_list_of_translations(), 'id', 'name')];
@@ -59,7 +58,6 @@ class frontend extends \core_availability\frontend {
      * @param cm_info $cm Course-module currently being edited (null if none)
      * @param section_info $section Section currently being edited (null if none)
      * @return bool True if available
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function allow_add($course, \cm_info $cm = null, \section_info $section = null) {
         // If forced course language.

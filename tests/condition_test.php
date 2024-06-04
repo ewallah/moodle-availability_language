@@ -44,6 +44,7 @@ final class condition_test extends \advanced_testcase {
     public function setUp(): void {
         // Load the mock info class so that it can be used.
         global $CFG;
+        parent::setUp();
         require_once($CFG->dirroot . '/availability/tests/fixtures/mock_info.php');
     }
 
@@ -83,6 +84,8 @@ final class condition_test extends \advanced_testcase {
         $this->assertFalse($tree1->check_available(true, $info1, true, null)->is_available());
         $this->assertFalse($tree1->check_available(false, $info1, true, $user1)->is_available());
         $this->assertTrue($tree2->check_available(false, $info1, true, $user1)->is_available());
+        $this->assertTrue($tree1->check_available(true, $info1, true, $user1)->is_available());
+        $this->assertFalse($tree2->check_available(true, $info1, true, $user1)->is_available());
         $this->assertTrue($tree1->check_available(false, $info1, true, $user2)->is_available());
         $this->assertFalse($tree2->check_available(false, $info1, true, $user2)->is_available());
         $this->assertFalse($tree1->check_available(false, $info2, true, $user1)->is_available());

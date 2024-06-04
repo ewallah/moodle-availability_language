@@ -93,35 +93,36 @@ class condition extends \core_availability\condition {
      * @return bool True if available
      */
     public function is_available($not, \core_availability\info $info, $grabthelot, $userid) {
-        global $CFG, $DB, $USER;
+        global $CFG, $USER;
 
         // If course has forced language.
         $course = $info->get_course();
         $allow = false;
-        if (isset($course->lang) && $course->lang == $this->languageid) {
+        if (isset($course->lang) && $course->lang === $this->languageid) {
             $allow = true;
-        }
-        if ($userid == $USER->id) {
-            // Checking the language of the currently logged in user, so do not
-            // default to the account language, because the session language
-            // or the language of the current course may be different.
-            $language = current_language();
         } else {
-            if (is_null($userid)) {
-                // Fall back to site language or English.
-                $language = $CFG->lang ?? 'en';
+            if ($userid === $USER->id) {
+                // Checking the language of the currently logged in user, so do not
+                // default to the account language, because the session language
+                // or the language of the current course may be different.
+                $language = current_language();
             } else {
-                // Checking access for someone else than the logged in user, so
-                // use the preferred language of that user account.
-                // This language is never empty as there is a not-null constraint.
-                $language = $DB->get_field('user', 'lang', ['id' => $userid]);
+                if (is_null($userid)) {
+                    // Fall back to site language or English.
+                    $language = $CFG->lang;
+                } else {
+                    // Checking access for someone else than the logged in user, so
+                    // use the preferred language of that user account.
+                    // This language is never empty as there is a not-null constraint.
+                    $language = \core_user::get_user($userid)->lang;
+                }
+            }
+            if ($language === $this->languageid) {
+                $allow = true;
             }
         }
-        if ($language == $this->languageid) {
-            $allow = true;
-        }
         if ($not) {
-            $allow = !$allow;
+            return !($allow);
         }
         return $allow;
     }
