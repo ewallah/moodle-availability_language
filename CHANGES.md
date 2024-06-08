@@ -1,9 +1,9 @@
 ## [4.4.1](https://github.com/ewallah/moodle-availability_language/compare/v4.2.2...v4.4.1) (2024-04-20)
 
 * Infection:
-  - Mutation Score Indicator (MSI): 94%
+  - Mutation Score Indicator (MSI): 96%
   - Mutation Code Coverage: 100%
-  - Covered Code MSI: 94%
+  - Covered Code MSI: 96%
 * code review
 * version update
 * MOODLE_404_STABLE
