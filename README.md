@@ -24,8 +24,8 @@ Check the global documentation about conditional availability conditions:
 
 ## Warning
 
-The Moodle Mobile app relies on the user profile language and/or course language to show or
-hide a resource: the language selected in the app does NOT prevail.
+* This plugin is 100% open source and has NOT been tested in Moodle Workplace, Totara, or any other proprietary software system. As long as the latter do not reward plugin developers, you can use this plugin only in 100% open source environments.
+* The Moodle Mobile app relies on the user profile language and/or course language to show or hide a resource: the language selected in the app does NOT prevail.
 
 ## Requirements
 
