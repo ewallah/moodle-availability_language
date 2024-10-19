@@ -1,3 +1,8 @@
+## [4.4.2] (https://github.com/ewallah/moodle-availability_language/compare/v4.2.3...v4.4.2) (2024-10-07)
+
+* version update
+* MOODLE_405_STABLE
+
 ## [4.4.1](https://github.com/ewallah/moodle-availability_language/compare/v4.2.2...v4.4.1) (2024-04-20)
 
 * Infection:
