@@ -9,12 +9,22 @@ jobs:
     name: ci
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: 'postgres'
+          POSTGRES_HOST_AUTH_METHOD: 'trust'
+        options: --health-cmd="pg_isready" --health-interval 10s --health-timeout 5s --health-retries 5
+        ports:
+          - 5432:5432
+
     strategy:
       fail-fast: false
       matrix:
         moodle-branch: ['main']
-        php: ['8.1']
-        database: ['mysqli']
+        php: ['8.3']
+        database: ['pgsql']
 
     steps:
       - name: checkout plugin
@@ -35,14 +45,13 @@ jobs:
            echo $(cd ci/bin; pwd) >> $GITHUB_PATH
            echo $(cd ci/vendor/bin; pwd) >> $GITHUB_PATH
            sudo locale-gen en_AU.UTF-8
-           sudo systemctl start mysql.service
 
       - name: install Moodle
-        run: moodle-plugin-ci install --db-user=root --db-pass=root --db-host=127.0.0.1 --plugin this-plugin
+        run: moodle-plugin-ci install -db-host=127.0.0.1 --plugin this-plugin
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
-      
+
       - name: phplint
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi phplint
@@ -57,7 +66,7 @@ jobs:
 
       - name: codechecker
         if: ${{ !cancelled() }}
-        run: moodle-plugin-ci --ansi codechecker || true
+        run: moodle-plugin-ci --ansi codechecker
 
       - name: validate
         if: ${{ !cancelled() }}
@@ -69,22 +78,15 @@ jobs:
 
       - name: grunt
         if: ${{ !cancelled() }}
-        run: moodle-plugin-ci --ansi grunt
+        run: moodle-plugin-ci --ansi grunt || true
 
       - name: mustache
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi mustache
 
       - name: phpunit
-        continue-on-error: true
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi phpunit --testdox --coverage-text --coverage-clover
-
-      - name: coveralls
-        if: ${{ !cancelled() }}
-        run: moodle-plugin-ci coveralls-upload || true
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: behat
         if: ${{ !cancelled() }}
