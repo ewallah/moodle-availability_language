@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   ci:
-    name: ci
+    name: infection
     runs-on: ubuntu-latest
 
     services:
