@@ -24,7 +24,7 @@
  */
 namespace availability_language;
 
-use core_availability\{mock_info, tree};
+use core_availability\{tree, mock_info, info_module, info_section};
 use availability_language\condition;
 use moodle_exception;
 
@@ -208,6 +208,29 @@ final class condition_test extends \advanced_testcase {
         $this->assertStringContainsString('Not available unless: The student\'s language is English', $desc);
         $result = \phpunit_util::call_internal_method($language, 'get_debug_string', [], 'availability_language\condition');
         $this->assertEquals('en', $result);
+    }
+
+    /**
+     * Tests is available.
+     * @covers \availability_language\condition
+     */
+    public function test_is_available(): void {
+        global $DB, $USER;
+        $this->resetAfterTest();
+        $dg = $this->getDataGenerator();
+        $course = $dg->create_course(['enablecompletion' => 1]);
+        $user = $dg->create_user();
+        $roleid = $DB->get_field('role', 'id', ['shortname' => 'student']);
+        $dg->enrol_user($user->id, $course->id, $roleid);
+        $pg = $this->getDataGenerator()->get_plugin_generator('mod_page');
+        $page = $pg->create_instance(['course' => $course, 'completion' => COMPLETION_TRACKING_MANUAL]);
+        $pg->create_instance(['course' => $course]);
+        $modinfo = get_fast_modinfo($course);
+        $cm = $modinfo->get_cm($page->cmid);
+        $info = new info_module($cm);
+        $cond = new condition((object)['type' => 'language',  'id' => 'en']);
+        $this->assertTrue($cond->is_available(false, $info, false, $user->id));
+        $this->assertFalse($cond->is_available(true, $info, false, $user->id));
     }
 
     /**
