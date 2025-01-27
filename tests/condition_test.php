@@ -35,7 +35,7 @@ use moodle_exception;
  * @copyright eWallah (www.eWallah.net)
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @coversDefaultClass \availability_language)]
+ * @coversDefaultClass \availability_language)])]
  */
 final class condition_test extends \advanced_testcase {
     /**
