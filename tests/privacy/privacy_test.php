@@ -38,7 +38,7 @@ use core_privacy\tests\provider_testcase;
 final class privacy_test extends provider_testcase {
     /**
      * Test returning metadata.
-     * @covers \availability_language\privacy\provider
+     * #[CoversClass(availability_language\privacy\provider)]
      */
     public function test_get_metadata(): void {
         $collection = new \core_privacy\local\metadata\collection('availability_language');
