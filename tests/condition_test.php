@@ -35,7 +35,6 @@ use moodle_exception;
  * @copyright eWallah (www.eWallah.net)
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * #[CoversClass(availability_language)])]
  */
 final class condition_test extends \advanced_testcase {
     /**
@@ -50,7 +49,7 @@ final class condition_test extends \advanced_testcase {
 
     /**
      * Tests constructing and using language condition as part of tree.
-     * #[CoversClass(availability_language\condition)]
+     * @covers \availability_language\condition
      */
     public function test_in_tree(): void {
         global $CFG;
@@ -114,7 +113,7 @@ final class condition_test extends \advanced_testcase {
 
     /**
      * Tests section availability.
-     * #[CoversClass(availability_language\condition)]
+     * @covers \availability_language\condition
      */
     public function test_sections(): void {
         global $DB;
@@ -149,7 +148,7 @@ final class condition_test extends \advanced_testcase {
 
     /**
      * Tests the constructor including error conditions.
-     * #[CoversClass(availability_language\condition)]
+     * @covers \availability_language\condition
      */
     public function test_constructor(): void {
         // This works with no parameters.
@@ -181,7 +180,7 @@ final class condition_test extends \advanced_testcase {
 
     /**
      * Tests the save() function.
-     * #[CoversClass(availability_language\condition)]
+     * @covers \availability_language\condition
      */
     public function test_save(): void {
         $structure = (object)['id' => 'fr'];
@@ -193,7 +192,7 @@ final class condition_test extends \advanced_testcase {
 
     /**
      * Tests the get_description and get_standalone_description functions.
-     * #[CoversClass(availability_language\condition)]
+     * @covers \availability_language\condition
      */
     public function test_get_description(): void {
         $info = new mock_info();
@@ -212,7 +211,7 @@ final class condition_test extends \advanced_testcase {
 
     /**
      * Tests is available.
-     * #[CoversClass(availability_language\condition)]
+     * @covers \availability_language\condition
      */
     public function test_is_available(): void {
         global $DB, $USER;
@@ -235,7 +234,8 @@ final class condition_test extends \advanced_testcase {
 
     /**
      * Tests using language condition in front end.
-     * #[CoversClass(availability_language\frontend)]
+     * @covers \availability_language\condition
+     * @covers \availability_language\frontend
      */
     public function test_frontend(): void {
         global $CFG;
@@ -284,7 +284,8 @@ final class condition_test extends \advanced_testcase {
 
     /**
      * Tests using language condition in back end.
-     * #[CoversClass(availability_language\condition)]
+     * @covers \availability_language\condition
+     * @covers \availability_language\frontend
      */
     public function test_backend(): void {
         global $DB, $PAGE;
