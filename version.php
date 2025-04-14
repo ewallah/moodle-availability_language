@@ -26,8 +26,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'availability_language';
-$plugin->requires = 2023100900;
+$plugin->requires = 2025030800;
 $plugin->maturity = MATURITY_STABLE;
-$plugin->supported = [403, 405];
-$plugin->release = 'v4.4.3';
-$plugin->version = 2024100700;
+#$plugin->supported = [500];
+$plugin->release = 'v5.0.1';
+$plugin->version = 2025031000;
