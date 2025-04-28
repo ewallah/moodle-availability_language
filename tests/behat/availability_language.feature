@@ -28,7 +28,7 @@ Feature: availability_language modules
       | page     | P6   | Test 6  | C1     | 0       |
     And I log in as "admin"
     And I navigate to "Language > Language packs" in site administration
-    And I set the field "Available language packs" to "en_ar"
+    And I set the field "Available language packs" to "fr"
     And I press "Install selected language pack(s)"
     And I log out
 
@@ -46,12 +46,12 @@ Feature: availability_language modules
     And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save and return to course" "button"
 
-    # Page P2 for pirate English users only.
+    # Page P2 for French users only.
     When I am on the "P2" "page activity editing" page
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
     And I click on "Language" "button"
-    And I set the field "Language" to "en_ar"
+    And I set the field "Language" to "fr"
     And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save and return to course" "button"
 
@@ -63,15 +63,15 @@ Feature: availability_language modules
     And I set the field "Language" to "en"
     And I click on "Save and return to course" "button"
 
-    # Page P4 for pirate English users hidden.
+    # Page P4 for French users hidden.
     When I am on the "P4" "page activity editing" page
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
     And I click on "Language" "button"
-    And I set the field "Language" to "en_ar"
+    And I set the field "Language" to "fr"
     And I click on "Save and return to course" "button"
 
-    # Page P5 for pirate English users hidden in section 0.
+    # Page P5 for French users hidden in section 0.
     When I am on the "P5" "page activity editing" page
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
@@ -79,12 +79,12 @@ Feature: availability_language modules
     And I set the field "Language" to "en"
     And I click on "Save and return to course" "button"
 
-    # Page P6 for pirate English users hidden in section 0.
+    # Page P6 for French users hidden in section 0.
     When I am on the "P6" "page activity editing" page
     And I expand all fieldsets
     And I click on "Add restriction..." "button"
     And I click on "Language" "button"
-    And I set the field "Language" to "en_ar"
+    And I set the field "Language" to "fr"
     And I click on "Save and return to course" "button"
     And I log out
 
@@ -95,19 +95,21 @@ Feature: availability_language modules
     And I should see "P3" in the "region-main" "region"
     And I should not see "P4" in the "region-main" "region"
     And I should see "Not available unless: The student" in the ".availabilityinfo" "css_element"
-    And I should see "pirate" in the ".availabilityinfo" "css_element"
+    And I should see "(fr)" in the ".availabilityinfo" "css_element"
     And I should see "P5" in the "region-main" "region"
     And I should not see "P6" in the "region-main" "region"
     When I follow "Preferences" in the user menu
     And I follow "Preferred language"
-    And I set the field "lang" to "en_ar"
+    And I set the field "lang" to "fr"
     And I click on "Save changes" "button"
     And I am on "Course 1" course homepage
     Then I should see "P1" in the "region-main" "region"
     And I should see "P2" in the "region-main" "region"
     And I should not see "P3" in the "region-main" "region"
     And I should see "P4" in the "region-main" "region"
-    And I should see "Not available unless: The student's language is English ‎(en)‎" in the ".availabilityinfo" "css_element"
+    And I should see "Non disponible" in the ".availabilityinfo" "css_element"
+    And I should see "English" in the ".availabilityinfo" "css_element"
+    And I should see "(en)" in the ".availabilityinfo" "css_element"
     And I should not see "P5" in the "region-main" "region"
     And I should see "P6" in the "region-main" "region"
 
@@ -119,7 +121,7 @@ Feature: availability_language modules
     Then "Language" "button" should exist in the "Add restriction..." "dialogue"
     And I click on "Language" "button" in the "Add restriction..." "dialogue"
     Then I should see "Please set" in the "region-main" "region"
-    And I set the field "Language" to "en_ar"
+    And I set the field "Language" to "fr"
     Then I should not see "Please set" in the "region-main" "region"
     And I click on "Save and return to course" "button"
     And I log out
@@ -129,7 +131,7 @@ Feature: availability_language modules
     Then I should not see "P5" in the "region-main" "region"
     And I follow "Preferences" in the user menu
     And I follow "Preferred language"
-    And I set the field "lang" to "en_ar"
+    And I set the field "lang" to "fr"
     And I click on "Save changes" "button"
     And I am on "Course 1" course homepage
     Then I should see "P5" in the "region-main" "region"
@@ -142,7 +144,7 @@ Feature: availability_language modules
     Then "Language" "button" should exist in the "Add restriction..." "dialogue"
     And I click on "Language" "button" in the "Add restriction..." "dialogue"
     Then I should see "Please set" in the "region-main" "region"
-    And I set the field "Language" to "en_ar"
+    And I set the field "Language" to "fr"
     Then I should not see "Please set" in the "region-main" "region"
     And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save and return to course" "button"
@@ -153,7 +155,7 @@ Feature: availability_language modules
     Then I should see "P5" in the "region-main" "region"
     And I follow "Preferences" in the user menu
     And I follow "Preferred language"
-    And I set the field "lang" to "en_ar"
+    And I set the field "lang" to "fr"
     And I click on "Save changes" "button"
     And I am on "Course 1" course homepage
     Then I should see "P5" in the "region-main" "region"
