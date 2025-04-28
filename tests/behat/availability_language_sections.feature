@@ -50,7 +50,7 @@ Feature: availability_language sections
     And I click on ".availability-item .availability-eye img" "css_element"
     And I click on "Save changes" "button"
 
-    # Section3 for pirate English users only hidden.
+    # Section3 for French users only hidden.
     And I am on "Course 1" course homepage with editing mode on
     When I edit the section "3"
     And I expand all fieldsets
@@ -60,7 +60,7 @@ Feature: availability_language sections
     And I set the field "Language" to "fr"
     And I click on "Save changes" "button"
 
-    # Section4 for pirate English users only.
+    # Section4 for French users only.
     And I am on "Course 1" course homepage with editing mode on
     When I edit the section "4"
     And I expand all fieldsets

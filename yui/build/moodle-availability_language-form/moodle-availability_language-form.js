@@ -26,7 +26,7 @@ M.availability_language.form.initInner = function(languages) {
 M.availability_language.form.getNode = function(json) {
     // Create HTML structure.
     var tit = M.util.get_string('title', 'availability_language');
-    var html = '<label class="form-group"><span class="p-r-1">' + tit + '</span>';
+    var html = '<label class="mb-3"><span class="p-r-1">' + tit + '</span>';
     html += '<span class="availability-language"><select class="form-select" name="id" title=' + tit + '>';
     html += '<option value="choose">' + M.util.get_string('choosedots', 'moodle') + '</option>';
     for (var i = 0; i < this.languages.length; i++) {
@@ -34,7 +34,7 @@ M.availability_language.form.getNode = function(json) {
         html += '<option value="' + language.id + '">' + language.name + '</option>';
     }
     html += '</select></span></label>';
-    var node = Y.Node.create('<span class="form-inline">' + html + '</span>');
+    var node = Y.Node.create('<span class="d-flex flex-wrap align-items-center">' + html + '</span>');
 
     // Set initial values (leave default 'choose' if creating afresh).
     if (json.creating === undefined) {
