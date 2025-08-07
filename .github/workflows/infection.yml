@@ -57,7 +57,7 @@ jobs:
         run: |
            echo '<?php' > vendor/autoloadmoodle.php
            echo 'define("PHPUNIT_UTIL", true);' >> vendor/autoloadmoodle.php
-           echo 'require(__DIR__ . "/../lib/phpunit/bootstrap.php");' >> vendor/autoloadmoodle.php
+           echo 'require(__DIR__ . "/../public/lib/phpunit/bootstrap.php");' >> vendor/autoloadmoodle.php
            echo 'require("autoload.php");' >> vendor/autoloadmoodle.php
 
       - name: infection
