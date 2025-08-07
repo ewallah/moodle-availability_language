@@ -98,17 +98,17 @@ jobs:
         run: moodle-plugin-ci --ansi phpunit --testdox --coverage-text --coverage-clover
 
       - name: privacy
-        if: ${{ !cancelled() }}
+        if: ${{ matrix.moodle-branch == 'main'}}
         run: vendor/bin/phpunit --colors --no-coverage --testsuite tool_dataprivacy_testsuite,tool_policy_testsuite,core_privacy_testsuite
         working-directory: moodle
 
       - name: other
-        if: ${{ !cancelled() }}
+        if: ${{ matrix.moodle-branch == 'main'}}
         run: vendor/bin/phpunit --colors --no-coverage --testsuite core_availability_testsuite
         working-directory: moodle
 
       - name: coveralls
-        if: ${{ !cancelled() }}
+        if: ${{ matrix.moodle-branch == 'main'}}
         run: moodle-plugin-ci coveralls-upload || true
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}

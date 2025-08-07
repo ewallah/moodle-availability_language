@@ -224,7 +224,7 @@ final class condition_test extends \advanced_testcase {
         $modinfo = get_fast_modinfo($course);
         $cm = $modinfo->get_cm($page->cmid);
         $info = new info_module($cm);
-        $cond = new condition((object)['type' => 'language',  'id' => 'en']);
+        $cond = new condition((object)['type' => 'language', 'id' => 'en']);
         $this->assertTrue($cond->is_available(false, $info, false, $user->id));
         $this->assertFalse($cond->is_available(true, $info, false, $user->id));
     }
