@@ -30,16 +30,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        moodle-branch: ['MOODLE_500_STABLE', 'main']
+        moodle-branch: ['MOODLE_500_STABLE', 'MOODLE_501_STABLE', 'main']
         php: ['8.3', '8.4']
         database: ['mariadb', 'pgsql']
  
     steps:
       - name: checkout plugin
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: this-plugin
-          ref: MOODLE_500_STABLE
 
       - name: setup PHP
         uses: shivammathur/setup-php@v2
@@ -105,6 +104,11 @@ jobs:
       - name: other
         if: ${{ matrix.moodle-branch == 'main'}}
         run: vendor/bin/phpunit --colors --no-coverage --testsuite core_availability_testsuite
+        working-directory: moodle
+
+      - name: plugin_checks
+        if: ${{ matrix.moodle-branch == 'main'}}
+        run: vendor/bin/phpunit --colors --no-coverage --group=plugin_checks
         working-directory: moodle
 
       - name: coveralls
