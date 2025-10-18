@@ -42,8 +42,7 @@ final class privacy_test extends provider_testcase {
      * Test returning metadata.
      */
     public function test_get_metadata(): void {
-        $collection = new \core_privacy\local\metadata\collection('availability_language');
-        $reason = provider::get_reason($collection);
+        $reason = provider::get_reason();
         $this->assertEquals($reason, 'privacy:metadata');
         $this->assertStringContainsString('does not store', get_string($reason, 'availability_language'));
     }
