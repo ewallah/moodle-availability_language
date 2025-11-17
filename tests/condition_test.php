@@ -59,11 +59,12 @@ final class condition_test extends \advanced_testcase {
         $controller = new \tool_langimport\controller();
         try {
             $controller->install_languagepacks('nl');
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             // We cannot be 100% sure the language can be downloaded.
-            $this->markTestSkipped($e->getMessage());
+            $this->markTestSkipped($exception->getMessage());
             return;
         }
+
         // Create course with language turned on and a Page.
         set_config('enableavailability', true);
         $generator = $this->getDataGenerator();
@@ -166,15 +167,17 @@ final class condition_test extends \advanced_testcase {
         $structure->id = null;
         try {
             $language = new condition($structure);
-        } catch (\coding_exception $e) {
-            $this->assertStringContainsString('Invalid ->id for language condition', $e->getMessage());
+        } catch (\coding_exception $codingexception) {
+            $this->assertStringContainsString('Invalid ->id for language condition', $codingexception->getMessage());
         }
+
         $structure->id = 12;
         try {
             $language = new condition($structure);
-        } catch (\coding_exception $e) {
-            $this->assertStringContainsString('Invalid ->id for language condition', $e->getMessage());
+        } catch (\coding_exception $codingexception) {
+            $this->assertStringContainsString('Invalid ->id for language condition', $codingexception->getMessage());
         }
+
         $this->assertEquals(null, $language);
     }
 
@@ -202,7 +205,7 @@ final class condition_test extends \advanced_testcase {
         $desc = $language->get_description(true, true, $mockinfo);
         $this->assertEquals('The student\'s language is not English ‎(en)‎', $desc);
         $desc = $language->get_standalone_description(true, false, $mockinfo);
-        $this->assertStringContainsString('Not available unless: The student\'s language is English', $desc);
+        $this->assertStringContainsString("Not available unless: The student's language is English", $desc);
         $result = \phpunit_util::call_internal_method($language, 'get_debug_string', [], 'availability_language\condition');
         $this->assertEquals('en', $result);
     }
@@ -299,6 +302,7 @@ final class condition_test extends \advanced_testcase {
         rebuild_course_cache($course->id, true);
         $moodlepage = new \moodle_page();
         $moodlepage->set_url('/course/index.php', ['id' => $course->id]);
+
         $PAGE->set_url('/course/index.php', ['id' => $course->id]);
         $moodlepage->set_context($context);
         $format = course_get_format($course);

@@ -64,6 +64,7 @@ class condition extends \core_availability\condition {
         if ($this->languageid) {
             $result->id = $this->languageid;
         }
+
         return $result;
     }
 
@@ -117,13 +118,16 @@ class condition extends \core_availability\condition {
                     $language = \core_user::get_user($userid)->lang;
                 }
             }
+
             if ($language === $this->languageid) {
                 $allow = true;
             }
         }
+
         if ($not) {
             return !($allow);
         }
+
         return $allow;
     }
 
@@ -147,6 +151,7 @@ class condition extends \core_availability\condition {
                 return $smanager->get_string($snot, 'availability_language', $langs[$this->languageid]);
             }
         }
+
         return '';
     }
 
