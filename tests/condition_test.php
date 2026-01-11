@@ -198,7 +198,9 @@ final class condition_test extends \advanced_testcase {
     public function test_get_description(): void {
         $mockinfo = new mock_info();
         $language = new condition((object)['type' => 'language', 'id' => '']);
-        $this->assertEquals($language->get_description(false, false, $mockinfo), '');
+        $this->assertSame($language->get_description(false, false, $mockinfo), '');
+        $language = new condition((object)['type' => 'language', 'id' => 'xw']);
+        $this->assertSame($language->get_description(false, false, $mockinfo), '');
         $language = new condition((object)['type' => 'language', 'id' => 'en']);
         $desc = $language->get_description(true, false, $mockinfo);
         $this->assertEquals('The student\'s language is English ‎(en)‎', $desc);
@@ -230,6 +232,8 @@ final class condition_test extends \advanced_testcase {
         $condition = new condition((object)['type' => 'language', 'id' => 'en']);
         $this->assertTrue($condition->is_available(false, $infomodule, false, $user->id));
         $this->assertFalse($condition->is_available(true, $infomodule, false, $user->id));
+        $this->setAdminUser();
+        $this->assertNotEmpty($USER);
     }
 
     /**

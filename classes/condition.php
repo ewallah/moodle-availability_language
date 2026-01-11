@@ -102,22 +102,20 @@ class condition extends \core_availability\condition {
         if (isset($course->lang) && $course->lang === $this->languageid) {
             $allow = true;
         } else {
-            if ($userid === $USER->id) {
+            $language = match (true) {
                 // Checking the language of the currently logged in user, so do not
                 // default to the account language, because the session language
                 // or the language of the current course may be different.
-                $language = current_language();
-            } else {
-                if (is_null($userid)) {
-                    // Fall back to site language or English.
-                    $language = $CFG->lang;
-                } else {
-                    // Checking access for someone else than the logged in user, so
-                    // use the preferred language of that user account.
-                    // This language is never empty as there is a not-null constraint.
-                    $language = \core_user::get_user($userid)->lang;
-                }
-            }
+                $userid === $USER->id => current_language(),
+
+                // When the userid is null then fall back to site language.
+                is_null($userid) => $CFG->lang,
+
+                // Checking access for someone else than the logged in user, so
+                // use the preferred language of that user account.
+                // This language is never empty as there is a not-null constraint.
+                default => \core_user::get_user($userid)->lang,
+            };
 
             if ($language === $this->languageid) {
                 $allow = true;
