@@ -7,7 +7,8 @@ Feature: availability_language modules
   I need to set language conditions which prevent student access
 
   Background:
-    Given the following "courses" exist:
+    Given the site is running Moodle version 5.1 or lower
+    And the following "courses" exist:
       | fullname | shortname | format |
       | Course 1 | C1        | topics |
     And the following "users" exist:
