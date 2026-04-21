@@ -1,0 +1,15 @@
+{
+  "name": "ewallah/moodle-availability_language",
+  "type": "moodle-availability",
+  "description": "Restrict module and section access based on user language",
+  "homepage": "https://github.com/ewallah/moodle-availability_language",
+  "license": "GPL-3.0-or-later",
+  "require": {
+    "composer/installers": "*",
+    "moodle/moodle": "5.1.*||5.2.*",
+  },
+  "support": {
+    "issues": "https://github.com/ewallah/moodle-availability_language/issues",
+    "source": "https://github.com/ewallah/moodle-availability_language"
+  }
+}
