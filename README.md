@@ -29,7 +29,7 @@ Check the global documentation about conditional availability conditions:
 
 ## Requirements
 
-This plugin requires Moodle 3.9+
+This plugin requires Moodle 5.1 or later.
 
 ## Installation
 
@@ -69,6 +69,7 @@ This plugin is maintained for the latest major releases of Moodle.
 [![Build Status](https://github.com/ewallah/moodle-availability_language/workflows/Tests/badge.svg)](https://github.com/ewallah/moodle-availability_language/actions)
 [![Coverage Status](https://coveralls.io/repos/github/ewallah/moodle-availability_language/badge.svg?branch=main)](https://coveralls.io/github/ewallah/moodle-availability_language?branch=main)
 ![Mutation score](https://badgen.net/badge/Mutation%20Score%20Indicator/100?color=orange)
+[![MDL Shield](https://img.shields.io/endpoint?url=https%3A%2F%2Fmdlshield.com%2Fapi%2Fbadge%2Favailability_language)](https://mdlshield.com/plugins/availability_language)
 
 ## Copyright
 

@@ -114,7 +114,7 @@ class condition extends \core_availability\condition {
                 // Checking access for someone else than the logged in user, so
                 // use the preferred language of that user account.
                 // This language is never empty as there is a not-null constraint.
-                default => \core_user::get_user($userid)->lang,
+                default => (\core_user::get_user($userid, 'lang', MUST_EXIST))->lang,
             };
 
             if ($language === $this->languageid) {
