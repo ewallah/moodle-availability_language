@@ -6,7 +6,7 @@
   "license": "GPL-3.0-or-later",
   "require": {
     "composer/installers": "*",
-    "moodle/moodle": "5.1.*||5.2.*",
+    "moodle/moodle": "5.1.*||5.2.*"
   },
   "support": {
     "issues": "https://github.com/ewallah/moodle-availability_language/issues",
