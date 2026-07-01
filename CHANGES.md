@@ -1,3 +1,47 @@
+## v5.3.5 (2026-07-01)
+
+* version update
+* composer json
+* changes.md
+
+## v5.3.4 (2026-05-04)
+
+* version update
+* mdl shield
+
+## v5.3.3 (2026-04-30)
+
+* version update
+* Moodle 502
+
+## v5.3.2 (2026-04-21)
+
+* version update
+* prepare 502
+
+## v5.2.2 (2025-10-14)
+
+* version update
+* funding
+
+## v5.2.1 (2025-10-07)
+
+* version update
+* Moodle 501
+
+## v5.1.1 (2025-04-30)
+
+* version update
+* bootstrap5
+* pirate english
+* coverclass
+
+## v5.0.1 (2025-04-14)
+
+* version update
+* phpunit 11
+* php 8.4
+
 ## [4.4.2] (https://github.com/ewallah/moodle-availability_language/compare/v4.2.3...v4.4.2) (2024-10-07)
 
 * version update
