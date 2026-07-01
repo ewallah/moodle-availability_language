@@ -146,7 +146,11 @@ class condition extends \core_availability\condition {
             $langs = $smanager->get_list_of_translations();
             if (array_key_exists($this->languageid, $langs)) {
                 $snot = $not ? 'getdescriptionnot' : 'getdescription';
-                return $smanager->get_string($snot, 'availability_language', $langs[$this->languageid]);
+                return $smanager->get_string(
+                    $snot,
+                    'availability_language',
+                    self::description_format_string($langs[$this->languageid])
+                );
             }
         }
 
@@ -160,6 +164,6 @@ class condition extends \core_availability\condition {
      * @return string Text representation of parameters
      */
     protected function get_debug_string() {
-        return $this->languageid ?? 'any';
+        return $this->languageid ?: 'any';
     }
 }

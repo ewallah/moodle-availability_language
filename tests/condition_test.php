@@ -203,11 +203,20 @@ final class condition_test extends \advanced_testcase {
         $this->assertSame($language->get_description(false, false, $mockinfo), '');
         $language = new condition((object)['type' => 'language', 'id' => 'en']);
         $desc = $language->get_description(true, false, $mockinfo);
-        $this->assertEquals('The student\'s language is English ‎(en)‎', $desc);
+        $this->assertEquals(
+            'The student\'s language is <AVAILABILITY_FORMAT_STRING>English ‎(en)‎</AVAILABILITY_FORMAT_STRING>',
+            $desc
+        );
         $desc = $language->get_description(true, true, $mockinfo);
-        $this->assertEquals('The student\'s language is not English ‎(en)‎', $desc);
+        $this->assertEquals(
+            'The student\'s language is not <AVAILABILITY_FORMAT_STRING>English ‎(en)‎</AVAILABILITY_FORMAT_STRING>',
+            $desc
+        );
         $desc = $language->get_standalone_description(true, false, $mockinfo);
-        $this->assertStringContainsString("Not available unless: The student's language is English", $desc);
+        $this->assertStringContainsString(
+            "Not available unless: The student's language is <AVAILABILITY_FORMAT_STRING>English",
+            $desc
+        );
         $result = \phpunit_util::call_internal_method($language, 'get_debug_string', [], 'availability_language\condition');
         $this->assertEquals('en', $result);
     }
