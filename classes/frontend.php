@@ -49,12 +49,11 @@ class frontend extends \core_availability\frontend {
      * @return array Array of parameters for the JavaScript function
      */
     protected function get_javascript_init_params($course, ?cm_info $cminfo = null, ?section_info $sectioninfo = null) {
-        $context = \context_system::instance();
         $translations = [];
         foreach (get_string_manager()->get_list_of_translations() as $id => $name) {
             $translations[] = (object)[
                 'id'   => $id,
-                'name' => format_string($name, true, ['context' => $context]),
+                'name' => format_string($name),
             ];
         }
         return [$translations];
