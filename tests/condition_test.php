@@ -241,6 +241,7 @@ final class condition_test extends \advanced_testcase {
      */
     public function test_frontend(): void {
         global $CFG;
+
         require_once($CFG->dirroot . '/mod/lesson/locallib.php');
         $this->resetAfterTest();
         $this->setAdminUser();
@@ -260,7 +261,8 @@ final class condition_test extends \advanced_testcase {
         $frontend = new \availability_language\frontend();
         // There is only 1 language installed, so we cannot assert allow add will return true.
         $this->assertCount(1, get_string_manager()->get_list_of_translations(true));
-        $this->assertCount(1, \phpunit_util::call_internal_method($frontend, 'get_javascript_init_params', [$course], $name));
+        $arr = \phpunit_util::call_internal_method($frontend, 'get_javascript_init_params', [$course], $name);
+        $this->assertEquals([0 => [(object) ['id' => 'en', 'name' => 'English ‎(en)‎']]], $arr);
         $this->assertCount(1, \phpunit_util::call_internal_method($frontend, 'get_javascript_init_params', [$course, $cm1], $name));
         $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course], $name));
         $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm1, null], $name));
@@ -278,7 +280,18 @@ final class condition_test extends \advanced_testcase {
         // Ensure the new langs are picked up and not taken from the cache.
         $stringmanager = get_string_manager();
         $stringmanager->reset_caches(true);
-        $this->assertCount(3, get_string_manager()->get_list_of_translations(true));
+        $langs = get_string_manager()->get_list_of_translations(true);
+        $this->assertCount(3, $langs);
+        $arr = ['de' => 'English ‎(de)‎', 'en' => 'English ‎(en)‎', 'nl' => 'English ‎(nl)‎'];
+        $this->assertEquals($arr, $langs);
+        set_config('lang', 'nl');
+
+        $stringmanager->reset_caches(true);
+        $langs = get_string_manager()->get_list_of_translations(true);
+        $this->assertCount(3, $langs);
+        $arr = ['de' => 'English ‎(de)‎', 'en' => 'English ‎(en)‎', 'nl' => 'English ‎(nl)‎'];
+        $this->assertEquals($arr, $langs);
+
         $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm1, $sections[1]], $name));
         $this->assertFalse(\phpunit_util::call_internal_method($frontend, 'allow_add', [$course, $cm2, $sections[1]], $name));
     }
