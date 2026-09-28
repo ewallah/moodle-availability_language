@@ -11,5 +11,10 @@
   "support": {
     "issues": "https://github.com/ewallah/moodle-availability_language/issues",
     "source": "https://github.com/ewallah/moodle-availability_language"
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true
+    }
   }
 }
