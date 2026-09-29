@@ -1,0 +1,22 @@
+name: Availability language
+summary: Restrict module and section access based on language.
+description: |
+  Language filters are great, but sometimes they can make your resources and activities very complex.
+  This availability condition makes it easy to show an English resource only to English users and an
+  activity in French only to French speaking students.
+
+  This plugin only pops up when
+
+  - There is more than 1 language installed in the system (obvious, we need a least 2 languages installed
+    to restrict)
+  - When the language of the course is NOT forced. (Course - Edit settings - Appearance - Force language).
+    When a course has a forced language, everything will be shown in this language and we are certain no
+    user will ever arrive with another language enabled. On that moment there is no need to show the
+    restriction, as it would only create the illusion that people could be restricted.
+labels:
+  - fully-free
+category: availability
+links:
+  docs: https://github.com/ewallah/moodle-availability_language/README.md
+  issues: https://github.com/ewallah/moodle-availability_language/issues
+
