@@ -38,10 +38,12 @@ M.availability_language.form.getNode = function(json) {
 
     // Set initial values (leave default 'choose' if creating afresh).
     if (json.creating === undefined) {
-        if (json.id !== undefined && node.one('select[name=id] > option[value=' + json.id + ']')) {
-            node.one('select[name=id]').set('value', json.id);
-        } else if (json.id === undefined) {
-            node.one('select[name=id]').set('value', 'choose');
+        var select = node.one('select[name=id]');
+        var match = select.all('option').some(function(opt) {
+            return opt.get('value') === json.id;
+        });
+        if (json.id !== undefined && match) {
+            select.set('value', json.id);
         }
     }
 

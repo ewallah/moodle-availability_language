@@ -106,7 +106,7 @@ class condition extends \core_availability\condition {
                 // Checking the language of the currently logged in user, so do not
                 // default to the account language, because the session language
                 // or the language of the current course may be different.
-                $userid === $USER->id => current_language(),
+                (int)$userid === (int)$USER->id => current_language(),
 
                 // When the userid is null then fall back to site language.
                 is_null($userid) => $CFG->lang,
